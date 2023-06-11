@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  serverTimeout: 15000,
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
