@@ -6,7 +6,9 @@ import { Provider } from "react-redux";
 import RouteMiddleware from "../app/RouteMiddleware";
 
 const Providers = ({ children }) => {
-  store.dispatch(setAppStart());
+  useEffect(() => {
+    store.dispatch(setAppStart());
+  }, []);
   return (
     <Provider store={store}>
       <RouteMiddleware>{children}</RouteMiddleware>
