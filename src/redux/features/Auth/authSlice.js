@@ -27,6 +27,7 @@ const authSlice = createSlice({
   name: "authSlice",
   initialState: {
     token: "",
+    userData: null,
   },
   reducers: {
     setAppStart: (state, action) => {
@@ -34,20 +35,35 @@ const authSlice = createSlice({
         state.token = localStorage.getItem("token");
       }
     },
+    logout: (state, action) => {
+      state.token = "";
+      localStorage.removeItem("token");
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       authApi.endpoints.signup.matchFulfilled,
       (state, action) => {
+        console.log(action.payload);
         let token = action.payload?.token || "";
         localStorage.setItem("token", token);
         state.token = token;
+        state.userData = action?.payload;
+      }
+    );
+    builder.addMatcher(
+      authApi.endpoints.login.matchFulfilled,
+      (state, action) => {
+        let token = action.payload?.token || "";
+        localStorage.setItem("token", token);
+        state.token = token;
+        state.userData = action?.payload;
       }
     );
   },
 });
 
 export const { useSignupMutation, useLoginMutation } = authApi;
-export const { setAppStart } = authSlice.actions;
+export const { setAppStart, logout } = authSlice.actions;
 
 export default authSlice.reducer;

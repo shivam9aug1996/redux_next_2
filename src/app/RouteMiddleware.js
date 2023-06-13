@@ -11,12 +11,14 @@ const RouteMiddleware = ({ children }) => {
 
   console.log(currentUrl);
   if ((currentUrl == "/login" || currentUrl == "/signup") && token) {
-    return redirect("/");
+    redirect("/");
   }
   return (
     <>
       <Header />
-      {children}
+      <main className="container mx-auto py-4 min-h-screen  flex">
+        {children}
+      </main>
       <Footer />
     </>
   );

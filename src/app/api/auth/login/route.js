@@ -1,3 +1,4 @@
+import { connectDB } from "@/app/lib/connectDataBase";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
@@ -40,6 +41,6 @@ export async function POST(req, res) {
   }
 
   const token = jwt.sign({ id: user._id }, "secretkey");
-
-  return NextResponse.json({ token }, { status: 200 });
+  const { email: userEmail, name } = user;
+  return NextResponse.json({ token, email: userEmail, name }, { status: 200 });
 }

@@ -25,7 +25,13 @@ export async function POST(req, res) {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const db = await connectDB();
-
+  const existingUser = await db.collection("private_users").findOne({ email });
+  if (existingUser) {
+    return NextResponse.json(
+      { message: "Email already exists" },
+      { status: 403 }
+    );
+  }
   const results = await db.collection("private_users").insertOne({
     name,
     email,
@@ -33,5 +39,5 @@ export async function POST(req, res) {
   });
 
   const token = jwt.sign({ id: results.insertedId }, "secretkey");
-  return NextResponse.json({ token }, { status: 201 });
+  return NextResponse.json({ token, name, email }, { status: 201 });
 }
