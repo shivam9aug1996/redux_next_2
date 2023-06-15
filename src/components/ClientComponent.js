@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-const ClientComponent = ({ data = [] }) => {
+const ClientComponent = ({ data }) => {
   return (
     <ul>
       {data?.productList?.map((item, index) => {

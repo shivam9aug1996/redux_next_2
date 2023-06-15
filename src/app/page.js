@@ -4,6 +4,7 @@
 //   useGetProductsQuery,
 // } from "@/redux/features/Product/productSlice";
 // import ClientComponent from "@/components/ClientComponent";
+import ClientComponent from "@/components/ClientComponent";
 import React from "react";
 // import { useEffect } from "react";
 
@@ -27,7 +28,7 @@ const Home = async () => {
   //   getProducts();
   // }, []);
 
-  let data = await getProducts1();
+  // let data = await getProducts1();
 
   //console.log(isLoading, isSuccess, data);
   return (
