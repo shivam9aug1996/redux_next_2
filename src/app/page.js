@@ -33,8 +33,8 @@ const Home = async () => {
   return (
     <>
       {/* <h3>{isLoading ? "Loading" : ""}</h3> */}
-
-      <ClientComponent data={data} />
+      <h1>ghjk</h1>
+      {/* <ClientComponent data={data} /> */}
     </>
   );
 };
