@@ -12,6 +12,7 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     signup(
