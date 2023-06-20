@@ -34,6 +34,9 @@ const authSlice = createSlice({
       if (localStorage.getItem("token")) {
         state.token = localStorage.getItem("token");
       }
+      if (localStorage.getItem("userData")) {
+        state.userData = JSON.parse(localStorage.getItem("userData"));
+      }
     },
     logout: (state, action) => {
       state.token = "";
@@ -47,6 +50,7 @@ const authSlice = createSlice({
         console.log(action.payload);
         let token = action.payload?.token || "";
         localStorage.setItem("token", token);
+        localStorage.setItem("userData", JSON.stringify(action?.payload));
         state.token = token;
         state.userData = action?.payload;
       }
@@ -56,6 +60,7 @@ const authSlice = createSlice({
       (state, action) => {
         let token = action.payload?.token || "";
         localStorage.setItem("token", token);
+        localStorage.setItem("userData", JSON.stringify(action?.payload));
         state.token = token;
         state.userData = action?.payload;
       }

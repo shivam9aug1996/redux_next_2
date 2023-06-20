@@ -1,10 +1,12 @@
 "use client";
 
+import Loader from "@/components/Loader";
 import { useLoginMutation } from "@/redux/features/Auth/authSlice";
 import React, { useState } from "react";
 
 const Login = () => {
-  const [login, { isSuccess, data: token, isLoading }] = useLoginMutation();
+  const [login, { isSuccess, data: token, isLoading, isError }] =
+    useLoginMutation();
 
   const [loginStates, setLoginStates] = useState({
     email: "",
@@ -56,12 +58,13 @@ const Login = () => {
               }
             />
           </div>
+        
           <button
             disabled={isLoading}
             className="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline bg-slate-700 hover:bg-slate-600 mt-2"
             type="submit"
           >
-            {isLoading ? "loading" : "Login"}
+            {isLoading ? <Loader /> : "Login"}
           </button>
         </form>
       </div>
