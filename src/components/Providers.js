@@ -5,13 +5,20 @@ import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import RouteMiddleware from "../app/RouteMiddleware";
 
-const Providers = ({ children }) => {
+
+const Providers = ({ children,token,userData }) => {
   useEffect(() => {
     store.dispatch(setAppStart());
   }, []);
   return (
     <Provider store={store}>
-      <RouteMiddleware>{children}</RouteMiddleware>
+      <RouteMiddleware token={token} userData={userData}>
+       
+        {children}
+        
+        
+        
+        </RouteMiddleware>
     </Provider>
   );
 };

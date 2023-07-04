@@ -1,6 +1,7 @@
 import { connectDB } from "@/app/lib/connectDataBase";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(req, res) {
@@ -42,5 +43,7 @@ export async function POST(req, res) {
 
   const token = jwt.sign({ id: user._id }, "secretkey");
   const { email: userEmail, name } = user;
-  return NextResponse.json({ token, email: userEmail, name }, { status: 200 });
+  cookies().set('token', token)
+  cookies().set('userData', JSON.stringify({ token, email: userEmail, name,id:user._id }))
+  return NextResponse.json({ token, email: userEmail, name,id:user._id }, { status: 200 });
 }

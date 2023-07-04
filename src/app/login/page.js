@@ -2,9 +2,11 @@
 
 import Loader from "@/components/Loader";
 import { useLoginMutation } from "@/redux/features/Auth/authSlice";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const router = useRouter();
   const [login, { isSuccess, data: token, isLoading, isError }] =
     useLoginMutation();
 
@@ -12,6 +14,12 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.refresh();
+    }
+  }, [isSuccess]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +66,7 @@ const Login = () => {
               }
             />
           </div>
-        
+
           <button
             disabled={isLoading}
             className="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline bg-slate-700 hover:bg-slate-600 mt-2"

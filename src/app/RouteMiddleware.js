@@ -1,12 +1,13 @@
 "use client";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+// import Header from "@/components/Header";
 import { usePathname, redirect } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
 
-const RouteMiddleware = ({ children }) => {
-  const token = useSelector((state) => state?.auth?.token);
+const RouteMiddleware = ({ children,token,userData }) => {
+ // const token = useSelector((state) => state?.auth?.token);
   const currentUrl = usePathname();
 
   console.log(currentUrl);
@@ -15,7 +16,7 @@ const RouteMiddleware = ({ children }) => {
   }
   return (
     <>
-      <Header />
+      <Header token={token} userData={userData}/>
       <main className="container mx-auto py-4 min-h-screen  flex">
         {children}
       </main>

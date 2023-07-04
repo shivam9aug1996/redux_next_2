@@ -1,6 +1,7 @@
 import { connectDB } from "@/app/lib/connectDataBase";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const saltRounds = 10;
@@ -39,5 +40,7 @@ export async function POST(req, res) {
   });
 
   const token = jwt.sign({ id: results.insertedId }, "secretkey");
-  return NextResponse.json({ token, name, email }, { status: 201 });
+  cookies().set('token', token)
+  cookies().set('userData', JSON.stringify({ token, name, email,id:results.insertedId }))
+  return NextResponse.json({ token, name, email,id:results.insertedId }, { status: 201 });
 }

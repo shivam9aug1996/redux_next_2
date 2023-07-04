@@ -2,9 +2,11 @@
 
 import Loader from "@/components/Loader";
 import { useSignupMutation } from "@/redux/features/Auth/authSlice";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const Signup = () => {
+  const router = useRouter();
   const [signup, { isSuccess, data: token, isLoading }] = useSignupMutation();
 
   const [signupStates, setSignupStates] = useState({
@@ -12,6 +14,12 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.refresh();
+    }
+  }, [isSuccess]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

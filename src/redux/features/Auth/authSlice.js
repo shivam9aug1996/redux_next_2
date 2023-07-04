@@ -20,6 +20,12 @@ export const authApi = createApi({
         body: userData,
       }),
     }),
+    logout: builder.mutation({
+      query: () => ({
+        url: "/logout",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -38,10 +44,13 @@ const authSlice = createSlice({
         state.userData = JSON.parse(localStorage.getItem("userData"));
       }
     },
-    logout: (state, action) => {
-      state.token = "";
-      localStorage.removeItem("token");
-    },
+    // logout: (state, action) => {
+    //   state.token = "";
+    //   localStorage.removeItem("token");
+    //   localStorage.removeItem("userData")
+    //   document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    //   document.cookie = "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -65,10 +74,19 @@ const authSlice = createSlice({
         state.userData = action?.payload;
       }
     );
+    builder.addMatcher(
+      authApi.endpoints.logout.matchFulfilled,
+      (state, action) => {
+          localStorage.removeItem("token");
+      localStorage.removeItem("userData")
+        state.token = "";
+        state.userData = null
+      }
+    );
   },
 });
 
-export const { useSignupMutation, useLoginMutation } = authApi;
+export const { useSignupMutation, useLoginMutation,useLogoutMutation } = authApi;
 export const { setAppStart, logout } = authSlice.actions;
 
 export default authSlice.reducer;
