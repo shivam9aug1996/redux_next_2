@@ -1,6 +1,6 @@
 import { connectDB } from "@/app/lib/connectDataBase";
 import { verifyToken } from "@/app/utils/globalFunctions";
-import { json } from "express";
+
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 import middleware from "../../../middleware";
@@ -21,7 +21,7 @@ export async function POST(req, res) {
     // Verify the token and extract the user ID
     const userId = await verifyToken(token);
 
-    const item = await req.json();
+    const item = await req.json()
 
    
     console.log("jhgr678o", item);

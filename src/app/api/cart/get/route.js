@@ -1,6 +1,5 @@
 import { connectDB } from "@/app/lib/connectDataBase";
 import { verifyToken } from "@/app/utils/globalFunctions";
-import { json } from "express";
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 import middleware from "../../../middleware";
