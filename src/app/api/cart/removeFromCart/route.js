@@ -29,11 +29,7 @@ export async function POST(req, res) {
     //   // quantity: parseInt(quantity || 1),
     //   productId: item?.productId,
     // };
-    // const itemAdded = {
-    //   userId: userId,
-    //   //date: new Date(),
-    //   item: cartItem,
-    // };
+   
     console.log("jhgr678o", item);
     let productId = item?.productId;
     let database = await connectDB();

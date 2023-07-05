@@ -73,17 +73,7 @@ export async function GET(req, res) {
 
     // const items = await req.json();
 
-    // const orderItems = items?.map(({ name, price, quantity, productId }) => ({
-    //   name,
-    //   price: parseFloat(price || 0),
-    //   quantity: parseInt(quantity || 1),
-    //   productId,
-    // }));
-    // const order = {
-    //   userId: parseInt(userId),
-    //   date: new Date(),
-    //   items: orderItems,
-    // };
+   
     
     let database = await connectDB();
     const orders = await database.collection("orders").find({ userId }).toArray();

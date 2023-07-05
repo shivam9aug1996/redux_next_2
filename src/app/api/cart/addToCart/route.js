@@ -23,17 +23,7 @@ export async function POST(req, res) {
 
     const item = await req.json();
 
-    // const cartItem = {
-    //   name: item?.name || "",
-    //   price: parseFloat(items?.price || 0),
-    //   // quantity: parseInt(quantity || 1),
-    //   productId: item?.productId,
-    // };
-    // const itemAdded = {
-    //   userId: userId,
-    //   //date: new Date(),
-    //   item: cartItem,
-    // };
+   
     console.log("jhgr678o", item);
     let productId = item?.productId;
     let database = await connectDB();

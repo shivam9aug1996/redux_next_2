@@ -23,7 +23,7 @@ export async function GET(req, res) {
     // Verify the token and extract the user ID
     const userId = await verifyToken(token);
 
-    // const items = await req.json();
+    
 
     // const orderItems = items?.map(({ name, price, quantity, productId }) => ({
     //   name,
