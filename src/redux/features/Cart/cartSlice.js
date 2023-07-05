@@ -7,8 +7,6 @@ export const cartApi = createApi({
     baseUrl: "/api/cart",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
-
-      // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
@@ -16,7 +14,8 @@ export const cartApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Cart'],
+  refetchOnReconnect: true,
+  tagTypes: ['cart'],
   endpoints: (builder) => ({
     addToCart: builder.mutation({
       query: (data) => ({
@@ -39,8 +38,8 @@ export const cartApi = createApi({
         url: `/get?userId=${data?.param}`,
         method: "GET",
       }),
-      providesTags: ['products'],
-      keepUnusedDataFor:600
+      providesTags: ['cart'],
+      keepUnusedDataFor:600,
      // providesTags: ['cart'],
     }),
   }),
@@ -68,13 +67,17 @@ const cartSlice = createSlice({
         let g = state.cart?.map((item) => {
           if (item?.product?._id == action?.payload?.product?._id) {
             flag=1
-            return {...item,...action?.payload,quantity:item.quantity+1};
+            return {...item,quantity:item.quantity+1};
           } else {
             return item;
           }
         });
         if(flag==0){
-          state.cart.push({...action?.payload,quantity:1})
+          let obj={...action?.payload,quantity:1,productId:action?.payload?.product?._id}
+          delete obj.action;
+          delete obj.id;
+          delete obj.message;
+          state.cart.push(obj)
         }else{
           state.cart=g
         }

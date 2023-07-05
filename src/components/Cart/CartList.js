@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import Skeleton from "react-loading-skeleton";
 import CartClient from "./CartClient";
 import CartServer from "./CartServer";
 

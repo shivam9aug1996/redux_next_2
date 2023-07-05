@@ -38,6 +38,11 @@ export async function POST(req, res) {
 
     let database = await connectDB();
     const result = await database.collection("orders").insertOne(order);
+    const cart = await database.collection("cart").find({ userId }).toArray();
+    await database.collection('cart').updateOne(
+      { userId: userId },
+      { $set: { items: [] } }
+    );
     return NextResponse.json({
       message: "Order created successfully",
       orderId: result.insertedId,

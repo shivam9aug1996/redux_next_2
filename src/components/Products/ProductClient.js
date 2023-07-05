@@ -13,8 +13,8 @@ const ProductClient = ({  }) => {
   //  // getProducts();
   // }, []);
 
-  const state = useSelector((state) => state);
-  const userId = state?.auth?.userData?.id;
+  const userId = useSelector((state) =>state?.auth?.userData?.id);
+ // const userId = state?.auth?.userData?.id;
   // console.log(userId);
    const dispatch = useDispatch();
   const [addToCart, { isSuccess:isSuccess1, data: data1, isLoading:isLoading1, isError:isError1 }] =

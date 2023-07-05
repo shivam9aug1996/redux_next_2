@@ -10,16 +10,17 @@ const Header = ({ token, userData }) => {
   const router = useRouter();
   const [logout, { isSuccess, isLoading, isError }] = useLogoutMutation();
   //  const { data } = useGetCartQuery({param:userId});
-  const state = useSelector((state) => state);
-  console.log(state);
+  const userId = useSelector((state) => state?.auth?.userData?.id);
+  const cartData = useSelector((state) => state?.cart?.cart);
+  
   //const token =state?.auth?.token
   //const name = state?.auth?.userData?.name
   const [skip, setSkip] = useState(true);
   const name = userData?.name;
-  const cartValue = state?.cart?.cart?.length
+  const cartValue = cartData?.length
 
   const { data, isSuccess: isSuccess1 } = useGetCartQuery(
-    { param: state?.auth?.userData?.id },
+    { param: userId },
     { skip }
   );
   const dispatch = useDispatch();
@@ -30,10 +31,10 @@ const Header = ({ token, userData }) => {
     }
   }, [isSuccess]);
   useEffect(() => {
-    if (state?.auth?.userData?.id) {
+    if (userId) {
       setSkip(false)
     }
-  }, [state?.auth?.userData?.id]);
+  }, [userId]);
   return (
     <header className="bg-gray-800 py-4">
       <nav className="container mx-auto flex justify-between items-center">
@@ -80,6 +81,13 @@ const Header = ({ token, userData }) => {
             >
               {/* {`Cart (${data?.cart?.length||0})`} */}
               {`cart (${cartValue})`}
+            </Link>
+            <Link
+              className="mr-5 text-gray-300 hover:text-white cursor-pointer"
+              href="/order"
+            >
+              {/* {`Cart (${data?.cart?.length||0})`} */}
+              {`Order`}
             </Link>
             <button
               onClick={() => {

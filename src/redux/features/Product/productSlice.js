@@ -6,6 +6,7 @@ export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
   refetchOnReconnect: true,
+  tagTypes:["products"],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => ({
