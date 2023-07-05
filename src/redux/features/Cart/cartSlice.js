@@ -100,23 +100,7 @@ const cartSlice = createSlice({
     builder.addMatcher(
       cartApi.endpoints.getCart.matchFulfilled,
       (state, action) => {
-        // console.log(action.payload, state.cart);
-        // let g = state.cart?.find((item) => {
-        //   return item?.product?._id == action?.payload?._id;
-        // });
-        // console.log(g);
-        // if(g){
-        //   let g = state.cart?.map((item) => {
-        //      if(item?.product?._id == action?.payload?._id){
-        //       return action?.payload
-        //      }else{
-        //       return item
-        //      }
-        //   });
-        //   state.cart = g
-        // }else{
-        //   state.cart.push(action.payload);
-        // }
+       
         console.log(action.payload);
         state.cart = action.payload?.cart;
         state.cartValue=action?.payload?.cart?.length
