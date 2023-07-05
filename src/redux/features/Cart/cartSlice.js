@@ -16,7 +16,7 @@ export const cartApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Post'],
+  tagTypes: ['cart'],
   endpoints: (builder) => ({
     addToCart: builder.mutation({
       query: (data) => ({
@@ -24,7 +24,7 @@ export const cartApi = createApi({
         method: "POST",
         body: data?.body,
       }),
-      invalidatesTags: ['Post'],
+      invalidatesTags: ['cart'],
     }),
     removeFromCart: builder.mutation({
       query: (data) => ({
@@ -32,14 +32,14 @@ export const cartApi = createApi({
         method: "POST",
         body: data?.body,
       }),
-      invalidatesTags: ['Post'],
+      invalidatesTags: ['cart'],
     }),
     getCart: builder.query({
       query: (data) => ({
         url: `/get?userId=${data?.param}`,
         method: "GET",
       }),
-      providesTags: ['Post'],
+      providesTags: ['cart'],
     }),
   }),
 });

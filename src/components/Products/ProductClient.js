@@ -1,5 +1,5 @@
 "use client";
-import { useAddToCartMutation } from "@/redux/features/Cart/cartSlice";
+import { useAddToCartMutation, useGetCartQuery } from "@/redux/features/Cart/cartSlice";
 import { setProductList, useGetProductsQuery } from "@/redux/features/Product/productSlice";
 import React, { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -15,14 +15,19 @@ const ProductClient = ({  }) => {
   const state = useSelector((state) => state);
   const userId = state?.auth?.userData?.id;
   // console.log(userId);
-  // const dispatch = useDispatch();
+   const dispatch = useDispatch();
   const [addToCart, { isSuccess:isSuccess1, data: data1, isLoading:isLoading1, isError:isError1 }] =
     useAddToCartMutation();
+    const cartItemsQuery = useGetCartQuery({param:userId});
     // const [removeFromCart, { isSuccess:isSuccess2,  isLoading:isLoading2, isError:isError2 }] =
     // useRemoveFromCartMutation();
-  // useEffect(() => {
-  //   dispatch(setProductList(data));
-  // }, []);
+  useEffect(() => {
+    // dispatch(setProductList(data));
+    if(isSuccess1){
+      cartItemsQuery.refetch()
+    }
+
+  }, [isSuccess1]);
 
   return (
     <ul>

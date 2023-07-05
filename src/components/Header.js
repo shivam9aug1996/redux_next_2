@@ -18,9 +18,9 @@ const Header = ({token,userData}) => {
   const name= userData?.name
   const cartValue = state?.cart?.cartValue
 
-  const { data  } = useGetCartQuery({param:state?.auth?.userData?.id},{skip});
+ // const { data  } = useGetCartQuery({param:state?.auth?.userData?.id},{skip});
   const dispatch = useDispatch();
- console.log(data)
+ //console.log(data)
   useEffect(()=>{
     if(isSuccess){
       router.refresh()
@@ -28,7 +28,7 @@ const Header = ({token,userData}) => {
       },[isSuccess])
       useEffect(()=>{
         setTimeout(() => {
-          setSkip(false)
+          //setSkip(false)
         }, 1000);
       },[])
   return (
@@ -77,7 +77,8 @@ const Header = ({token,userData}) => {
               className="mr-5 text-gray-300 hover:text-white cursor-pointer"
               href="/cart"
             >
-              {`Cart (${data?.cart?.length||0})`}
+              {/* {`Cart (${data?.cart?.length||0})`} */}
+              {`cart (${cartValue||0})`}
             </Link>
             <button
               onClick={() => {
