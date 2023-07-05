@@ -1,6 +1,7 @@
 import { connectDB } from "@/app/lib/connectDataBase";
 import { verifyToken } from "@/app/utils/globalFunctions";
 import { ObjectId } from "mongodb";
+
 import { NextResponse } from "next/server";
 import middleware from "../../../middleware";
 
@@ -63,7 +64,6 @@ export async function GET(req, res) {
         });
         return { ...item, product };
       });
-
       return NextResponse.json({ cart: cartItems }, { status: 200 });
     } else {
       return NextResponse.json({ cart: [] }, { status: 200 });

@@ -3,34 +3,37 @@ import { logout, useLogoutMutation } from "@/redux/features/Auth/authSlice";
 import { cartApi, useGetCartQuery } from "@/redux/features/Cart/cartSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const Header = ({token,userData}) => {
-  const router = useRouter()
-  const [logout, { isSuccess, isLoading, isError }] =
-  useLogoutMutation();
+const Header = ({ token, userData }) => {
+  const router = useRouter();
+  const [logout, { isSuccess, isLoading, isError }] = useLogoutMutation();
+  //  const { data } = useGetCartQuery({param:userId});
   const state = useSelector((state) => state);
-  console.log(state)
+  console.log(state);
   //const token =state?.auth?.token
   //const name = state?.auth?.userData?.name
-  const [skip, setSkip] = React.useState(true)
-  const name= userData?.name
-  const cartValue = state?.cart?.cartValue
+  const [skip, setSkip] = useState(true);
+  const name = userData?.name;
+  const cartValue = state?.cart?.cart?.length
 
- // const { data  } = useGetCartQuery({param:state?.auth?.userData?.id},{skip});
+  const { data, isSuccess: isSuccess1 } = useGetCartQuery(
+    { param: state?.auth?.userData?.id },
+    { skip }
+  );
   const dispatch = useDispatch();
- //console.log(data)
-  useEffect(()=>{
-    if(isSuccess){
-      router.refresh()
+  //console.log(data)
+  useEffect(() => {
+    if (isSuccess) {
+      router.refresh();
     }
-      },[isSuccess])
-      useEffect(()=>{
-        setTimeout(() => {
-          //setSkip(false)
-        }, 1000);
-      },[])
+  }, [isSuccess]);
+  useEffect(() => {
+    if (state?.auth?.userData?.id) {
+      setSkip(false)
+    }
+  }, [state?.auth?.userData?.id]);
   return (
     <header className="bg-gray-800 py-4">
       <nav className="container mx-auto flex justify-between items-center">
@@ -66,24 +69,22 @@ const Header = ({token,userData}) => {
               {`Welcome ${name}`}
             </Link> */}
             <button
-              onClick={() => {
-                
-              }}
+              onClick={() => {}}
               className="mr-5 text-gray-300 hover:text-white cursor-pointer"
             >
-               {`Welcome ${name}`}
+              {`Welcome ${name}`}
             </button>
             <Link
               className="mr-5 text-gray-300 hover:text-white cursor-pointer"
               href="/cart"
             >
               {/* {`Cart (${data?.cart?.length||0})`} */}
-              {`cart (${cartValue||0})`}
+              {`cart (${cartValue})`}
             </Link>
             <button
               onClick={() => {
                 //dispatch(logout());
-                logout()
+                logout();
               }}
               className="mr-5 text-gray-300 hover:text-white cursor-pointer"
             >

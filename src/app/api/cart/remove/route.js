@@ -1,5 +1,7 @@
 import { connectDB } from "@/app/lib/connectDataBase";
 import { verifyToken } from "@/app/utils/globalFunctions";
+import { ObjectId } from "mongodb";
+
 import { NextResponse } from "next/server";
 import middleware from "../../../middleware";
 
@@ -53,6 +55,10 @@ export async function POST(req, res) {
         await cart.updateOne({ _id: existingCart._id }, { $set: { items: existingCart.items } });
       }
     }
+    const productCollection = database.collection("product_list");
+   
+    const product = await productCollection
+    .findOne({ _id:new ObjectId(productId) })
 
 
     // const existingItem = await cart.findOne({ productId });
@@ -65,9 +71,13 @@ export async function POST(req, res) {
     // }
 
     // const result = await database.collection("cart").insertOne(itemAdded);
+    
     return NextResponse.json(
       {
-        message: "Product add to cart successfully",
+        message: "Product removed successfully",
+        id: existingCart._id,
+        action: "updated" ,
+        product,
       },
       { status: 201 }
     );

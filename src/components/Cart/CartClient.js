@@ -30,11 +30,20 @@ const CartClient = ({}) => {
   
 // }, [])
 
+// useEffect(() => {
+//   if (isSuccess) {
+//     alert("hi")
+//     dispatch(setCart(data?.cart));
+//   }
+// }, []);
+
+
+
 
   return (
     <ul>
       {isLoading&&<Skeleton count={5}/>}
-      {data?.cart?.map((item, index) => {
+      {cartData?.map((item, index) => {
         return (
           <li
             key={item?.product?._id}

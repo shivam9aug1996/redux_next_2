@@ -2,6 +2,7 @@ import { connectDB } from "@/app/lib/connectDataBase";
 import { verifyToken } from "@/app/utils/globalFunctions";
 
 import { ObjectId } from "mongodb";
+
 import { NextResponse } from "next/server";
 import middleware from "../../../middleware";
 
@@ -51,10 +52,12 @@ export async function POST(req, res) {
       );
     } else {
       // If the user's cart does not exist, create a new cart
+      
       result = await cart.insertOne({
         userId,
         items: [{ productId, quantity: 1 }],
       });
+     
     }
     const productCollection = database.collection("product_list");
    
@@ -71,6 +74,9 @@ console.log("result67890-",product,productId)
     // }
 
     // const result = await database.collection("cart").insertOne(itemAdded);
+   
+      
+      
     return NextResponse.json(
       {
         message: "Product add to cart successfully",

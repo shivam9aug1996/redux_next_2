@@ -18,16 +18,16 @@ const ProductClient = ({  }) => {
    const dispatch = useDispatch();
   const [addToCart, { isSuccess:isSuccess1, data: data1, isLoading:isLoading1, isError:isError1 }] =
     useAddToCartMutation();
-    const cartItemsQuery = useGetCartQuery({param:userId});
+   // const cartItemsQuery = useGetCartQuery({param:userId},{skip:true});
     // const [removeFromCart, { isSuccess:isSuccess2,  isLoading:isLoading2, isError:isError2 }] =
     // useRemoveFromCartMutation();
-  useEffect(() => {
-    // dispatch(setProductList(data));
-    if(isSuccess1){
-      cartItemsQuery.refetch()
-    }
+  // useEffect(() => {
+  //   // dispatch(setProductList(data));
+  //   if(isSuccess1){
+  //     cartItemsQuery.refetch()
+  //   }
 
-  }, [isSuccess1]);
+  // }, [isSuccess1]);
 
   return (
     <ul>
