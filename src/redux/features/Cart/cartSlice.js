@@ -16,7 +16,7 @@ export const cartApi = createApi({
       return headers;
     },
   }),
- // tagTypes: ['cart'],
+  tagTypes: ['Cart'],
   endpoints: (builder) => ({
     addToCart: builder.mutation({
       query: (data) => ({
@@ -39,6 +39,8 @@ export const cartApi = createApi({
         url: `/get?userId=${data?.param}`,
         method: "GET",
       }),
+      providesTags: ['products'],
+      keepUnusedDataFor:600
      // providesTags: ['cart'],
     }),
   }),

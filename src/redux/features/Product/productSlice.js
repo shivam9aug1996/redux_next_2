@@ -12,6 +12,8 @@ export const productApi = createApi({
         url: "/products",
         method: "GET",
       }),
+      providesTags: ['products'],
+      keepUnusedDataFor:600
     }),
   }),
 });
