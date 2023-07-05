@@ -36,7 +36,6 @@ export async function POST(req, res) {
       const existingItem = existingCart.items.find(
         (item) => item.productId === productId
       );
-
       if (existingItem) {
         // If the item already exists, increase its quantity
         existingItem.quantity += 1;
