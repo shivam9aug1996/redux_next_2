@@ -20,7 +20,7 @@ export const cartApi = createApi({
   endpoints: (builder) => ({
     addToCart: builder.mutation({
       query: (data) => ({
-        url: `/addToCart/?userId=${data?.param}`,
+        url: `/addtocart/?userId=${data?.param}`,
         method: "POST",
         body: data?.body,
       }),
@@ -28,7 +28,7 @@ export const cartApi = createApi({
     }),
     removeFromCart: builder.mutation({
       query: (data) => ({
-        url: `/removeFromCart/?userId=${data?.param}`,
+        url: `/removefromcart/?userId=${data?.param}`,
         method: "POST",
         body: data?.body,
       }),
@@ -36,7 +36,7 @@ export const cartApi = createApi({
     }),
     getCart: builder.query({
       query: (data) => ({
-        url: `/getCart/?userId=${data?.param}`,
+        url: `/getcart/?userId=${data?.param}`,
         method: "GET",
       }),
       providesTags: ['Post'],
