@@ -4,6 +4,8 @@ import { useGetProductsQuery } from '@/redux/features/Product/productSlice';
 import React, { useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton';
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../Loader';
+import LoaderFull from '../LoaderFull';
 
 const CartClient = ({}) => {
    const state = useSelector((state) => state);
@@ -41,7 +43,10 @@ const CartClient = ({}) => {
 
 
   return (
+    <>
+     
     <ul>
+     {isLoading1||isLoading2?<LoaderFull/>:null}
       {isLoading&&<Skeleton count={5}/>}
       {cartData?.map((item, index) => {
         return (
@@ -53,31 +58,35 @@ const CartClient = ({}) => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              flex: 0.3,
+              flex:1
             }}
           >
+           <div style={{display:"flex",flex:0.5}}>
             <p>{item?.product?.name}</p>
-            {item?.quantity>0}
-           <>
-           <button onClick={()=> removeFromCart({
+            </div>
+           
+           <div style={{display:"flex",flex:0.5}}>
+           <button style={{marginRight:10,fontSize:15,borderWidth:1,padding:10}} onClick={()=> removeFromCart({
                   body: JSON.stringify({
                     productId: item?.product?._id,
                   }),
                   param: userId,
                 })}>-</button>
-           <p>{item?.quantity}</p>
-            <button onClick={()=> addToCart({
+                <p style={{fontSize:20}}>{item?.quantity}</p>
+           
+           <button style={{marginLeft:10,fontSize:15,borderWidth:1,padding:10}} onClick={()=> addToCart({
                   body: JSON.stringify({
                     productId: item?.product?._id,
                   }),
                   param: userId,
                 })}>+</button>
-           </>
+           </div>
            
           </li>
         );
       })}
     </ul>
+    </>
   )
 }
 

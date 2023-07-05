@@ -4,6 +4,7 @@ import { setProductList, useGetProductsQuery } from "@/redux/features/Product/pr
 import React, { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
+import LoaderFull from "../LoaderFull";
 
 const ProductClient = ({  }) => {
     const { isSuccess, data, isLoading } = useGetProductsQuery();
@@ -31,6 +32,7 @@ const ProductClient = ({  }) => {
 
   return (
     <ul>
+      {isLoading1?<LoaderFull/>:null}
       {isLoading&&<Skeleton count={5}/>}
       {isSuccess&& data?.productList?.map((item, index) => {
         return (
