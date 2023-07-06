@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import LoaderFull from "../LoaderFull";
 import { useRouter } from "next/navigation";
+import Toast from "../Toast";
 
 const CartClient = ({}) => {
   const cartData = useSelector((state) => state?.cart?.cart || []);
@@ -25,18 +26,40 @@ const CartClient = ({}) => {
   const router = useRouter();
   const [
     addToCart,
-    { isSuccess: isSuccess1, isLoading: isLoading1, isError: isError1 },
+    {
+      isSuccess: isSuccess1,
+      isLoading: isLoading1,
+      isError: isError1,
+      error: error1,
+    },
   ] = useAddToCartMutation();
   const [
     removeFromCart,
-    { isSuccess: isSuccess2, isLoading: isLoading2, isError: isError2 },
+    {
+      isSuccess: isSuccess2,
+      isLoading: isLoading2,
+      isError: isError2,
+      error: error2,
+    },
   ] = useRemoveFromCartMutation();
   const [
     createOrder,
-    { isSuccess: isSuccess3, isLoading: isLoading3, isError: isError3 },
+    {
+      isSuccess: isSuccess3,
+      isLoading: isLoading3,
+      isError: isError3,
+      error: error3,
+    },
   ] = useCreateOrderMutation();
-  const { isSuccess, data, isLoading, isFetching, isUninitialized } =
-    useGetCartQuery({ param: userId });
+  const {
+    isSuccess,
+    data,
+    isLoading,
+    isFetching,
+    isUninitialized,
+    isError,
+    error,
+  } = useGetCartQuery({ param: userId });
   console.log(isSuccess3);
   useEffect(() => {
     if (isSuccess3) {
@@ -45,11 +68,16 @@ const CartClient = ({}) => {
     }
   }, [isSuccess3]);
 
-  console.log("mjhgfdsw456789",isLoading3);
+  console.log("mjhgfdsw456789", error1);
   return (
     <>
+      {isError && <Toast message={error.error || error.data.error} />}
+      {isError1 && <Toast message={error1.error || error1.data.error} />}
+      {isError2 && <Toast message={error2.error || error2.data.error} />}
+      {isError3 && <Toast message={error3.error || error3.data.error} />}
+      {isLoading1 || isLoading2 || isLoading3 ? <LoaderFull /> : null}
+      <div style={{display:"flex",flexDirection:"column"}}>
       <ul>
-        {isLoading1 || isLoading2 || isLoading3 ? <LoaderFull /> : null}
         {isLoading && <Skeleton count={5} />}
         {isSuccess &&
           cartData?.map((item, index) => {
@@ -113,7 +141,9 @@ const CartClient = ({}) => {
             );
           })}
       </ul>
-      <button
+    <div style={{display:"flex",justifyContent:"center",marginTop:30}}>
+    <button
+      style={{borderWidth:1,padding:10,borderRadius:10,backgroundColor:"#31505c",color:"white"}}
         onClick={() => {
           console.log(cartData);
           let modifiedCartData = cartData?.map((item, index) => {
@@ -132,6 +162,8 @@ const CartClient = ({}) => {
       >
         Place Order
       </button>
+    </div>
+      </div>
     </>
   );
 };
