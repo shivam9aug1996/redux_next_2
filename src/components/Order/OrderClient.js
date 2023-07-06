@@ -31,6 +31,7 @@ const OrderClient = () => {
               </Fragment>
             );
           })}
+          {isSuccess&&orderData?.length==0?<h3>{"You have placed no orders"}</h3>:null}
       </ul>
     </>
   );

@@ -142,6 +142,8 @@ const CartClient = ({}) => {
           })}
       </ul>
     <div style={{display:"flex",justifyContent:"center",marginTop:30}}>
+      {isSuccess&&cartData?.length==0?<h3>{"Your cart is empty!"}</h3>:null}
+      {isSuccess&&cartData?.length>0?
     <button
       style={{borderWidth:1,padding:10,borderRadius:10,backgroundColor:"#31505c",color:"white"}}
         onClick={() => {
@@ -161,7 +163,7 @@ const CartClient = ({}) => {
         }}
       >
         Place Order
-      </button>
+      </button>:null}
     </div>
       </div>
     </>
