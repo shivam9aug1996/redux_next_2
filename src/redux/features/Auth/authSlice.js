@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 
 export const authApi = createApi({
@@ -38,12 +39,18 @@ const authSlice = createSlice({
   },
   reducers: {
     setAppStart: (state, action) => {
-      if (localStorage.getItem("token")) {
-        state.token = localStorage.getItem("token");
+      if(Cookies.get('token')){
+        state.token = Cookies.get('token')
       }
-      if (localStorage.getItem("userData")) {
-        state.userData = JSON.parse(localStorage.getItem("userData"));
+      if(Cookies.get('userData')){
+        state.userData = JSON.parse(Cookies.get('userData'))
       }
+      // if (localStorage.getItem("token")) {
+      //   state.token = localStorage.getItem("token");
+      // }
+      // if (localStorage.getItem("userData")) {
+      //   state.userData = JSON.parse(localStorage.getItem("userData"));
+      // }
     },
     // logout: (state, action) => {
     //   state.token = "";

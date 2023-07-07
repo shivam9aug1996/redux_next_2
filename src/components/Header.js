@@ -1,5 +1,5 @@
 "use client";
-import { logout, useLogoutMutation } from "@/redux/features/Auth/authSlice";
+import { logout, useLoginMutation, useLogoutMutation } from "@/redux/features/Auth/authSlice";
 import { cartApi, useGetCartQuery } from "@/redux/features/Cart/cartSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,9 +9,20 @@ import { useDispatch, useSelector } from "react-redux";
 const Header = ({ token, userData }) => {
   const router = useRouter();
   const [logout, { isSuccess, isLoading, isError }] = useLogoutMutation();
+  // const [
+  //   login,
+  //   {
+  //     isSuccess: isSuccess2,
+  //     isLoading: isLoading2,
+  //     isError: isError2,
+  //     error: error2,
+  //   },
+  // ] = useLoginMutation();
   //  const { data } = useGetCartQuery({param:userId});
   const userId = useSelector((state) => state?.auth?.userData?.id);
   const cartData = useSelector((state) => state?.cart?.cart);
+  const reduxToken = useSelector((state) => state?.auth?.token);
+  const reduxUserData = useSelector((state) => state?.auth?.userData);
   
   //const token =state?.auth?.token
   //const name = state?.auth?.userData?.name
@@ -21,20 +32,30 @@ const Header = ({ token, userData }) => {
 
   const { data, isSuccess: isSuccess1 } = useGetCartQuery(
     { param: userId },
-    { skip }
+    { skip:reduxToken?false:true }
   );
   const dispatch = useDispatch();
-  //console.log(data)
+ console.log("reduxToken",reduxToken,reduxUserData)
   useEffect(() => {
     if (isSuccess) {
       router.refresh();
     }
   }, [isSuccess]);
-  useEffect(() => {
-    if (userId) {
-      setSkip(false)
+
+  useEffect(()=>{
+    if(reduxToken){
+      
+      router.refresh()
     }
-  }, [userId]);
+  },[reduxToken])
+  // useEffect(() => {
+  //   if (userId&&token) {
+  //     setSkip(false)
+  //   }else{
+  //     alert("hi")
+  //     setSkip(true)
+  //   }
+  // }, [userId,token]);
   return (
     <header className="bg-gray-800 py-4">
       <nav className="container mx-auto flex justify-between items-center">

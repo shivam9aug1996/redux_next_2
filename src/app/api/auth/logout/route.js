@@ -24,5 +24,6 @@ export async function GET(req, res) {
   
  // const { email: userEmail, name } = user;
   cookies().delete("token")
+  cookies().delete("userData")
   return NextResponse.json({ message:"logout successful" }, { status: 200 });
 }

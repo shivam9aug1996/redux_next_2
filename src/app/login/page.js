@@ -4,10 +4,12 @@ import Loader from "@/components/Loader";
 import { useLoginMutation } from "@/redux/features/Auth/authSlice";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Toast from "@/components/Toast";
+import LoaderFull from "@/components/LoaderFull";
 
 const Login = () => {
   const router = useRouter();
-  const [login, { isSuccess, data: token, isLoading, isError }] =
+  const [login, { isSuccess, data: token, isLoading, isError,error }] =
     useLoginMutation();
 
   const [loginStates, setLoginStates] = useState({
@@ -33,6 +35,9 @@ const Login = () => {
 
   return (
     <>
+     {isError && <Toast message={error.error || error.data.error||error.data.message} />}
+     
+      
       <div className="flex flex-col mx-8 flex-1 justify-center items-center">
         <h1 className="text-gray-800 font-bold text-xl mb-3">Login</h1>
         <form

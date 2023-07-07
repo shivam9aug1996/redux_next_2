@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 
 const Signup = () => {
   const router = useRouter();
-  const [signup, { isSuccess, data: token, isLoading }] = useSignupMutation();
+  const [signup, { isSuccess, data: token, isLoading,isError,error }] = useSignupMutation();
 
   const [signupStates, setSignupStates] = useState({
     name: "",
@@ -33,6 +33,7 @@ const Signup = () => {
   };
   return (
     <>
+    {isError && <Toast message={error.error || error.data.error} />}
       <div className="flex flex-col mx-8 flex-1 justify-center items-center">
         <h1 className="text-gray-800 font-bold text-xl mb-3">Signup</h1>
         <form
