@@ -1,6 +1,7 @@
 "use client";
 
 import Loader from "@/components/Loader";
+import Toast from "@/components/Toast";
 import { useSignupMutation } from "@/redux/features/Auth/authSlice";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -33,7 +34,7 @@ const Signup = () => {
   };
   return (
     <>
-    {isError && <Toast message={error.error || error.data.error} />}
+    {isError && <Toast message={error.error || error.data.error||error.data.message} />}
       <div className="flex flex-col mx-8 flex-1 justify-center items-center">
         <h1 className="text-gray-800 font-bold text-xl mb-3">Signup</h1>
         <form

@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import LoaderFull from "./LoaderFull";
+import Toast from "./Toast";
 
 const Header = ({ token, userData }) => {
   const router = useRouter();
-  const [logout, { isSuccess, isLoading, isError }] = useLogoutMutation();
+  const [logout, { isSuccess, isLoading, isError,error }] = useLogoutMutation();
   // const [
   //   login,
   //   {
@@ -30,7 +32,7 @@ const Header = ({ token, userData }) => {
   const name = userData?.name;
   const cartValue = cartData?.length
 
-  const { data, isSuccess: isSuccess1 } = useGetCartQuery(
+  const { data, isSuccess: isSuccess1,isError:isError1,error:error1 } = useGetCartQuery(
     { param: userId },
     { skip:reduxToken?false:true }
   );
@@ -58,6 +60,9 @@ const Header = ({ token, userData }) => {
   // }, [userId,token]);
   return (
     <header className="bg-gray-800 py-4">
+      {isLoading&&<LoaderFull/>}
+       {isError && <Toast message={error.error || error.data.error||error.data.message} />}
+       {isError1 && <Toast message={error1.error || error1.data.error||error1.data.message} />}
       <nav className="container mx-auto flex justify-between items-center">
         <div className="ml-5">
           <Link
