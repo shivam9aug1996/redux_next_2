@@ -19,7 +19,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      router.refresh();
+     // router.refresh();
     }
   }, [isSuccess]);
 
