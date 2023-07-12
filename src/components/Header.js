@@ -1,6 +1,7 @@
 "use client";
 import { logout, useLoginMutation, useLogoutMutation } from "@/redux/features/Auth/authSlice";
-import { cartApi, useGetCartQuery } from "@/redux/features/Cart/cartSlice";
+import { cartApi, resetCartSlice, setCart, useGetCartQuery } from "@/redux/features/Cart/cartSlice";
+import { orderApi, setOrder } from "@/redux/features/Order/orderSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -9,55 +10,57 @@ import LoaderFull from "./LoaderFull";
 import Toast from "./Toast";
 
 const Header = ({ token, userData }) => {
-  const router = useRouter();
-  const [logout, { isSuccess, isLoading, isError,error }] = useLogoutMutation();
-  // const [
-  //   login,
-  //   {
-  //     isSuccess: isSuccess2,
-  //     isLoading: isLoading2,
-  //     isError: isError2,
-  //     error: error2,
-  //   },
-  // ] = useLoginMutation();
-  //  const { data } = useGetCartQuery({param:userId});
-  const userId = useSelector((state) => state?.auth?.userData?.id);
+ // const userId = useSelector((state) => state?.auth?.userData?.id);
   const cartData = useSelector((state) => state?.cart?.cart);
   const reduxToken = useSelector((state) => state?.auth?.token);
   const reduxUserData = useSelector((state) => state?.auth?.userData);
+
+ 
+  const [logout, { isSuccess, isLoading, isError,error }] = useLogoutMutation();
   
-  //const token =state?.auth?.token
-  //const name = state?.auth?.userData?.name
   const [skip, setSkip] = useState(true);
-  const name = userData?.name;
-  const cartValue = cartData?.length
+  //const name = userData?.name;
+
 
   const { data, isSuccess: isSuccess1,isError:isError1,error:error1 } = useGetCartQuery(
-    { param: userId },
-    { skip:reduxToken?false:true }
+    { param: reduxUserData?.id },
+    { skip:!reduxUserData?.id }
   );
+  const router = useRouter();
   const dispatch = useDispatch();
- console.log("reduxToken",reduxToken,reduxUserData)
+  const cartValue = cartData?.length
+
   useEffect(() => {
     if (isSuccess) {
-      router.refresh();
+        
+     
+         // router.push("/")
+          // setTimeout(() => {
+             dispatch(cartApi.util.resetApiState())
+             dispatch(orderApi.util.resetApiState())
+             dispatch(resetCartSlice())
+          // }, 2000);
+        
     }
   }, [isSuccess]);
 
-  useEffect(()=>{
-    if(reduxToken){
+  // useEffect(()=>{
+  //   if(reduxToken){
       
-      router.refresh()
-    }
-  },[reduxToken])
-  // useEffect(() => {
-  //   if (userId&&token) {
-  //     setSkip(false)
-  //   }else{
-  //     alert("hi")
-  //     setSkip(true)
+  //     router.refresh()
   //   }
-  // }, [userId,token]);
+  // },[reduxToken])
+  useEffect(() => {
+    if ( reduxUserData) {
+      setSkip(false);
+    } else {
+      setSkip(true);
+    }
+    
+    return () => {
+      setSkip(true);
+    };
+  }, [ reduxUserData]);
   return (
     <header className="bg-gray-800 py-4">
       {isLoading&&<LoaderFull/>}
@@ -72,7 +75,7 @@ const Header = ({ token, userData }) => {
             My Website
           </Link>
         </div>
-        {!token ? (
+        {!reduxToken ? (
           <div>
             <Link
               className="mr-5 text-gray-300 hover:text-white cursor-pointer"
@@ -99,7 +102,7 @@ const Header = ({ token, userData }) => {
               onClick={() => {}}
               className="mr-5 text-gray-300 hover:text-white cursor-pointer"
             >
-              {`Welcome ${name}`}
+              {`Welcome ${reduxUserData?.name}`}
             </button>
             <Link
               className="mr-5 text-gray-300 hover:text-white cursor-pointer"
@@ -119,6 +122,9 @@ const Header = ({ token, userData }) => {
               onClick={() => {
                 //dispatch(logout());
                 logout();
+                
+        //         dispatch(setCart([]))
+        // dispatch(setOrder([]))
               }}
               className="mr-5 text-gray-300 hover:text-white cursor-pointer"
             >

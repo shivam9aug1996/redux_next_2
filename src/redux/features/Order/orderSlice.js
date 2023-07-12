@@ -41,7 +41,12 @@ const orderSlice = createSlice({
   initialState: {
     orderList: [],
   },
-  reducers: {},
+  reducers: {
+    setOrder: (state, action) => {
+      state.orderList = action?.payload
+      //localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(
       orderApi.endpoints.getOrderList.matchFulfilled,
@@ -52,6 +57,7 @@ const orderSlice = createSlice({
   },
 });
 
+export const { setOrder } = orderSlice.actions;
 export const {useGetOrderListQuery,useCreateOrderMutation} = orderApi
 
 export default orderSlice.reducer;

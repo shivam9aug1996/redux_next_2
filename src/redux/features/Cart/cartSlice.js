@@ -57,6 +57,10 @@ const cartSlice = createSlice({
       state.cartValue = action?.payload?.length
       //localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
     },
+    resetCartSlice: (state) => {
+      state.cart = []
+      state.cartValue = 0
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -189,7 +193,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { setCart,startAppSetCartValue } = cartSlice.actions;
+export const { setCart,resetCartSlice } = cartSlice.actions;
 
 export const { useAddToCartMutation, useGetCartQuery,useRemoveFromCartMutation } = cartApi;
 

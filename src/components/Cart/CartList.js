@@ -1,6 +1,11 @@
+import dynamic from 'next/dynamic'
+ 
+const CartClient = dynamic(() => import('./CartClient'), {
+  ssr: false,
+})
 import React, { Suspense } from "react";
-import CartClient from "./CartClient";
-import CartServer from "./CartServer";
+// import CartClient from "./CartClient";
+// import CartServer from "./CartServer";
 
 
 const CartList = () => {

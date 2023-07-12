@@ -47,8 +47,8 @@ const ProductClient = ({}) => {
 
   return (
     <>
-      {isError && <Toast message={error.error || error.data.error} />}
-      {isError1 && <Toast message={error1.error || error1.data.error} />}
+      {isError && <Toast message={error?.error || error?.data?.error} />}
+      {isError1 && <Toast message={error1?.error || error1?.data?.error} />}
       {isLoading1 ? <LoaderFull /> : null}
       <ul>
         {isLoading && <Skeleton count={5} />}

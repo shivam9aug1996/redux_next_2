@@ -1,6 +1,9 @@
+import dynamic from 'next/dynamic'
 import React from "react";
-import OrderClient from "./OrderClient";
-
+// import OrderClient from "./OrderClient";
+const OrderClient = dynamic(() => import('./OrderClient'), {
+  ssr: false,
+})
 const OrderList = () => {
   return (
     <>

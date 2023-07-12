@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-
+import { setCart } from "../Cart/cartSlice";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -39,18 +39,23 @@ const authSlice = createSlice({
   },
   reducers: {
     setAppStart: (state, action) => {
-      if(Cookies.get('token')){
-        state.token = Cookies.get('token')
-      }
-      if(Cookies.get('userData')){
-        state.userData = JSON.parse(Cookies.get('userData'))
-      }
-      // if (localStorage.getItem("token")) {
-      //   state.token = localStorage.getItem("token");
+      // if(Cookies.get('token')){
+      //   state.token = Cookies.get('token')
       // }
-      // if (localStorage.getItem("userData")) {
-      //   state.userData = JSON.parse(localStorage.getItem("userData"));
+      // if(Cookies.get('userData')){
+      //   state.userData = JSON.parse(Cookies.get('userData'))
       // }
+      if (localStorage.getItem("token")) {
+        state.token = localStorage.getItem("token");
+      } else if (!localStorage.getItem("token")) {
+        state.token = undefined;
+      }
+
+      if (localStorage.getItem("userData")) {
+        state.userData = JSON.parse(localStorage.getItem("userData"));
+      } else if (localStorage.getItem("userData")) {
+        state.userData = undefined;
+      }
     },
     // logout: (state, action) => {
     //   state.token = "";
@@ -85,16 +90,17 @@ const authSlice = createSlice({
     builder.addMatcher(
       authApi.endpoints.logout.matchFulfilled,
       (state, action) => {
-          localStorage.removeItem("token");
-      localStorage.removeItem("userData")
-        state.token = "";
-        state.userData = null
+        localStorage.removeItem("token");
+        localStorage.removeItem("userData");
+        state.token = undefined;
+        state.userData = undefined;
       }
     );
   },
 });
 
-export const { useSignupMutation, useLoginMutation,useLogoutMutation } = authApi;
+export const { useSignupMutation, useLoginMutation, useLogoutMutation } =
+  authApi;
 export const { setAppStart, logout } = authSlice.actions;
 
 export default authSlice.reducer;

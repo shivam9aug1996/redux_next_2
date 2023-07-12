@@ -7,7 +7,7 @@ import {
 } from "@/redux/features/Cart/cartSlice";
 import { useCreateOrderMutation } from "@/redux/features/Order/orderSlice";
 import { useGetProductsQuery } from "@/redux/features/Product/productSlice";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
@@ -18,7 +18,7 @@ import Toast from "../Toast";
 const CartClient = ({}) => {
   const cartData = useSelector((state) => state?.cart?.cart || []);
   const userId = useSelector((state) => state?.auth?.userData?.id);
-
+  const token = useSelector((state) => state?.auth?.token);
   // console.log(state)
   // const userId = state?.auth?.userData?.id;
   // console.log(userId);
@@ -51,6 +51,7 @@ const CartClient = ({}) => {
       error: error3,
     },
   ] = useCreateOrderMutation();
+  const [skip,setSkip] = useState(true)
   const {
     isSuccess,
     data,
@@ -59,7 +60,8 @@ const CartClient = ({}) => {
     isUninitialized,
     isError,
     error,
-  } = useGetCartQuery({ param: userId });
+  } = useGetCartQuery({ param: userId },{ skip:!userId});
+  
   console.log(isSuccess3);
   useEffect(() => {
     if (isSuccess3) {
@@ -67,6 +69,18 @@ const CartClient = ({}) => {
       router.push("/order");
     }
   }, [isSuccess3]);
+
+  useEffect(() => {
+    if (userId) {
+      setSkip(false);
+    } else {
+      setSkip(true);
+    }
+    
+    return () => {
+      setSkip(true);
+    };
+  }, [userId]);
 
   console.log("mjhgfdsw456789", error1);
   return (
