@@ -6,8 +6,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import LoaderFull from "./LoaderFull";
-import Toast from "./Toast";
+import dynamic from 'next/dynamic'
+const Toast = dynamic(() => import('./Toast'))
+const LoaderFull = dynamic(() => import('./LoaderFull'))
+// import LoaderFull from "./LoaderFull";
+// import Toast from "./Toast";
 
 const Header = ({ token, userData }) => {
  // const userId = useSelector((state) => state?.auth?.userData?.id);

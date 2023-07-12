@@ -7,6 +7,6 @@ export const setCustomHeader=(res,headers)=>{
 
 export const cacheHeader=()=>{
   return {
-    'Cache-Control': 'max-age=60, stale-while-revalidate=86400',
+    'Cache-Control': 'max-age=60',
   };
 }

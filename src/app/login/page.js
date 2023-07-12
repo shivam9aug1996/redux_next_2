@@ -1,11 +1,12 @@
 "use client";
-
+import dynamic from 'next/dynamic'
 import Loader from "@/components/Loader";
 import { useLoginMutation } from "@/redux/features/Auth/authSlice";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Toast from "@/components/Toast";
-import LoaderFull from "@/components/LoaderFull";
+//import Toast from "@/components/Toast";
+const Toast = dynamic(() => import('@/components/Toast'))
+
 
 const Login = () => {
   const router = useRouter();

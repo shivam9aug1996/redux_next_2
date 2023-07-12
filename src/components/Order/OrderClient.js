@@ -3,7 +3,9 @@ import { useGetOrderListQuery } from "@/redux/features/Order/orderSlice";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useSelector } from "react-redux";
-import Toast from "../Toast";
+import dynamic from 'next/dynamic'
+const Toast = dynamic(() => import('../Toast'))
+//import Toast from "../Toast";
 
 const OrderClient = () => {
  // const isMounted = useRef(false);
@@ -37,7 +39,7 @@ const OrderClient = () => {
       {isError && <Toast message={error.error || error.data.error} />}
 
       <ul>
-        {isLoading && <Skeleton count={5} />}
+        {isLoading && <Skeleton height={100} count={10} style={{marginBottom:20}} />}
         {isSuccess &&
           orderData?.map((item, index) => {
             return (

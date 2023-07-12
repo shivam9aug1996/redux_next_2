@@ -13,7 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import LoaderFull from "../LoaderFull";
 import { useRouter } from "next/navigation";
-import Toast from "../Toast";
+import dynamic from 'next/dynamic'
+const Toast = dynamic(() => import('../Toast'))
+// import Toast from "../Toast";
 
 const CartClient = ({}) => {
   const cartData = useSelector((state) => state?.cart?.cart || []);
@@ -92,7 +94,7 @@ const CartClient = ({}) => {
       {isLoading1 || isLoading2 || isLoading3 ? <LoaderFull /> : null}
       <div style={{display:"flex",flexDirection:"column"}}>
       <ul>
-        {isLoading && <Skeleton count={5} />}
+        {isLoading && <Skeleton height={60} count={10} style={{marginBottom:20}} />}
         {isSuccess &&
           cartData?.map((item, index) => {
             return (
@@ -108,7 +110,9 @@ const CartClient = ({}) => {
                 }}
               >
                 <div style={{ display: "flex", flex: 0.5 }}>
-                  <p>{item?.product?.name}</p>
+                  <p className="cursor-pointer"  onClick={() => {
+                    router.push(`/product/${item?.product?._id}`);
+                  }}>{item?.product?.name}</p>
                 </div>
 
                 <div style={{ display: "flex", flex: 0.5 }}>

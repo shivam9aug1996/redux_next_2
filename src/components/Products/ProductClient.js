@@ -1,4 +1,5 @@
 "use client";
+import Button from "@/app/product/[productId]/Button";
 import {
   useAddToCartMutation,
   useGetCartQuery,
@@ -7,14 +8,19 @@ import {
   setProductList,
   useGetProductsQuery,
 } from "@/redux/features/Product/productSlice";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
-import LoaderFull from "../LoaderFull";
-import Toast from "../Toast";
+import dynamic from 'next/dynamic'
+const LoaderFull = dynamic(() => import('../LoaderFull'))
+const Toast = dynamic(() => import('../Toast'))
+// import LoaderFull from "../LoaderFull";
+// import Toast from "../Toast";
 
 const ProductClient = ({}) => {
   const { isSuccess, data, isLoading, isError, error } = useGetProductsQuery();
+  const router = useRouter();
   console.log(data);
   // useEffect(() => {
   //  // getProducts();
@@ -24,16 +30,16 @@ const ProductClient = ({}) => {
   // const userId = state?.auth?.userData?.id;
   // console.log(userId);
   const dispatch = useDispatch();
-  const [
-    addToCart,
-    {
-      isSuccess: isSuccess1,
-      data: data1,
-      isLoading: isLoading1,
-      isError: isError1,
-      error: error1,
-    },
-  ] = useAddToCartMutation();
+  // const [
+  //   addToCart,
+  //   {
+  //     isSuccess: isSuccess1,
+  //     data: data1,
+  //     isLoading: isLoading1,
+  //     isError: isError1,
+  //     error: error1,
+  //   },
+  // ] = useAddToCartMutation();
   // const cartItemsQuery = useGetCartQuery({param:userId},{skip:true});
   // const [removeFromCart, { isSuccess:isSuccess2,  isLoading:isLoading2, isError:isError2 }] =
   // useRemoveFromCartMutation();
@@ -48,10 +54,10 @@ const ProductClient = ({}) => {
   return (
     <>
       {isError && <Toast message={error?.error || error?.data?.error} />}
-      {isError1 && <Toast message={error1?.error || error1?.data?.error} />}
-      {isLoading1 ? <LoaderFull /> : null}
+      {/* {isError1 && <Toast message={error1?.error || error1?.data?.error} />}
+      {isLoading1 ? <LoaderFull /> : null} */}
       <ul>
-        {isLoading && <Skeleton count={5} />}
+        {isLoading && <Skeleton height={40} count={20} style={{marginBottom:20}} />}
         {isSuccess &&
           data?.productList?.map((item, index) => {
             return (
@@ -66,9 +72,16 @@ const ProductClient = ({}) => {
                   flex: 0.3,
                 }}
               >
-                <p>{item?.name}</p>
-
-                <button
+                <p
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push(`/product/${item?._id}`);
+                  }}
+                >
+                  {item?.name}
+                </p>
+                <Button productId={item?._id} />
+                {/* <button
                   onClick={() =>
                     addToCart({
                       body: JSON.stringify({
@@ -85,7 +98,7 @@ const ProductClient = ({}) => {
                   }}
                 >
                   Add to cart
-                </button>
+                </button> */}
               </li>
             );
           })}
