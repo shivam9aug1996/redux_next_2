@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "./Button";
 
+export const dynamicParams = true 
+
 const page = async ({ params }) => {
   let url = "";
   if (process.env.NODE_ENV == "development") {
@@ -13,8 +15,6 @@ const page = async ({ params }) => {
   // await new Promise((res)=>setTimeout(() => {
   //   res("hi")
   // }, 5000))
-  console.log("87655tgh", `${url}?productId=${params.productId}`);
-  console.log("kjhytre4567890", res);
   const { product } = res;
   return (
     <div style={{}}>
