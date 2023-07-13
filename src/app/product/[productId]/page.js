@@ -8,7 +8,7 @@ const page = async ({ params }) => {
   let url = "";
   if (process.env.NODE_ENV == "development") {
     url = `http://localhost:3000/api/product`;
-  } else if (process.env.NODE_ENV == "Preview") {
+  } else if (process.env.NODE_ENV == "Production") {
     url = `${process.env.API_URL_PREVIEW}api/product`;
   }
   else {
