@@ -4,6 +4,7 @@ import Button from "./Button";
 export const dynamicParams = true 
 
 const page = async ({ params }) => {
+  
   let url = "";
   if (process.env.NODE_ENV == "development") {
     url = `http://localhost:3000/api/product`;
@@ -14,6 +15,7 @@ const page = async ({ params }) => {
     url = `${process.env.API_URL}api/product`;
   }
   let res = await fetch(`${url}?productId=${params.productId}`);
+  console.log(process.env.NODE_ENV,process.env.API_URL,url)
   res = await res?.json();
   // await new Promise((res)=>setTimeout(() => {
   //   res("hi")
