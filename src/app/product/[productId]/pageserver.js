@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Button from "./Button";
 
-//export const dynamicParams = true 
+export const dynamicParams = true 
 
 const page = async ({ params }) => {
   
@@ -14,7 +14,7 @@ const page = async ({ params }) => {
   else {
     url = `${process.env.API_URL}api/product`;
   }
-  url = `${process.env.API_URL_PREVIEW}api/product`;
+ // url = `${process.env.API_URL_PREVIEW}api/product`;
   let res = await fetch(`${url}?productId=${params.productId}`);
   console.log(process.env.NODE_ENV,process.env.API_URL,url)
   res = await res?.json();
@@ -24,8 +24,11 @@ const page = async ({ params }) => {
   const { product } = res;
   return (
     <div style={{}}>
+      <Suspense fallback={<div>fghj</div>}>
       <p>{product?.name}</p>
      <Button productId={params.productId}/>
+      </Suspense>
+     
     </div>
   );
 };
