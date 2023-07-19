@@ -16,10 +16,19 @@ export async function POST(req, res) {
       );
     }
     
-    const credentials = encode(
-      `${process.env.RAZORPAY_KEY}:${process.env.RAZORPAY_SECRET}`
-    );
+  
     const items = await req.json();
+    let credentials
+    if(items?.isLive){
+      credentials = encode(
+        `${process.env.RAZORPAY_KEY}:${process.env.RAZORPAY_SECRET}`
+      );
+    }else{
+      credentials = encode(
+        `${process.env.RAZORPAY_KEY_LIVE}:${process.env.RAZORPAY_SECRET_LIVE}`
+      );
+    }
+   
     console.log(items)
     let res1 = await fetch("https://api.razorpay.com/v1/orders", {
       method: "POST",

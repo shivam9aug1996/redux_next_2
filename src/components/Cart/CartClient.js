@@ -74,13 +74,14 @@ const CartClient = ({}) => {
 
   let [paymentLoader, setPaymentLoader] = useState(false);
   let [paymentError, setPaymentError] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
 
   console.log(isSuccess3);
 
   useEffect(() => {
     if (isSuccess3) {
       dispatch(setCart([]));
-      dispatch(resetCartSlice())
+      dispatch(resetCartSlice());
       router.push("/order");
     }
   }, [isSuccess3]);
@@ -130,7 +131,8 @@ const CartClient = ({}) => {
     let orderRes = await fetch("/api/razorpayorder", {
       method: "POST",
       body: JSON.stringify({
-        amount: parseFloat(getTotalPrice()) * 100,
+        amount: isChecked ? 200 : parseFloat(getTotalPrice()) * 100,
+        isLive: isChecked,
       }),
       headers: {
         authorization: `Bearer ${token}`,
@@ -144,7 +146,9 @@ const CartClient = ({}) => {
       );
       if (loaded) {
         const options = {
-          key: process.env.RAZORPAY_KEY,
+          key: isChecked
+            ? process.env.RAZORPAY_KEY_LIVE
+            : process.env.RAZORPAY_KEY,
           amount: orderRes.res1.amount,
           currency: orderRes.res1.currency,
           name: "FastBuy",
@@ -156,7 +160,11 @@ const CartClient = ({}) => {
             let res = await fetch("/api/verifypayment", {
               method: "POST",
               body: JSON.stringify({
-                data: { ...response, check_order_id: orderRes.res1.id },
+                data: {
+                  ...response,
+                  check_order_id: orderRes.res1.id,
+                  isLive: isChecked,
+                },
               }),
               headers: {
                 authorization: `Bearer ${token}`,
@@ -213,6 +221,10 @@ const CartClient = ({}) => {
       setPaymentLoader(false);
       setPaymentError(JSON.stringify(orderRes));
     }
+  };
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
   };
 
   return (
@@ -412,6 +424,18 @@ const CartClient = ({}) => {
         {isSuccess && cartData.length > 0 && (
           <div className="flex flex-col items-end mt-4 checkout-button">
             <p className="text-lg">Total: ${getTotalPrice()}</p>
+            <div>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                />
+              </label>
+              <span style={{ marginLeft: 5 }}>
+                {isChecked ? "Live Mode" : "Test Mode"}
+              </span>
+            </div>
             <button
               onClick={async () => {
                 console.log(cartData);
