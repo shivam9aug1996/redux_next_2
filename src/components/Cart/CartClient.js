@@ -142,7 +142,7 @@ const CartClient = ({}) => {
       );
       if (loaded) {
         const options = {
-          key: process.env.RAZORPAY_KEY||"rzp_test_dM1SSeT8CDsvcj",
+          key: process.env.RAZORPAY_KEY,
           amount: orderRes.res1.amount,
           currency: orderRes.res1.currency,
           name: "FastBuy",
