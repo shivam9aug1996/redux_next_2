@@ -11,8 +11,8 @@ import { setAppStartCart } from "@/redux/features/Cart/cartSlice";
 //const Header = dynamic(() => import('./Header'))
 
 const Providers = ({ children }) => {
-  store.dispatch(setAppStart());
-  store.dispatch(setAppStartCart())
+  // store.dispatch(setAppStart());
+  // store.dispatch(setAppStartCart())
   // useEffect(() => {
   //   store.dispatch(setAppStart());
   // }, []);
