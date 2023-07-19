@@ -16,7 +16,7 @@ const Button = ({ productId }) => {
   const [productInCart, setProductInCart] = useState(false);
 
   useEffect(() => {
-    if (checkProductIsInCart(cartData,productId)) {
+    if (checkProductIsInCart(cartData,productId)&&userId) {
       setProductInCart(true);
     } else {
       setProductInCart(false);

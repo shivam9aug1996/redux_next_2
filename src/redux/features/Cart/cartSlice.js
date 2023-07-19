@@ -60,8 +60,8 @@ const cartSlice = createSlice({
     resetCartSlice: (state) => {
       state.cart = []
       state.cartValue = 0
-      localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
-      localStorage.setItem("cart",JSON.stringify(state.cart))
+      localStorage.setItem("cartValue",JSON.stringify(0))
+      localStorage.setItem("cart",JSON.stringify([]))
     },
     setAppStartCart: (state, action) => {
       

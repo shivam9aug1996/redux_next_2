@@ -10,6 +10,9 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+
+
+
 const Signup = () => {
   const reduxToken = useSelector((state) => state?.auth?.token);
   const router = useRouter();
