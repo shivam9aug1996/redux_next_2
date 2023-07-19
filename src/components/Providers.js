@@ -15,9 +15,7 @@ const Providers = ({ children }) => {
     store.dispatch(setAppStart());
     store.dispatch(setAppStartCart());
   }, []);
-  // useEffect(() => {
-  //   store.dispatch(setAppStart());
-  // }, []);
+
   return (
     <Provider store={store}>
       <Header />
