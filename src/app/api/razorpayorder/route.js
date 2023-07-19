@@ -17,7 +17,7 @@ export async function POST(req, res) {
     }
     
     const credentials = encode(
-      "rzp_test_dM1SSeT8CDsvcj:S3lhNB3lm6WnQIHmCY21IkCp"
+      `${process.env.RAZORPAY_KEY}:${process.env.RAZORPAY_SECRET}`
     );
     const items = await req.json();
     console.log(items)
