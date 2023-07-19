@@ -30,13 +30,26 @@ export async function POST(req, res) {
       quantity: parseInt(quantity || 1),
       productId,
     }));
-    const order = {
-      userId: userId,
-      date: new Date(),
-      items: orderItems,
-    };
+
+   
 
     let database = await connectDB();
+      // Get the latest order ID
+      const latestOrder = await database
+      .collection("orders")
+      .findOne({}, { sort: { _id: -1 } });
+ 
+    // Increment the order ID
+    const orderId = latestOrder
+      ? (parseInt(latestOrder.orderId.slice(-4)) + 1).toString().padStart(4, "0")
+      : "0001";
+ 
+     const order = {
+       userId: userId,
+       date: new Date(),
+       items: orderItems,
+       orderId: orderId,
+     };
     const result = await database.collection("orders").insertOne(order);
     const cart = await database.collection("cart").find({ userId }).toArray();
     await database.collection('cart').updateOne(
@@ -45,7 +58,7 @@ export async function POST(req, res) {
     );
     return NextResponse.json({
       message: "Order created successfully",
-      orderId: result.insertedId,
+      orderId: orderId,
     },{ status: 201 });
   } catch (error) {
     console.error(error);
@@ -80,7 +93,7 @@ export async function GET(req, res) {
   
     
     let database = await connectDB();
-    const orders = await database.collection("orders").find({ userId }).toArray();
+    const orders = await database.collection("orders").find({ userId }).sort({ date: -1 }).toArray();
     console.log(orders)
     return NextResponse.json({ orders }, { status: 200 });
   } catch (error) {

@@ -20,7 +20,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-     // router.refresh();
+      router.replace("/");
     }
   }, [isSuccess]);
 

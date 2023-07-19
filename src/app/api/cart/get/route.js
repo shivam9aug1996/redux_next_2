@@ -1,4 +1,5 @@
 import { connectDB } from "@/app/lib/connectDataBase";
+import { cacheHeader, setCustomHeader } from "@/app/lib/serverFunctions";
 import { verifyToken } from "@/app/utils/globalFunctions";
 import { ObjectId } from "mongodb";
 
@@ -65,6 +66,7 @@ export async function GET(req, res) {
         return { ...item, product };
       });
       return NextResponse.json({ cart: cartItems }, { status: 200 });
+    // return setCustomHeader(NextResponse.json({ cart: cartItems }, { status: 200 }),cacheHeader())
     } else {
       return NextResponse.json({ cart: [] }, { status: 200 });
     }

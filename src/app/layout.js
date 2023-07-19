@@ -14,17 +14,17 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const token = cookies()?.get('token')?.value
-  let userData = cookies()?.get('userData')?.value
-  if(userData){
-    userData=JSON.parse(userData)
-  }
+  // const token = cookies()?.get('token')?.value
+  // let userData = cookies()?.get('userData')?.value
+  // if(userData){
+  //   userData=JSON.parse(userData)
+  // }
  
   return (
     <html lang="en">
       <body className={inter.className}>
       
-        <Providers token={token} userData={userData}>{children}</Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

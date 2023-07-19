@@ -1,14 +1,21 @@
+"use client"
 import dynamic from 'next/dynamic'
  
-const CartClient = dynamic(() => import('./CartClient'), {
-  ssr: false,
-})
+const CartClient = dynamic(() => import('./CartClient'))
 import React, { Suspense } from "react";
-// import CartClient from "./CartClient";
+import { useState } from 'react';
+import { useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton';
+ //import CartClient from "./CartClient";
+import CartClient2 from './CartClient2';
 // import CartServer from "./CartServer";
 
 
 const CartList = () => {
+  const [isMounted,setIsMounted] = useState(false)
+  useEffect(()=>{
+    setIsMounted(true)
+  },[])
   
   return (
     <>
@@ -16,7 +23,8 @@ const CartList = () => {
         {/* <Suspense fallback={<Skeleton count={5} />}>
           <CartServer />
         </Suspense> */}
-        <CartClient/>
+        {/* <CartClient/> */}
+       {isMounted? <CartClient/>:null}
     </>
   );
 };
