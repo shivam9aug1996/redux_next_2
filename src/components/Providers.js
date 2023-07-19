@@ -5,14 +5,17 @@ import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import RouteMiddleware from "../app/RouteMiddleware";
 import Footer from "./Footer";
-// import Header from "./Header";
+ import Header from "./Header";
 import dynamic from 'next/dynamic'
-const Header = dynamic(() => import('./Header'))
+import { setAppStartCart } from "@/redux/features/Cart/cartSlice";
+//const Header = dynamic(() => import('./Header'))
 
 const Providers = ({ children }) => {
-  useEffect(() => {
-    store.dispatch(setAppStart());
-  }, []);
+  store.dispatch(setAppStart());
+  store.dispatch(setAppStartCart())
+  // useEffect(() => {
+  //   store.dispatch(setAppStart());
+  // }, []);
   return (
     <Provider store={store}>
       <Header />

@@ -94,7 +94,7 @@ const OrderClient = () => {
 
       <div className="flex flex-col">
         {isLoading &&
-          [...Array(10)].map((index) => (
+          [...Array(10)].map((item,index) => (
             <div
               key={index}
               className="flex flex-col md:flex-row items-center mb-4 border border-gray-300 rounded"

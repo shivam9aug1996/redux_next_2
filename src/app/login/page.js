@@ -4,11 +4,13 @@ import Loader from "@/components/Loader";
 import { useLoginMutation } from "@/redux/features/Auth/authSlice";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSelector } from 'react-redux';
 //import Toast from "@/components/Toast";
 const Toast = dynamic(() => import('@/components/Toast'))
 
 
 const Login = () => {
+  const reduxToken = useSelector((state) => state?.auth?.token);
   const router = useRouter();
   const [login, { isSuccess, data: token, isLoading, isError,error }] =
     useLoginMutation();
@@ -18,11 +20,22 @@ const Login = () => {
     password: "",
   });
 
+  // Simulating authentication logic
+  const isAuthenticated = reduxToken!==undefined&&reduxToken!==""?true:false;
+  
+
+  useEffect(() => {
+    if(isAuthenticated){
+      router.replace("/")
+    }
+  }, []);
+
   useEffect(() => {
     if (isSuccess) {
       router.replace("/");
     }
   }, [isSuccess]);
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();

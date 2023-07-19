@@ -36,7 +36,7 @@ const ProductClient = ({}) => {
     const arr = new Array(20).fill(0);
     return arr?.map((item, index) => {
       return (
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
+        <div key={index} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
           <div className="border border-gray-300 rounded p-4">
             <Skeleton height={0} style={{ paddingBottom: "140%" }} />
             <h3 className="text-lg font-semibold mb-2 mt-5">
@@ -90,7 +90,7 @@ const ProductClient = ({}) => {
               <div
                
                 key={item?._id}
-                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4 "
+                className="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 p-4"
               >
                 <div className="border border-gray-300 rounded p-4">
                 <div className="image-container cursor-pointer"  onClick={() => {
@@ -102,10 +102,8 @@ const ProductClient = ({}) => {
                       alt={item?.name}
                       width={640}
                       height={912}
-                      objectFit="cover"
                       className="w-full mb-2 zoom-effect fade-in"
-                      loading="lazy"
-                     
+                      priority
                     />
                   </div>
                   {/* <div className="image-container">

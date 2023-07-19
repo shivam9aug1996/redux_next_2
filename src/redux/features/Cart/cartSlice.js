@@ -60,6 +60,17 @@ const cartSlice = createSlice({
     resetCartSlice: (state) => {
       state.cart = []
       state.cartValue = 0
+      localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
+      localStorage.setItem("cart",JSON.stringify(state.cart))
+    },
+    setAppStartCart: (state, action) => {
+      
+      if (localStorage.getItem("cartValue")) {
+        state.cartValue = JSON.parse(localStorage.getItem("cartValue"))
+      } 
+      if (localStorage.getItem("cart")) {
+        state.cart = JSON.parse(localStorage.getItem("cart"))
+      } 
     },
   },
   extraReducers: (builder) => {
@@ -86,8 +97,8 @@ const cartSlice = createSlice({
           state.cart=g
         }
         state.cartValue=state?.cart?.length
-       // localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
-       // localStorage.setItem("cart",JSON.stringify(state.cart))
+       localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
+        localStorage.setItem("cart",JSON.stringify(state.cart))
         console.log(state.cart)
         // console.log(action.payload, state.cart);
         // let g = state.cart?.find((item) => {
@@ -138,8 +149,8 @@ const cartSlice = createSlice({
           state.cart=g
         }
         state.cartValue=state?.cart?.length
-       // localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
-       // localStorage.setItem("cart",JSON.stringify(state.cart))
+       localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
+        localStorage.setItem("cart",JSON.stringify(state.cart))
         console.log(state.cart)
         // console.log(action.payload, state.cart);
         // let g = state.cart?.find((item) => {
@@ -171,8 +182,8 @@ const cartSlice = createSlice({
         state.cart = action.payload?.cart;
         
         state.cartValue=action?.payload?.cart?.length
-       // localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
-        //localStorage.setItem("cart",JSON.stringify(state.cart))
+        localStorage.setItem("cartValue",JSON.stringify(state.cartValue))
+        localStorage.setItem("cart",JSON.stringify(state.cart))
       }
     );
     // builder.addMatcher(
@@ -193,7 +204,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { setCart,resetCartSlice } = cartSlice.actions;
+export const { setCart,resetCartSlice,setAppStartCart } = cartSlice.actions;
 
 export const { useAddToCartMutation, useGetCartQuery,useRemoveFromCartMutation } = cartApi;
 

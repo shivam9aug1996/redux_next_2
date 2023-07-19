@@ -8,8 +8,10 @@ const Toast = dynamic(() => import('@/components/Toast'))
 import { useSignupMutation } from "@/redux/features/Auth/authSlice";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Signup = () => {
+  const reduxToken = useSelector((state) => state?.auth?.token);
   const router = useRouter();
   const [signup, { isSuccess, data: token, isLoading,isError,error }] = useSignupMutation();
 
@@ -18,6 +20,15 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
+  const isAuthenticated = reduxToken!==undefined&&reduxToken!==""?true:false;
+  
+
+  useEffect(() => {
+    if(isAuthenticated){
+      router.replace("/")
+    }
+  }, []);
 
   useEffect(() => {
     if (isSuccess) {

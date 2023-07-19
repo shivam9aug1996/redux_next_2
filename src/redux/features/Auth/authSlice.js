@@ -39,12 +39,6 @@ const authSlice = createSlice({
   },
   reducers: {
     setAppStart: (state, action) => {
-      // if(Cookies.get('token')){
-      //   state.token = Cookies.get('token')
-      // }
-      // if(Cookies.get('userData')){
-      //   state.userData = JSON.parse(Cookies.get('userData'))
-      // }
       if (localStorage.getItem("token")) {
         state.token = localStorage.getItem("token");
       } else if (!localStorage.getItem("token")) {
@@ -53,17 +47,10 @@ const authSlice = createSlice({
 
       if (localStorage.getItem("userData")) {
         state.userData = JSON.parse(localStorage.getItem("userData"));
-      } else if (localStorage.getItem("userData")) {
+      } else if (!localStorage.getItem("userData")) {
         state.userData = undefined;
       }
     },
-    // logout: (state, action) => {
-    //   state.token = "";
-    //   localStorage.removeItem("token");
-    //   localStorage.removeItem("userData")
-    //   document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    //   document.cookie = "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    // },
   },
   extraReducers: (builder) => {
     builder.addMatcher(

@@ -8,3 +8,11 @@ export async function verifyToken(token) {
     throw new Error('Invalid token');
   }
 }
+
+export const checkProductIsInCart = (cartData,productId) => {
+  let data = cartData?.filter((item, index) => {
+    return productId == item?.product._id;
+  });
+  if (data?.length > 0) return true;
+  else return false;
+};

@@ -39,3 +39,9 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .checkout-button {
+    margin-right: 1rem;
+  }
+}

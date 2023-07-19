@@ -1,5 +1,6 @@
 "use client";
 import {
+  resetCartSlice,
   setCart,
   useAddToCartMutation,
   useGetCartQuery,
@@ -79,6 +80,7 @@ const CartClient = ({}) => {
   useEffect(() => {
     if (isSuccess3) {
       dispatch(setCart([]));
+      dispatch(resetCartSlice())
       router.push("/order");
     }
   }, [isSuccess3]);
@@ -342,10 +344,13 @@ const CartClient = ({}) => {
                   <Image
                     src={item.product.image}
                     alt={item.product.name}
-                    layout="fill"
-                    objectFit="cover"
-                    loading="lazy"
+                    // layout="fill"
+                    // objectFit="cover"
+                    //loading="lazy"
                     className="fade-in"
+                    priority
+                    width={640}
+                    height={912}
                   />
                 </div>
               </div>
@@ -405,7 +410,7 @@ const CartClient = ({}) => {
             </div>
           ))}
         {isSuccess && cartData.length > 0 && (
-          <div className="flex flex-col items-end mt-4">
+          <div className="flex flex-col items-end mt-4 checkout-button">
             <p className="text-lg">Total: ${getTotalPrice()}</p>
             <button
               onClick={async () => {
