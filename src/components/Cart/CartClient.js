@@ -170,6 +170,7 @@ const CartClient = ({}) => {
                 authorization: `Bearer ${token}`,
               },
             });
+            
             res = await res?.json();
             setPaymentLoader(false);
             if (res?.verified) {
