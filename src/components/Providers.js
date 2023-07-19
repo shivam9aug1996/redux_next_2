@@ -25,13 +25,6 @@ const Providers = ({ children }) => {
         {children}
       </main>
       <Footer />
-      {/* <RouteMiddleware token={token} userData={userData}>
-       
-        {children}
-        
-        
-        
-        </RouteMiddleware> */}
     </Provider>
   );
 };
