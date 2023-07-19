@@ -172,7 +172,7 @@ const CartClient = ({}) => {
             });
 
             res = await res?.json();
-            
+
             setPaymentLoader(false);
             if (res?.verified) {
               let modifiedCartData = cartData?.map((item, index) => {
@@ -435,7 +435,7 @@ const CartClient = ({}) => {
                 />
               </label>
               <span style={{ marginLeft: 5 }}>
-                {isChecked ? "Live Mode" : "Test Mode"}
+                {"Live Mode"}
               </span>
             </div>
             <button

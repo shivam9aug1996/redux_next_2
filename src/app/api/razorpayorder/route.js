@@ -21,11 +21,12 @@ export async function POST(req, res) {
     let credentials
     if(items?.isLive){
       credentials = encode(
-        `${process.env.RAZORPAY_KEY}:${process.env.RAZORPAY_SECRET}`
+        `${process.env.RAZORPAY_KEY_LIVE}:${process.env.RAZORPAY_SECRET_LIVE}`
       );
+     
     }else{
       credentials = encode(
-        `${process.env.RAZORPAY_KEY_LIVE}:${process.env.RAZORPAY_SECRET_LIVE}`
+        `${process.env.RAZORPAY_KEY}:${process.env.RAZORPAY_SECRET}`
       );
     }
    
