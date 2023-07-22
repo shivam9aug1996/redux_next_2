@@ -356,6 +356,7 @@ const CartClient = ({}) => {
               >
                 <div className="image-container w-24 h-32 md:w-32 md:h-44">
                   <Image
+                  unoptimized
                     src={item.product.image}
                     alt={item.product.name}
                     // layout="fill"

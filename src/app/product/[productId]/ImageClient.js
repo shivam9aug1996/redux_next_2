@@ -5,6 +5,7 @@ import React from "react";
 const ImageClient = ({product}) => {
   return (
     <Image
+    unoptimized
       onLoad={(e) => e.target.classList.add("loaded")}
       src={product?.image}
       alt={product?.name}

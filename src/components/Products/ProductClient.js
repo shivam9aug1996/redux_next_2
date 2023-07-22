@@ -99,6 +99,7 @@ const ProductClient = ({}) => {
                     }}
                   >
                     <Image
+                    unoptimized
                       //onLoad={(e) => e.target.classList.add("loaded")}
                       src={item?.image}
                       alt={item?.name}
