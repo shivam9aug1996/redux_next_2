@@ -19,7 +19,7 @@ const page = async ({ params }) => {
     if (process.env.NODE_ENV == "development") {
       url = `http://localhost:3000/api/product`;
     } else {
-      url = `api/product`;
+      url = `kjhg`;
     }
     let res = await fetch(`${url}?productId=${params.productId}`);
     res = await res?.json();
