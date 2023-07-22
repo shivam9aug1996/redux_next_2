@@ -49,7 +49,7 @@ const TermsOfService = () => {
         </h2>
         <p>We may use third-party services to provide specific functions on our website, such as payment processing. These providers have their own privacy policies.</p>
         <h2 className="text-2xl font-bold mt-8 mb-4">
-          5. Changes to Privacy Policy:
+          6. Changes to Privacy Policy:
         </h2>
         <p>We may update this Privacy Policy from time to time, and the latest version will be posted on our website.</p>
         <p className="mt-8">

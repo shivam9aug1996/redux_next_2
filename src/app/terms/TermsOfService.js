@@ -58,7 +58,7 @@ const TermsOfService = () => {
         </h2>
         <p>We may terminate or suspend your account without notice if you violate these terms.</p>
         <h2 className="text-2xl font-bold mt-8 mb-4">
-          5. Changes to Terms:
+          6. Changes to Terms:
         </h2>
         <p>We may update these Terms of Service from time to time, and the latest version will be posted on our website.</p>
         <p className="mt-8">
