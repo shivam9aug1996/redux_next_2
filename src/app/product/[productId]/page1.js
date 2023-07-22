@@ -11,7 +11,7 @@ const page = async ({ params }) => {
   } else {
     url = `${process.env.API_URL}api/product`;
   }
-  let res = await fetch(`${url}?productId=${params.productId}`);
+  let res = await fetch(`api/product?productId=${params.productId}`);
 
   res = await res?.json();
   const { product } = res;
