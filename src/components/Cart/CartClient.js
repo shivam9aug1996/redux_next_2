@@ -379,7 +379,7 @@ const CartClient = ({}) => {
                     {item.product.name}
                   </p>
                   <p className="text-sm text-gray-600">
-                    ${item.product.price.toFixed(2)}
+                  &#8377;{item.product.price.toFixed(2)}
                   </p>
                 </div>
                 <div className="flex items-center">
@@ -413,7 +413,7 @@ const CartClient = ({}) => {
                 </div>
               </div>
               <div className="text-lg ml-2">
-                ${item.quantity * item.product.price.toFixed(2)}
+              &#8377;{item.quantity * item.product.price.toFixed(2)}
               </div>
               {/* <button
             className="text-sm border border-gray-300 rounded-md py-1 px-2 ml-2"
@@ -425,7 +425,7 @@ const CartClient = ({}) => {
           ))}
         {isSuccess && cartData.length > 0 && (
           <div className="flex flex-col items-end mt-4 checkout-button">
-            <p className="text-lg">Total: ${getTotalPrice()}</p>
+            <p className="text-lg">Total: &#8377;{getTotalPrice()}</p>
             <div>
               <label>
                 <input

@@ -88,14 +88,16 @@ const ProductClient = ({}) => {
           data?.productList?.map((item, index) => {
             return (
               <div
-               
                 key={item?._id}
                 className="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 p-4"
               >
                 <div className="border border-gray-300 rounded p-4">
-                <div className="image-container cursor-pointer"  onClick={() => {
-                  router.push(`/product/${item?._id}`);
-                }}>
+                  <div
+                    className="image-container cursor-pointer"
+                    onClick={() => {
+                      router.push(`/product/${item?._id}`);
+                    }}
+                  >
                     <Image
                       //onLoad={(e) => e.target.classList.add("loaded")}
                       src={item?.image}
@@ -120,10 +122,15 @@ const ProductClient = ({}) => {
                   />
                   </div> */}
 
-                  <h3 onClick={() => {
-                  router.push(`/product/${item?._id}`);
-                }} className="text-lg font-semibold mb-2 cursor-pointer">{item?.name}</h3>
-                  <p className="text-gray-600">${item?.price.toFixed(2)}</p>
+                  <h3
+                    onClick={() => {
+                      router.push(`/product/${item?._id}`);
+                    }}
+                    className="text-lg font-semibold mb-2 cursor-pointer"
+                  >
+                    {item?.name}
+                  </h3>
+                  <p className="text-gray-600">&#8377;{item?.price.toFixed(2)}</p>
 
                   <Button productId={item?._id} />
                 </div>
