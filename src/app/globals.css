@@ -31,6 +31,15 @@
   animation: fadeIn 0.8s forwards;
 }
 
+.google-login{
+  flex-grow: 1;
+    font-family: "Google Sans",arial,sans-serif;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

@@ -1,22 +1,26 @@
 "use client";
 
- import Loader from "@/components/Loader";
+import Loader from "@/components/Loader";
 // import Toast from "@/components/Toast";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 //const Loader = dynamic(() => import("@/components/Loader"))
-const Toast = dynamic(() => import('@/components/Toast'))
+const Toast = dynamic(() => import("@/components/Toast"));
 import { useSignupMutation } from "@/redux/features/Auth/authSlice";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
-
-
+import FaceBookSignUpButton from "@/components/FaceBookSignUpButton";
+// import GoogleSignUpButton from "@/components/GoogleSignUpButton";
+const GoogleSignUpButton = dynamic(
+  () => import("@/components/GoogleSignUpButton"),
+  { ssr: false }
+);
 
 const Signup = () => {
   const reduxToken = useSelector((state) => state?.auth?.token);
   const router = useRouter();
-  const [signup, { isSuccess, data: token, isLoading,isError,error }] = useSignupMutation();
+  const [signup, { isSuccess, data: token, isLoading, isError, error }] =
+    useSignupMutation();
 
   const [signupStates, setSignupStates] = useState({
     name: "",
@@ -24,12 +28,12 @@ const Signup = () => {
     password: "",
   });
 
-  const isAuthenticated = reduxToken!==undefined&&reduxToken!==""?true:false;
-  
+  const isAuthenticated =
+    reduxToken !== undefined && reduxToken !== "" ? true : false;
 
   useEffect(() => {
-    if(isAuthenticated){
-      router.replace("/")
+    if (isAuthenticated) {
+      router.replace("/");
     }
   }, []);
 
@@ -51,7 +55,11 @@ const Signup = () => {
   };
   return (
     <>
-    {isError && <Toast message={error.error || error.data.error||error.data.message} />}
+      {isError && (
+        <Toast
+          message={error.error || error.data.error || error.data.message}
+        />
+      )}
       <div className="flex flex-col mx-8 flex-1 justify-center items-center">
         <h1 className="text-gray-800 font-bold text-xl mb-3">Signup</h1>
         <form
@@ -106,6 +114,11 @@ const Signup = () => {
           >
             {isLoading ? <Loader /> : "Signup"}
           </button>
+          <div className="flex justify-center flex-col items-center">
+            <p className="mb-6 mt-6">or</p>
+            <GoogleSignUpButton />
+            {/* <FaceBookSignUpButton/> */}
+          </div>
         </form>
       </div>
     </>

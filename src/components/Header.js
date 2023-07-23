@@ -1,5 +1,6 @@
 "use client";
 import {
+  authApi,
   logout,
   useLoginMutation,
   useLogoutMutation,
@@ -66,6 +67,7 @@ console.log(cartValue)
       dispatch(cartApi.util.resetApiState());
       dispatch(orderApi.util.resetApiState());
       dispatch(resetCartSlice());
+      dispatch(authApi.util.resetApiState())
       setSkip(true); // Set skip to true to prevent additional queries
       router.replace("/");
     }

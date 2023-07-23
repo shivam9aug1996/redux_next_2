@@ -28,6 +28,13 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
+    googleAuth: builder.mutation({
+      query: (data) => ({
+        url: "/google-login",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -83,10 +90,20 @@ const authSlice = createSlice({
         state.userData = undefined;
       }
     );
+    builder.addMatcher(
+      authApi.endpoints.googleAuth.matchFulfilled,
+      (state, action) => {
+        let token = action.payload?.token || "";
+        localStorage.setItem("token", token);
+        localStorage.setItem("userData", JSON.stringify(action?.payload));
+        state.token = token;
+        state.userData = action?.payload;
+      }
+    );
   },
 });
 
-export const { useSignupMutation, useLoginMutation, useLogoutMutation } =
+export const { useSignupMutation, useLoginMutation, useLogoutMutation,useGoogleAuthMutation } =
   authApi;
 export const { setAppStart, logout } = authSlice.actions;
 

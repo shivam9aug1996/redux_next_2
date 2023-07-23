@@ -5,6 +5,10 @@ import { useLoginMutation } from "@/redux/features/Auth/authSlice";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from 'react-redux';
+const GoogleSignUpButton = dynamic(
+  () => import("@/components/GoogleSignUpButton"),
+  { ssr: false }
+);
 //import Toast from "@/components/Toast";
 const Toast = dynamic(() => import('@/components/Toast'))
 
@@ -93,6 +97,10 @@ const Login = () => {
           >
             {isLoading ? <Loader /> : "Login"}
           </button>
+          <div className="flex justify-center flex-col items-center">
+            <p className="mb-6 mt-6">or</p>
+            <GoogleSignUpButton />
+          </div>
         </form>
       </div>
     </>
