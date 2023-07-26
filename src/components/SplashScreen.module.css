@@ -14,7 +14,7 @@
   z-index: 9999; /* Make sure the splash screen is above other elements */
 
   /* Animation styles */
-  animation: fadeIn 3s ease-in-out forwards;
+  animation: fadeIn 1s ease-in-out forwards;
 }
 
 .title {

@@ -12,7 +12,7 @@ const SplashScreen = () => {
     // Hide the splash screen after 1 second
     const timer = setTimeout(() => {
       setShow(false);
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
