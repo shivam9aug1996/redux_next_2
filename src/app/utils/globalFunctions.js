@@ -24,7 +24,7 @@ export const generateReCaptchaToken = async (action = null) => {
         resolve();
       });
     });
-
+console.log("8765edfgh",process.env.reCAPTCHA_site_key)
     const token = await grecaptcha.enterprise.execute(
       process.env.reCAPTCHA_site_key,
       { action }
