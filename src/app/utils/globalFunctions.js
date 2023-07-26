@@ -24,9 +24,9 @@ export const generateReCaptchaToken = async (action = null) => {
         resolve();
       });
     });
-console.log("8765edfgh",process.env.reCAPTCHA_site_key)
+
     const token = await grecaptcha.enterprise.execute(
-      process.env.reCAPTCHA_site_key,
+      "6LduukknAAAAAM1WgxSHlazc6Hgi6aToa1SGr_kx",
       { action }
     );
 
