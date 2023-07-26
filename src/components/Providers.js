@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import dynamic from "next/dynamic";
 import { setAppStartCart } from "@/redux/features/Cart/cartSlice";
+import SplashScreen from "./SplashScreen";
 // const Header = dynamic(() => import('./Header'))
 
 const Providers = ({ children }) => {
@@ -20,6 +21,7 @@ const Providers = ({ children }) => {
     <Provider store={store}>
       <Header />
       <main className="container mx-auto py-4 min-h-screen  flex">
+      <SplashScreen />
         {children}
       </main>
       <Footer />

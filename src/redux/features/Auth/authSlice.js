@@ -35,6 +35,13 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+    verifyRecaptcha: builder.mutation({
+      query: (data) => ({
+        url: "/verify-recaptcha",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -103,7 +110,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { useSignupMutation, useLoginMutation, useLogoutMutation,useGoogleAuthMutation } =
+export const { useSignupMutation, useLoginMutation, useLogoutMutation,useGoogleAuthMutation,useVerifyRecaptchaMutation } =
   authApi;
 export const { setAppStart, logout } = authSlice.actions;
 

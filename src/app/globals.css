@@ -40,6 +40,24 @@
     vertical-align: top;
 }
 
+.react-loading-skeleton{
+  z-index: unset !important;
+}
+
+.splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff; /* Set your desired background color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  z-index: 9999; /* Make sure the splash screen is above other elements */
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

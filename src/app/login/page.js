@@ -1,36 +1,57 @@
 "use client";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 import Loader from "@/components/Loader";
-import { useLoginMutation } from "@/redux/features/Auth/authSlice";
+import {
+  useLoginMutation,
+  useVerifyRecaptchaMutation,
+} from "@/redux/features/Auth/authSlice";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import { generateReCaptchaToken } from "../utils/globalFunctions";
+import { useRecaptcha } from "../custom-hooks/useRecaptcha";
+
+const Recaptcha = dynamic(() => import("@/components/Recaptcha"), {
+  ssr: false,
+});
 const GoogleSignUpButton = dynamic(
   () => import("@/components/GoogleSignUpButton"),
   { ssr: false }
 );
 //import Toast from "@/components/Toast";
-const Toast = dynamic(() => import('@/components/Toast'))
-
+const Toast = dynamic(() => import("@/components/Toast"));
 
 const Login = () => {
   const reduxToken = useSelector((state) => state?.auth?.token);
   const router = useRouter();
-  const [login, { isSuccess, data: token, isLoading, isError,error }] =
+  const [login, { isSuccess, data: token, isLoading, isError, error }] =
     useLoginMutation();
+  const [
+    verifyRecaptcha,
+    { isSuccess: isSuccess1, data: data1, isLoading: isLoading1 },
+  ] = useVerifyRecaptchaMutation();
 
   const [loginStates, setLoginStates] = useState({
     email: "",
     password: "",
   });
+  const [isVerified, setIsVerified] = useState(false);
 
-  // Simulating authentication logic
-  const isAuthenticated = reduxToken!==undefined&&reduxToken!==""?true:false;
-  
+  const [
+    isRecaptchaSuccess,
+    isRecaptchaLoading,
+    isRecaptchaError,
+    recaptchaError,
+    isRecaptchaTrigger,
+    setRecaptchaTrigger,
+  ] = useRecaptcha("login");
+
+  const isAuthenticated =
+    reduxToken !== undefined && reduxToken !== "" ? true : false;
 
   useEffect(() => {
-    if(isAuthenticated){
-      router.replace("/")
+    if (isAuthenticated) {
+      router.replace("/");
     }
   }, []);
 
@@ -39,23 +60,40 @@ const Login = () => {
       router.replace("/");
     }
   }, [isSuccess]);
-  
 
-  const handleSubmit = (e) => {
+
+  useEffect(() => {
+    if (isRecaptchaSuccess) {
+      login(
+        JSON.stringify({
+          email: loginStates.email,
+          password: loginStates.password,
+        })
+      );
+    }
+  }, [isRecaptchaSuccess]);
+
+
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(
-      JSON.stringify({
-        email: loginStates.email,
-        password: loginStates.password,
-      })
-    );
+    setRecaptchaTrigger(true)
   };
 
   return (
     <>
-     {isError && <Toast message={error.error || error.data.error||error.data.message} />}
-     
-      
+      {isError && (
+        <Toast
+          message={error?.error || error?.data?.error || error?.data?.message}
+        />
+      )}
+         {isRecaptchaError && (
+        <Toast
+          message={recaptchaError?.error || recaptchaError?.data?.error || recaptchaError?.data?.message}
+        />
+      )}
+
       <div className="flex flex-col mx-8 flex-1 justify-center items-center">
         <h1 className="text-gray-800 font-bold text-xl mb-3">Login</h1>
         <form
@@ -89,13 +127,13 @@ const Login = () => {
               }
             />
           </div>
-
+          {/* <Recaptcha recaptchaStates={recaptchaStates} setRecaptchaStates={setRecaptchaStates}/> */}
           <button
-            disabled={isLoading}
+            disabled={isLoading||isRecaptchaTrigger||isRecaptchaLoading}
             className="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline bg-slate-700 hover:bg-slate-600 mt-2"
             type="submit"
           >
-            {isLoading ? <Loader /> : "Login"}
+            {isLoading||isRecaptchaTrigger||isRecaptchaLoading ? <Loader /> : "Login"}
           </button>
           <div className="flex justify-center flex-col items-center">
             <p className="mb-6 mt-6">or</p>
