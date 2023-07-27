@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/app/product/[productId]/Button";
+// import Button from "@/app/product/[productId]/Button";
 import {
   useAddToCartMutation,
   useGetCartQuery,
@@ -16,6 +16,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 const LoaderFull = dynamic(() => import("../LoaderFull"));
 const Toast = dynamic(() => import("../Toast"));
+const Button = dynamic(() => import("@/app/product/[productId]/Button"));
 // import LoaderFull from "../LoaderFull";
 // import Toast from "../Toast";
 

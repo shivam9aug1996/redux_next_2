@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       {/* <Script src="https://www.google.com/recaptcha/enterprise.js?render=6LcvnkknAAAAAJCZx5y3ygQwx3DNzB1y4m93U9ta" /> */}
       <head>
-        <script src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.reCAPTCHA_site_key}`}></script>
+        {/* <script src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.reCAPTCHA_site_key}`}></script> */}
       </head>
       <body className={inter.className}>
         <Providers>{children}</Providers>
