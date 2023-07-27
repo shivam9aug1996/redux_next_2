@@ -179,6 +179,7 @@ console.log(currentUrl)
           <button
             onClick={handleMenuToggle}
             className="text-gray-300 hover:text-white cursor-pointer"
+            aria-label="menu"
           >
             <svg
               className="w-6 h-6"
