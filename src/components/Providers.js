@@ -23,7 +23,7 @@ const Providers = ({ children }) => {
     // Load the Google reCAPTCHA script dynamically when the component mounts
     setTimeout(() => {
       const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${process.env.reCAPTCHA_site_key}`;
+    script.src = `https://www.google.com/recaptcha/enterprise.js?render=6LduukknAAAAAM1WgxSHlazc6Hgi6aToa1SGr_kx`;
     script.async = true;
     document.body.appendChild(script);
     }, 3000);
