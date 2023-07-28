@@ -345,6 +345,9 @@ const CartClient = ({}) => {
         {isSuccess &&
           cartData?.map((item, index) => (
             <div
+            onMouseOver={()=>{
+              router.prefetch(`/product/${item?.productId}`)
+            }}
               key={item?.product?._id}
               className="flex flex-col md:flex-row items-center mb-4"
             >
