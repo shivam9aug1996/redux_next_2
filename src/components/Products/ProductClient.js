@@ -91,6 +91,9 @@ const ProductClient = ({}) => {
               <div
                 key={item?._id}
                 className="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 p-4"
+                onMouseOver={()=>{
+                  router.prefetch(`/product/${item?._id}`)
+                }}
               >
                 <div className="border border-gray-300 rounded p-4">
                   <div
