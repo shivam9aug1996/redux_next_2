@@ -18,13 +18,16 @@ export async function POST(req, res) {
   }
   if (!action) {
     return NextResponse.json(
-      { message: "Missing recaptchaResponse" },
+      { message: "Missing Action" },
       { status: 400 }
     );
   }
 
   //console.log("recaptchaResponse", recaptchaResponse);
   const apiKey = process.env.reCAPTCHA_site_key
+  if(process.env.NODE_ENV=="development"){
+    return NextResponse.json({ success: true, score:1 }, { status: 200 });
+  }
 
   try {
     const verificationResponse = await axios.post(
