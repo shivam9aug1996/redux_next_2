@@ -14,6 +14,7 @@ import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 const LoaderFull = dynamic(() => import("../LoaderFull"));
 const Toast = dynamic(() => import("../Toast"));
 const Button = dynamic(() => import("@/app/product/[productId]/Button"));
@@ -96,14 +97,15 @@ const ProductClient = ({}) => {
                 // }}
               >
                 <div className="border border-gray-300 rounded p-4">
+                <Link href={`/product/${item?._id}`}>
                   <div
                     className="image-container cursor-pointer"
-                    onClick={() => {
-                      router.push(`/product/${item?._id}`);
-                    }}
+                    // onClick={() => {
+                    //   router.push(`/product/${item?._id}`);
+                    // }}
                   >
                     <Image
-                    unoptimized
+                      unoptimized
                       //onLoad={(e) => e.target.classList.add("loaded")}
                       src={item?.image}
                       alt={item?.name}
@@ -113,29 +115,23 @@ const ProductClient = ({}) => {
                       priority
                     />
                   </div>
-                  {/* <div className="image-container">
-                  <Image
-                  onLoad={(e) => e.target.classList.add('loaded')}
-                    src={item?.image}
-                    alt={item?.name}
-                    width={640}
-                    height={912}
-                    objectFit="cover"
-                    className="w-full mb-2 zoom-effect"
-                    loading="lazy"
-                    className="fade-in"
-                  />
-                  </div> */}
+                  </Link>
+                
+                 
+                  <Link href={`/product/${item?._id}`}>
+                    <h3
+                      // onClick={() => {
+                      //   router.push(`/product/${item?._id}`);
+                      // }}
+                      className="text-lg font-semibold mb-2 cursor-pointer"
+                    >
+                      {item?.name}
+                    </h3>
+                  </Link>
 
-                  <h3
-                    onClick={() => {
-                      router.push(`/product/${item?._id}`);
-                    }}
-                    className="text-lg font-semibold mb-2 cursor-pointer"
-                  >
-                    {item?.name}
-                  </h3>
-                  <p className="text-gray-600">&#8377;{item?.price.toFixed(2)}</p>
+                  <p className="text-gray-600">
+                    &#8377;{item?.price.toFixed(2)}
+                  </p>
 
                   <Button productId={item?._id} />
                 </div>
