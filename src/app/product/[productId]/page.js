@@ -1,7 +1,7 @@
-
+import Image from "next/image";
 import React from "react";
-// import Button from "./Button";
-// import ImageClient from "./ImageClient";
+import Button from "./Button";
+import ImageClient from "./ImageClient";
 
 //export const dynamicParams = true
 
@@ -18,20 +18,35 @@ const page = async ({ params }) => {
 
   //console.log(process.env.NODE_ENV,process.env.API_URL,url)
   res = await res?.json();
-  await new Promise((res)=>setTimeout(() => {
-    res("hi")
-  }, 3000))
+  // await new Promise((res)=>setTimeout(() => {
+  //   res("hi")
+  // }, 5000))
   const { product } = res;
   console.log("mjhgtr456789o", product);
   return (
     <div className="w-full p-4">
       <div className="border border-gray-300 rounded p-4 flex flex-col items-start">
-        
-        {/* <ImageClient product={product}/> */}
+        {/* <img
+          src={product.image}
+          alt={product.name}
+          className="h-auto max-w-full max-h-64 mb-2 object-contain"
+        /> */}
+        <ImageClient product={product}/>
+        {/* <Image
+                  onLoad={(e) => e.target.classList.add('loaded')}
+                    src={product?.image}
+                    alt={product?.name}
+                    width={640}
+                    height={912}
+                    objectFit="cover"
+                    className="h-auto max-w-full max-h-64 mb-2 object-contain"
+                    loading="lazy"
+                    className="fade-in"
+                  /> */}
         <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
         <p className="text-gray-600">&#8377;{product?.price?.toFixed(2)}</p>
 
-        {/* <Button productId={params.productId} /> */}
+        <Button productId={params.productId} />
       </div>
     </div>
   );
