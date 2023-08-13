@@ -1,6 +1,6 @@
 
 import React, { Suspense } from "react";
-import Loader from "./Loader";
+import Loader from "./loading";
 import ParticularProduct from "./ParticularProduct";
 // import Button from "./Button";
 // import ImageClient from "./ImageClient";
