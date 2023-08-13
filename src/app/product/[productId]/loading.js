@@ -1,7 +1,7 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 
-const loading = () => {
+const Loader = () => {
   return (
     <div className="w-full p-4">
       <div className="border border-gray-300 rounded p-4 flex flex-col items-start">
@@ -23,4 +23,4 @@ const loading = () => {
   );
 };
 
-export default loading;
+export default Loader;

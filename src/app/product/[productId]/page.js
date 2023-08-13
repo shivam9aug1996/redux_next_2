@@ -18,9 +18,9 @@ const page = async ({ params }) => {
 
   //console.log(process.env.NODE_ENV,process.env.API_URL,url)
   res = await res?.json();
-  // await new Promise((res)=>setTimeout(() => {
-  //   res("hi")
-  // }, 5000))
+  await new Promise((res)=>setTimeout(() => {
+    res("hi")
+  }, 3000))
   const { product } = res;
   console.log("mjhgtr456789o", product);
   return (
