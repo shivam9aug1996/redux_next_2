@@ -22,6 +22,7 @@ import CartSkeleton from "./CartSkeleton";
 const Toast = dynamic(() => import("../Toast"));
 const LoaderFull = dynamic(() => import("../LoaderFull"));
 import { encode } from "js-base64";
+import DemoCreditCard from "./DemoCreditCard";
 
 // import Toast from "../Toast";
 
@@ -345,9 +346,9 @@ const CartClient = ({}) => {
         {isSuccess &&
           cartData?.map((item, index) => (
             <div
-            onMouseOver={()=>{
-              router.prefetch(`/product/${item?.productId}`)
-            }}
+              onMouseOver={() => {
+                router.prefetch(`/product/${item?.productId}`);
+              }}
               key={item?.product?._id}
               className="flex flex-col md:flex-row items-center mb-4"
             >
@@ -359,7 +360,7 @@ const CartClient = ({}) => {
               >
                 <div className="image-container w-24 h-32 md:w-32 md:h-44">
                   <Image
-                  unoptimized
+                    unoptimized
                     src={item.product.image}
                     alt={item.product.name}
                     // layout="fill"
@@ -383,7 +384,7 @@ const CartClient = ({}) => {
                     {item.product.name}
                   </p>
                   <p className="text-sm text-gray-600">
-                  &#8377;{item.product.price.toFixed(2)}
+                    &#8377;{item.product.price.toFixed(2)}
                   </p>
                 </div>
                 <div className="flex items-center">
@@ -417,7 +418,7 @@ const CartClient = ({}) => {
                 </div>
               </div>
               <div className="text-lg ml-2">
-              &#8377;{item.quantity * item.product.price.toFixed(2)}
+                &#8377;{item.quantity * item.product.price.toFixed(2)}
               </div>
               {/* <button
             className="text-sm border border-gray-300 rounded-md py-1 px-2 ml-2"
@@ -427,6 +428,8 @@ const CartClient = ({}) => {
           </button> */}
             </div>
           ))}
+       
+       {isSuccess && cartData.length > 0? <DemoCreditCard/>:null}
         {isSuccess && cartData.length > 0 && (
           <div className="flex flex-col items-end mt-4 checkout-button">
             <p className="text-lg">Total: &#8377;{getTotalPrice()}</p>
@@ -438,10 +441,9 @@ const CartClient = ({}) => {
                   onChange={handleCheckboxChange}
                 />
               </label>
-              <span style={{ marginLeft: 5 }}>
-                {"Live Mode"}
-              </span>
+              <span style={{ marginLeft: 5 }}>{"Live Mode"}</span>
             </div>
+
             <button
               onClick={async () => {
                 console.log(cartData);
