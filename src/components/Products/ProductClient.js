@@ -62,6 +62,16 @@ const ProductClient = ({}) => {
   // console.log(userId);
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   // Check if data is null, indicating a potential cache invalidation
+  //   if (data === undefined) {
+      
+  //     // Reset the page number when the cache is invalidated
+  //    dispatch(updatePageNumber(1)) // Dispatch the action to reset the page number
+      
+  //   }
+  // }, [data]);
+
   useEffect(() => {
     if (!isFetching && data) {
       //   let newModData=data?.productList?.map((item,index)=>{

@@ -241,106 +241,7 @@ const CartClient = ({}) => {
         <LoaderFull />
       ) : null}
       {isLoading && <CartSkeleton />}
-      {/* <div style={{ display: "flex", flexDirection: "column" }}>
-        <ul>
-          {isLoading && (
-            <Skeleton height={60} count={10} style={{ marginBottom: 20 }} />
-          )}
-          {isSuccess &&
-            cartData?.map((item, index) => {
-              return (
-                <li
-                  key={item?.product?._id}
-                  className="flex items-center justify-between mb-4"
-                >
-                  <div className="flex flex-1">
-                    <div className="border border-gray-300 rounded p-4 mr-4">
-                      <div className="image-container">
-                        <Image
-                          src={item?.product?.image}
-                          alt={item?.product?.name}
-                          width={120}
-                          height={170}
-                          objectFit="cover"
-                        />
-                      </div>
-                    </div>
-                    <p
-                      className="cursor-pointer"
-                      onClick={() => {
-                        router.push(`/product/${item?.product?._id}`);
-                      }}
-                    >
-                      {item?.product?.name}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-1">
-                    <button
-                      className="mr-2 text-sm border border-gray-300 rounded-md py-1 px-2"
-                      onClick={() =>
-                        removeFromCart({
-                          body: JSON.stringify({
-                            productId: item?.product?._id,
-                          }),
-                          param: userId,
-                        })
-                      }
-                    >
-                      -
-                    </button>
-                    <p className="text-lg">{item?.quantity}</p>
-
-                    <button
-                      className="ml-2 text-sm border border-gray-300 rounded-md py-1 px-2"
-                      onClick={() =>
-                        addToCart({
-                          body: JSON.stringify({
-                            productId: item?.product?._id,
-                          }),
-                          param: userId,
-                        })
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
-                  <p className="text-lg">
-                    ${(item?.product?.price * item?.quantity).toFixed(2)}
-                  </p>
-                </li>
-              );
-            })}
-        </ul>
-        <div className="flex justify-center mt-4">
-          {isSuccess && cartData?.length == 0 ? (
-            <h3>{"Your cart is empty!"}</h3>
-          ) : null}
-          {isSuccess && cartData?.length > 0 ? (
-            <button
-              className="border-2 border-blue-500 rounded-lg py-2 px-4 bg-blue-500 text-white"
-              onClick={() => {
-                console.log(cartData);
-                let modifiedCartData = cartData?.map((item, index) => {
-                  return {
-                    ...item?.product,
-                    quantity: item?.quantity,
-                    productId: item?.productId,
-                  };
-                });
-                console.log(modifiedCartData);
-                createOrder({
-                  body: JSON.stringify(modifiedCartData),
-                  param: userId,
-                });
-              }}
-            >
-              Place Order
-            </button>
-          ) : null}
-        </div>
-        <p className="text-xl mt-4">Total Price: ${totalPrice.toFixed(2)}</p>
-      </div> */}
+      
 
       <div className="flex flex-col">
         {isSuccess &&
@@ -465,6 +366,7 @@ const CartClient = ({}) => {
             >
               Checkout
             </button>
+            <a href="https://razorpay.com/" target="_blank"> <img referrerpolicy="origin" src = "https://badges.razorpay.com/badge-dark.png " style={{height:60,width:150,marginTop:30}}  alt = "Razorpay | Payment Gateway | Neobank"/></a>
           </div>
         )}
         {isSuccess && cartData.length === 0 && (

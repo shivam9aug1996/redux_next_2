@@ -42,6 +42,16 @@ export const productApi = createApi({
         }
        }
       },
+      async onCacheEntryAdded(arg, { dispatch, cacheEntryRemoved }) {
+        cacheEntryRemoved.then(() => {
+          dispatch(updatePageNumber(1));
+        });
+      
+        // `onStart` side-effect
+      //  dispatch(messageCreated('Fetching post...',getCacheEntry()))
+       
+      },
+
         // Only have one cache entry because the arg always maps to one string
         serializeQueryArgs: ({ endpointName }) => {
           return endpointName
@@ -53,6 +63,8 @@ export const productApi = createApi({
           console.log("jy5456oiuygfdfghjk",currentArg,previousArg)
           return currentArg?.[1]?.page !== previousArg?.[1]?.page
         },
+       
+        keepUnusedDataFor:10,
       // forceRefetch({ currentArg, previousArg }) {
       //   return currentArg !== previousArg
       // },
@@ -81,7 +93,12 @@ const productSlice = createSlice({
       state.productList = [...state?.productList,...action?.payload];
     },
     updatePageNumber:(state, action) => {
-      state.pageNumber = parseInt(state.pageNumber)+1
+      if(action?.payload){
+        state.pageNumber = 1
+      }else{
+        state.pageNumber = parseInt(state.pageNumber)+1
+      }
+      
     },
   },
 });
