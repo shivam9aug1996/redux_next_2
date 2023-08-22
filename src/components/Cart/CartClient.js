@@ -366,7 +366,7 @@ const CartClient = ({}) => {
             >
               Checkout
             </button>
-            <a href="https://razorpay.com/" target="_blank"> <img referrerpolicy="origin" src = "https://badges.razorpay.com/badge-dark.png " style={{height:60,width:150,marginTop:30}}  alt = "Razorpay | Payment Gateway | Neobank"/></a>
+            <a href="https://razorpay.com/" target="_blank"> <img referrerPolicy="origin" src = "https://badges.razorpay.com/badge-dark.png " style={{height:60,width:150,marginTop:30}}  alt = "Razorpay | Payment Gateway | Neobank"/></a>
           </div>
         )}
         {isSuccess && cartData.length === 0 && (

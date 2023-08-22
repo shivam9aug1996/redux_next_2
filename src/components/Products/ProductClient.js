@@ -30,7 +30,7 @@ const Button = dynamic(() => import("@/app/product/[productId]/Button"));
 
 const ProductClient = ({}) => {
   const pageNumber = useSelector((state) => state?.products?.pageNumber);
- 
+
   //const [pageNumber, setPgeNumber] = useState(1);
   const [productData, setProductData] = useState([]);
   // const [paginationData,setPaginationData] = useState(null)
@@ -42,10 +42,7 @@ const ProductClient = ({}) => {
     error,
     isFetching,
     isUninitialized,
-  } = useGetProductsQuery([
-    "getProducts",
-    { page: pageNumber},
-  ]);
+  } = useGetProductsQuery(["getProducts", { page: pageNumber }]);
   const router = useRouter();
   const isFetchingRef = useRef(null);
   const paginationDataRef = useRef(null);
@@ -56,7 +53,7 @@ const ProductClient = ({}) => {
   //  // getProducts();
   // }, []);
 
- // const userId = useSelector((state) => state?.auth?.userData?.id);
+  // const userId = useSelector((state) => state?.auth?.userData?.id);
 
   // const userId = state?.auth?.userData?.id;
   // console.log(userId);
@@ -65,10 +62,10 @@ const ProductClient = ({}) => {
   // useEffect(() => {
   //   // Check if data is null, indicating a potential cache invalidation
   //   if (data === undefined) {
-      
+
   //     // Reset the page number when the cache is invalidated
   //    dispatch(updatePageNumber(1)) // Dispatch the action to reset the page number
-      
+
   //   }
   // }, [data]);
 
@@ -219,10 +216,10 @@ const ProductClient = ({}) => {
   //     //handleScroll(isFetchingRef.current, paginationDataRef.current);
   //     console.log("ghu6543wscvgh")
   //   };
-  
+
   //   // Attach the scroll event listener
   //   window.addEventListener("scroll", scrollHandler);
-  
+
   //   // Clean up the event listener on component unmount
   //   return () => {
   //     window.removeEventListener("scroll",()=>{});
@@ -287,7 +284,6 @@ const ProductClient = ({}) => {
 
   return (
     <>
-   
       {/* <button
     
         disabled={isFetching ? true : false}
@@ -366,14 +362,20 @@ const ProductClient = ({}) => {
             );
           })}
       </div>
-      <InfiniteScroll onReachBottom={()=>{
-       if(paginationDataRef.current?.currentPage<paginationDataRef.current?.totalPages&&isFetchingRef.current==false){
-        dispatch(updatePageNumber())
-        console.log("hiuytredfghjk")
-       }
-      }} threshold={200} />
+      <InfiniteScroll
+        onReachBottom={() => {
+          if (
+            paginationDataRef.current?.currentPage <
+              paginationDataRef.current?.totalPages &&
+            isFetchingRef.current == false
+          ) {
+            dispatch(updatePageNumber());
+            console.log("hiuytredfghjk");
+          }
+        }}
+        threshold={200}
+      />
       {isFetching && data?.productList?.length > 0 ? <LoaderFull /> : null}
-      
     </>
   );
 };

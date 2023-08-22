@@ -64,7 +64,7 @@ export const productApi = createApi({
           return currentArg?.[1]?.page !== previousArg?.[1]?.page
         },
        
-        keepUnusedDataFor:10,
+       // keepUnusedDataFor:10,
       // forceRefetch({ currentArg, previousArg }) {
       //   return currentArg !== previousArg
       // },

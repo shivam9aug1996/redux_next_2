@@ -3,7 +3,7 @@ import React from 'react'
 const DemoCreditCard = () => {
   return (
     <>
-       <p class="text-sm text-gray-500 mb-6">
+       <p className="text-sm text-gray-500 mb-6">
           <em>
             If you select "Live Mode," a nominal amount of Rs 2 will be deducted
             to validate the payment process. This ensures a smooth and secure
