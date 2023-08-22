@@ -25,6 +25,7 @@ const Providers = ({ children }) => {
       const script = document.createElement("script");
     script.src = `https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
     script.async = true;
+    script.defer = true;
     document.body.appendChild(script);
     }, 3000);
   }, []);
