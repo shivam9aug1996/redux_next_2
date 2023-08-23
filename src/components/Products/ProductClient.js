@@ -94,12 +94,13 @@ const ProductClient = ({}) => {
             return (
               <div
                 key={item?._id}
-                className={`w-full sm:w-1/2 md:w-1/2 lg:w-1/4 p-4`}
+                className={`w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/4 p-4`}
               >
                 <div className="border border-gray-300 rounded p-4">
                   <Link href={`/product/${item?._id}`}>
                     <div className={`image-container cursor-pointer }`}>
                       <Image
+                     // loading={"lazy"}
                         src={item?.image}
                         alt={item?.name}
                         width={640}
@@ -107,7 +108,7 @@ const ProductClient = ({}) => {
                         className={`w-full mb-2 zoom-effect ${
                           item?.isNew && !isFetching ? "fade-in" : ""
                         }`}
-                        priority
+                        priority={true}
                       />
                     </div>
                   </Link>
