@@ -10,10 +10,10 @@ const Home = () => {
   return (
     <div style={{flex:1}}>
       {/* <ProductList/> */}
-      {/* <ProductClient/> */}
-      <Suspense fallback={<ProductsSkeleton/>}>
+      <ProductClient/>
+      {/* <Suspense fallback={<ProductsSkeleton/>}>
       <ServerProductList/>
-      </Suspense>
+      </Suspense> */}
       
     </div>
   );
