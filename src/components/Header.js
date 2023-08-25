@@ -129,13 +129,19 @@ console.log(currentUrl)
         <div className="hidden md:flex items-center">
           {reduxToken && isMounted ? (
             <div>
-              <button
+              {/* <button
                 onClick={() => {}}
                 className="mr-5 text-gray-300 cursor-text"
                 style={{color:"skyblue"}}
               >
                 {`Welcome ${reduxUserData?.name}`}
-              </button>
+              </button> */}
+               <Link
+                  className={ currentUrl?.startsWith("/account")?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
+                  href="/account"
+                >
+                  {`Welcome ${reduxUserData?.name}`}
+                </Link>
               <Link
                 className={ currentUrl=="/cart"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
                 href="/cart"
@@ -203,12 +209,18 @@ console.log(currentUrl)
           <div className="flex flex-col">
             {reduxToken && isMounted ? (
               <div>
-                <button
+                {/* <button
                   onClick={() => {}}
                   className="mr-5 text-gray-300 cursor-text" style={{color:"skyblue"}}
                 >
                   {`Welcome ${reduxUserData?.name}`}
-                </button>
+                </button> */}
+                <Link
+                  className={ currentUrl?.startsWith("/account")?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
+                  href="/account"
+                >
+                  {`Welcome ${reduxUserData?.name}`}
+                </Link>
                 <Link
                   className={ currentUrl=="/cart"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
                   href="/cart"

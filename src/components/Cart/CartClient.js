@@ -23,6 +23,8 @@ const Toast = dynamic(() => import("../Toast"));
 const LoaderFull = dynamic(() => import("../LoaderFull"));
 import { encode } from "js-base64";
 import DemoCreditCard from "./DemoCreditCard";
+import Address from "@/app/account/address/page";
+import AddressModal from "./AddressModal";
 
 // import Toast from "../Toast";
 
@@ -30,6 +32,7 @@ const CartClient = ({}) => {
   const cartData = useSelector((state) => state?.cart?.cart || []);
   const userId = useSelector((state) => state?.auth?.userData?.id);
   const token = useSelector((state) => state?.auth?.token);
+  const [addressModal,setAddressModal] = useState(false)
   // console.log(state)
   // const userId = state?.auth?.userData?.id;
   // console.log(userId);
@@ -127,7 +130,7 @@ const CartClient = ({}) => {
     });
   };
 
-  const createRazorpayOrder = async () => {
+  const createRazorpayOrder = async (address) => {
     setPaymentLoader(true);
     let orderRes = await fetch("/api/razorpayorder", {
       method: "POST",
@@ -182,6 +185,7 @@ const CartClient = ({}) => {
                   quantity: item?.quantity,
                   productId: item?.productId,
                   razorpay_order_id: orderRes.res1.id,
+                  address
                 };
               });
               console.log(modifiedCartData);
@@ -348,7 +352,8 @@ const CartClient = ({}) => {
             <button
               onClick={async () => {
                 console.log(cartData);
-                await createRazorpayOrder();
+                setAddressModal(true)
+               // await createRazorpayOrder();
                 // let modifiedCartData = cartData?.map((item, index) => {
                 //   return {
                 //     ...item?.product,
@@ -367,6 +372,10 @@ const CartClient = ({}) => {
               Checkout
             </button>
             <a href="https://razorpay.com/" target="_blank"> <img referrerPolicy="origin" src = "https://badges.razorpay.com/badge-dark.png " style={{height:60,width:150,marginTop:30}}  alt = "Razorpay | Payment Gateway | Neobank"/></a>
+            {addressModal?<AddressModal successCallback={async(data)=>{
+              console.log("i876rdfghfdfgh",data)
+              await createRazorpayOrder(data);
+            }} setAddressModal={setAddressModal} />:null}
           </div>
         )}
         {isSuccess && cartData.length === 0 && (

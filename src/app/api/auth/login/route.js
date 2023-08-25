@@ -42,8 +42,8 @@ export async function POST(req, res) {
   }
 
   const token = jwt.sign({ id: user._id }, "secretkey");
-  const { email: userEmail, name } = user;
+  const { email: userEmail, name,addresses } = user;
   cookies().set('token', token)
-  cookies().set('userData', JSON.stringify({ token, email: userEmail, name,id:user._id }))
-  return NextResponse.json({ token, email: userEmail, name,id:user._id }, { status: 200 });
+  cookies().set('userData', JSON.stringify({ token, email: userEmail, name,id:user._id,addresses }))
+  return NextResponse.json({ token, email: userEmail, name,id:user._id,addresses }, { status: 200 });
 }

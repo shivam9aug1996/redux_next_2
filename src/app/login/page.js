@@ -78,7 +78,17 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setRecaptchaTrigger(true)
+    if(process.env.NODE_ENV=="development"){
+      login(
+        JSON.stringify({
+          email: loginStates.email,
+          password: loginStates.password,
+        })
+      );
+    }else{
+      setRecaptchaTrigger(true)
+    }
+    
   };
 
   return (

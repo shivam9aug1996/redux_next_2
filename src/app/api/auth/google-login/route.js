@@ -47,7 +47,7 @@ export async function POST(req, res) {
     if (response.ok) {
       if (userData?.email == data?.email) {
         // The Google sign-in was successful, now handle the user's account in your database
-        const { displayName, email } = userData;
+        const { displayName, email,addresses } = userData;
         const db = await connectDB();
         const existingUser = await db
           .collection("private_users")
@@ -64,6 +64,7 @@ export async function POST(req, res) {
               email,
               name: displayName,
               id: existingUser._id,
+              addresses
             })
           );
           return NextResponse.json(
@@ -77,6 +78,7 @@ export async function POST(req, res) {
             name: displayName,
             email,
             password: hashedPassword,
+            addresses:[]
           });
 
           const token = jwt.sign({ id: newUser.insertedId }, "secretkey");
@@ -88,10 +90,11 @@ export async function POST(req, res) {
               name: displayName,
               email,
               id: newUser.insertedId,
+              addresses:[]
             })
           );
           return NextResponse.json(
-            { token, name: displayName, email, id: newUser.insertedId },
+            { token, name: displayName, email, id: newUser.insertedId,addresses:[] },
             { status: 201 }
           );
         }

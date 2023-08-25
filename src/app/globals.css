@@ -58,6 +58,14 @@
   z-index: 9999; /* Make sure the splash screen is above other elements */
 }
 
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

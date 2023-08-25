@@ -37,10 +37,11 @@ export async function POST(req, res) {
     name,
     email,
     password: hashedPassword,
+    addresses:[]
   });
 
   const token = jwt.sign({ id: results.insertedId }, "secretkey");
   cookies().set('token', token)
-  cookies().set('userData', JSON.stringify({ token, name, email,id:results.insertedId }))
-  return NextResponse.json({ token, name, email,id:results.insertedId }, { status: 201 });
+  cookies().set('userData', JSON.stringify({ token, name, email,id:results.insertedId,addresses:[] }))
+  return NextResponse.json({ token, name, email,id:results.insertedId,addresses:[] }, { status: 201 });
 }
