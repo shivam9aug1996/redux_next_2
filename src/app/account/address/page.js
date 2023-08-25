@@ -21,7 +21,7 @@ const Address = ({ showRadioSelection = false,successCallback,setAddressModal })
 
   useEffect(() => {
     if (userData) {
-      setAddresses(userData?.addresses);
+      setAddresses(userData?.addresses||[]);
     }
   }, [userData?.addresses]);
 
