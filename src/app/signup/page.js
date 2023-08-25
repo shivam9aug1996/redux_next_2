@@ -53,6 +53,7 @@ const Signup = () => {
       })
     );
   };
+  console.log(isError,error)
   return (
     <>
       {isError && (

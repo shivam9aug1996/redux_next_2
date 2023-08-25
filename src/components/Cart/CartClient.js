@@ -33,6 +33,7 @@ const CartClient = ({}) => {
   const userId = useSelector((state) => state?.auth?.userData?.id);
   const token = useSelector((state) => state?.auth?.token);
   const [addressModal,setAddressModal] = useState(false)
+  const [customError,setCustomError] = useState(null)
   // console.log(state)
   // const userId = state?.auth?.userData?.id;
   // console.log(userId);
@@ -80,7 +81,15 @@ const CartClient = ({}) => {
   let [paymentError, setPaymentError] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
-  console.log(isSuccess3);
+  console.log("customError",customError);
+
+  useEffect(()=>{
+    let error=isError||isError1||isError2||isError3||paymentError
+    if(error){
+      
+      setCustomError(error)
+    }
+  },[isError,isError1,isError2,isError3,paymentError])
 
   useEffect(() => {
     if (isSuccess3) {
@@ -185,12 +194,11 @@ const CartClient = ({}) => {
                   quantity: item?.quantity,
                   productId: item?.productId,
                   razorpay_order_id: orderRes.res1.id,
-                  address
                 };
               });
               console.log(modifiedCartData);
               createOrder({
-                body: JSON.stringify(modifiedCartData),
+                body: JSON.stringify({orderList:modifiedCartData,address}),
                 param: userId,
               });
             } else {
@@ -233,14 +241,16 @@ const CartClient = ({}) => {
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
+  console.log(error,error1,error2,error3,paymentError)
 
   return (
     <>
+    {/* {customError?<Toast setCustomError={setCustomError} message={customError}/>:null} */}
       {isError && <Toast message={error.error || error.data.error} />}
       {isError1 && <Toast message={error1.error || error1.data.error} />}
       {isError2 && <Toast message={error2.error || error2.data.error} />}
       {isError3 && <Toast message={error3.error || error3.data.error} />}
-      {paymentError && <Toast message={paymentError} />}
+      {paymentError ? <Toast setCustomError={setPaymentError} message={paymentError} />:null}
       {isLoading1 || isLoading2 || isLoading3 || paymentLoader ? (
         <LoaderFull />
       ) : null}
