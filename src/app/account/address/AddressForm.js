@@ -85,7 +85,7 @@ function AddressForm({ setAddAddress,setEditAddress,editAddress,setSelectedAddre
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
-      {isLoading && <LoaderFull />}
+      {isLoading ? <LoaderFull />:null}
       <form className="bg-white p-8 rounded shadow-md" onSubmit={handleAddAddress}>
       <h2 className="text-2xl font-semibold mb-4">{editAddress?.status? "Edit Address":"Add Address"}</h2>
         {/* <div className="flex gap-5">

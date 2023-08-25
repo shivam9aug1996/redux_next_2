@@ -47,7 +47,7 @@ export async function POST(req, res) {
     if (response.ok) {
       if (userData?.email == data?.email) {
         // The Google sign-in was successful, now handle the user's account in your database
-        const { displayName, email,addresses } = userData;
+        const { displayName, email,addresses=[] } = userData;
         const db = await connectDB();
         const existingUser = await db
           .collection("private_users")
@@ -64,11 +64,11 @@ export async function POST(req, res) {
               email,
               name: displayName,
               id: existingUser._id,
-              addresses
+              addresses:addresses
             })
           );
           return NextResponse.json(
-            { token, email, name: displayName, id: existingUser._id },
+            { token, email, name: displayName, id: existingUser._id ,addresses},
             { status: 200 }
           );
         } else {
