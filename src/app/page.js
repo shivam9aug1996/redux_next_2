@@ -5,10 +5,10 @@ import ProductsSkeleton from "@/components/ServerList/ProductsSkeleton";
 import ServerProductList from "@/components/ServerList/ServerProductList";
 import React, { Suspense } from "react";
 
-export const metadata = {
-  title: 'FastBuy',
-  description: 'FastBuy',
-}
+// export const metadata = {
+//   title: 'FastBuy',
+//   description: 'FastBuy',
+// }
 
 const Home = () => {
   return (

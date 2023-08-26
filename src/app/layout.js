@@ -9,10 +9,10 @@ import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "FastBuy",
-  description: "FastBuy",
-};
+// export const metadata = {
+//   title: "FastBuy",
+//   description: "FastBuy",
+// };
 
 export default function RootLayout({ children }) {
   // const token = cookies()?.get('token')?.value
