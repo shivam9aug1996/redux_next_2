@@ -9,7 +9,7 @@ const ParticularProduct = async({params}) => {
   } else {
     url = `${process.env.API_URL}api/product`;
   }
-  let res = await fetch(`${url}?productId=${params.productId}`);
+  let res = await fetch(`${url}?productId=${params.productId}`,{next:{revalidate:60}});
   res = await res?.json();
   const { product } = res;
   return (
