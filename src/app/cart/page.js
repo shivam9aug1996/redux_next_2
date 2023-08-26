@@ -4,8 +4,8 @@ import CartClient2 from '@/components/Cart/CartClient2'
 import React, { Suspense } from 'react'
 
 export const metadata = {
-  title: 'FastBuy Cart',
-  description: 'FastBuy Cart',
+  title: 'Cart',
+  description: 'Cart',
 }
 
 const Cart = () => {

@@ -6,6 +6,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
+export const metadata = {
+  title: 'Account',
+  description: 'Account',
+}
+
 const Page = () => {
   const userData = useSelector((state) => state?.auth?.userData);
   const [isEditToggle, setIsEditToggle] = useState(false);
