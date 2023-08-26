@@ -100,7 +100,7 @@ const ProductClient = ({}) => {
                   <Link href={`/product/${item?._id}`}>
                     <div className={`image-container cursor-pointer }`}>
                       <Image
-                     // loading={"lazy"}
+                     loading={"lazy"}
                         src={item?.image}
                         alt={item?.name}
                         width={640}
@@ -108,7 +108,7 @@ const ProductClient = ({}) => {
                         className={`w-full mb-2 zoom-effect ${
                           item?.isNew && !isFetching ? "fade-in" : ""
                         }`}
-                        priority={true}
+                       //s priority={true}
                       />
                     </div>
                   </Link>
