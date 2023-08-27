@@ -52,7 +52,7 @@ export async function POST(req, res) {
         const existingUser = await db
           .collection("private_users")
           .findOne({ email });
-
+console.log("existingUser",existingUser)
         if (existingUser) {
           // User already exists, proceed with JWT token generation
           const token = jwt.sign({ id: existingUser._id }, "secretkey");
@@ -62,13 +62,13 @@ export async function POST(req, res) {
             JSON.stringify({
               token,
               email,
-              name: displayName,
+              name: existingUser?.name,
               id: existingUser._id,
-              addresses:addresses
+              addresses:existingUser?.addresses
             })
           );
           return NextResponse.json(
-            { token, email, name: displayName, id: existingUser._id ,addresses},
+            { token, email, name: existingUser?.name, id: existingUser._id ,addresses:existingUser?.addresses},
             { status: 200 }
           );
         } else {
