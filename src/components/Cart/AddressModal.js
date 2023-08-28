@@ -1,4 +1,5 @@
-import Address from '@/app/account/address/page'
+
+import Address from '@/app/account/address/Address'
 import React from 'react'
 
 const AddressModal = ({setAddressModal,successCallback}) => {
