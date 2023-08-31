@@ -4,37 +4,11 @@ import { verifyToken } from "@/app/utils/globalFunctions";
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 import middleware from "../../middleware";
-import multer from "multer";
-// import { cloudinary_js_config } from "@/app/utils/cloudinary";
-import { IncomingForm } from "formidable";
-import { promises as fs } from "fs";
-import { v2 as cloudinary } from "cloudinary";
-import { writeFile } from "fs/promises";
+
+
 import { uploadImage } from "./global";
 
-// import { v2 as cloudinary } from "cloudinary";
-// import fs from "fs/promises";
 
-// cloudinary.config({
-//   cloud_name: "dc2z2c3u8",
-//   api_key: "828193955168214",
-//   api_secret: "Ia_BQ8lpzOXbzzT71rLeJPB8z1U",
-// });
-
-cloudinary.config({
-  cloud_name: "dc2z2c3u8",
-  api_key: "828193955168214",
-  api_secret: "Ia_BQ8lpzOXbzzT71rLeJPB8z1U",
-});
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 export async function GET(req, res) {
   // Extract pagination parameters from the query string
