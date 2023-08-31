@@ -23,6 +23,8 @@ const Toast = dynamic(() => import("@/components/Toast"));
 
 const Login = () => {
   const reduxToken = useSelector((state) => state?.auth?.token);
+  const isAdmin = useSelector((state) => state?.auth?.userData?.isAdmin||false);
+
   const router = useRouter();
   const [login, { isSuccess, data: token, isLoading, isError, error }] =
     useLoginMutation();
@@ -48,18 +50,21 @@ const Login = () => {
 
   const isAuthenticated =
     reduxToken !== undefined && reduxToken !== "" ? true : false;
-
+console.log("8765edfghjdfghjk",isAdmin)
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated&&!isAdmin&&isSuccess) {
       router.replace("/");
     }
-  }, []);
-
-  useEffect(() => {
-    if (isSuccess) {
-      router.replace("/");
+    if (isAuthenticated&&isAdmin&&isSuccess) {
+      router.replace("/admin");
     }
-  }, [isSuccess]);
+  }, [isAdmin,isAuthenticated,isSuccess]);
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     router.replace("/");
+  //   }
+  // }, [isSuccess]);
 
 
   useEffect(() => {

@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+
+
 export async function verifyToken(token) {
   try {
     const decoded = await jwt.verify(token, "secretkey");
@@ -11,7 +13,7 @@ export async function verifyToken(token) {
 
 export const checkProductIsInCart = (cartData, productId) => {
   let data = cartData?.filter((item, index) => {
-    return productId == item?.product._id;
+    return productId == item?.product?._id;
   });
   if (data?.length > 0) return true;
   else return false;
@@ -36,3 +38,18 @@ export const generateReCaptchaToken = async (action = null) => {
     return null;
   }
 };
+
+
+export const objectToFormData=(obj)=> {
+  const formData = new FormData();
+  
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      formData.append(key, value);
+    }
+  }
+  
+  return formData;
+}
+

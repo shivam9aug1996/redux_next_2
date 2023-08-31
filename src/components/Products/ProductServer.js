@@ -1,4 +1,4 @@
-import { connectDB } from "@/app/lib/connectDataBase";
+//import { connectDB } from "@/app/lib/connectDataBase";
 import React, { Suspense } from "react";
 import Skeleton from "react-loading-skeleton";
 import ProductClient from "./ProductClient";

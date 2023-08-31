@@ -19,8 +19,7 @@ const ParticularProduct = async({params}) => {
       <ImageClient product={product}/>
      
       <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-      <p className="text-gray-600">&#8377;{product?.price?.toFixed(2)}</p>
-
+      <p className="text-gray-600">&#8377;{product?.price?Number.parseFloat(product?.price).toFixed(2):"N/A"}</p>
       <Button productId={params.productId} />
     </div>
   </div>

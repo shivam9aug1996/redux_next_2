@@ -14,7 +14,7 @@ export async function POST(req, res) {
     );
   }
 
-  const { name, email, password } = await req.json();
+  const { name, email, password,isAdmin } = await req.json();
   console.log(name, email, password);
   if (!name || !email || !password) {
     return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(req, res) {
     name,
     email,
     password: hashedPassword,
-    addresses:[]
+    addresses:[],
   });
 
   const token = jwt.sign({ id: results.insertedId }, "secretkey");

@@ -119,7 +119,7 @@ const CartClient = ({}) => {
   const getTotalPrice = () => {
     let total = 0;
     cartData.forEach((item) => {
-      total += item.quantity * item.product.price;
+      total += item?.quantity * item?.product?.price;
     });
     return total.toFixed(2);
   };
@@ -276,8 +276,8 @@ const CartClient = ({}) => {
                 <div className="image-container w-24 h-32 md:w-32 md:h-44">
                   <Image
                     unoptimized
-                    src={item.product.image}
-                    alt={item.product.name}
+                    src={item?.product?.image}
+                    alt={item?.product?.name}
                     // layout="fill"
                     // objectFit="cover"
                     //loading="lazy"
@@ -296,10 +296,10 @@ const CartClient = ({}) => {
                     }}
                     className="text-lg cursor-pointer"
                   >
-                    {item.product.name}
+                    {item?.product?.name}
                   </p>
                   <p className="text-sm text-gray-600">
-                    &#8377;{item.product.price.toFixed(2)}
+                    &#8377;{item?.product?.price?Number.parseFloat(item?.product?.price).toFixed(2):0}
                   </p>
                 </div>
                 <div className="flex items-center">
@@ -316,7 +316,7 @@ const CartClient = ({}) => {
                   >
                     -
                   </button>
-                  <p className="text-lg">{item.quantity}</p>
+                  <p className="text-lg">{item?.quantity}</p>
                   <button
                     className="text-sm border border-gray-300 rounded-md py-1 px-2 ml-2"
                     onClick={() =>
@@ -333,7 +333,7 @@ const CartClient = ({}) => {
                 </div>
               </div>
               <div className="text-lg ml-2">
-                &#8377;{item.quantity * item.product.price.toFixed(2)}
+                &#8377;{item?.quantity * item?.product?.price?Number.parseFloat(item?.product?.price).toFixed(2):0}
               </div>
               {/* <button
             className="text-sm border border-gray-300 rounded-md py-1 px-2 ml-2"

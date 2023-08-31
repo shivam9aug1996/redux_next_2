@@ -1,8 +1,10 @@
 "use client"
+import withAuth from "@/components/withAuth";
+import withMounted from "@/components/withMounted";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function AccountLayout({ children }) {
+const AccountLayout=({ children })=> {
   const currentUrl = usePathname()
   return (
     <div className="flex flex-col md:flex-row">
@@ -14,3 +16,4 @@ export default function AccountLayout({ children }) {
     </div>
   );
 }
+export default withAuth(withMounted(AccountLayout))

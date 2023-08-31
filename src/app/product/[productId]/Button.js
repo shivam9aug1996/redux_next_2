@@ -60,7 +60,7 @@ const Button = ({ productId }) => {
         <Link href={"/cart"}>
           <button
             onClick={(e) => {}}
-            className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4`}
+            className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4 w-full`}
           >
             {"Go to cart"}
           </button>

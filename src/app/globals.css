@@ -14,8 +14,8 @@
 .image-container {
   position: relative;
   overflow: hidden;
-  height: 0;
-  padding-bottom: 150%;
+  /* height: 0;
+  padding-bottom: 150%; */
 }
 
 .zoom-effect {
@@ -65,6 +65,61 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+/* Responsive layout for the product list */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Styling for each product item */
+.product-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  /* Ensure a fixed height for consistent alignment */
+  
+}
+
+/* Container for image */
+.image-container {
+  flex-grow: 1; /* Allow image to grow within the container */
+}
+
+/* Title style */
+.product-name {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  cursor: pointer;
+  /* Set a fixed height for the product name */
+  height: 60px; /* Adjust based on your design */
+  /* Hide overflow to prevent button shift */
+  overflow: hidden;
+}
+
+/* Price style */
+.product-price {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: repeat(2, minmax(150px, 1fr)); /* Show 2 columns */
+  }
+}
+
+/* "Add to Cart" button style */
+/* Style your button here */
+
+
 
 @keyframes fadeIn {
   from {

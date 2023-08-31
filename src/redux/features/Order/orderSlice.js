@@ -30,7 +30,7 @@ export const orderApi = createApi({
         method: "GET",
       }),
       providesTags:['order'],
-      keepUnusedDataFor:600,
+     // keepUnusedDataFor:600,
     }),
     
   }),

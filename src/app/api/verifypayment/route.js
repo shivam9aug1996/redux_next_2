@@ -18,7 +18,7 @@ export async function POST(req, res) {
     let data = items?.data;
     let secretKey = data?.isLive
       ? process.env.RAZORPAY_SECRET_LIVE
-      : process.env.RAZORPAY_SECRET;
+      : process.env.RAZORPAY_SECRET
     let generated_signature = HmacSHA256(
       data?.check_order_id + "|" + data?.razorpay_payment_id,
       secretKey
