@@ -116,6 +116,14 @@
   }
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 /* "Add to Cart" button style */
 /* Style your button here */
 

@@ -298,9 +298,9 @@ const CartClient = ({}) => {
                   >
                     {item?.product?.name}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  {/* <p className="text-sm text-gray-600">
                     &#8377;{item?.product?.price?Number.parseFloat(item?.product?.price).toFixed(2):0}
-                  </p>
+                  </p> */}
                 </div>
                 <div className="flex items-center">
                   <button

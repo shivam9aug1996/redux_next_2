@@ -23,7 +23,7 @@ const LoaderFull = dynamic(() => import("./LoaderFull"));
 // import Toast from "./Toast";
 
 const Header = () => {
-  const currentUrl = usePathname()
+  const currentUrl = usePathname();
   // const userId = useSelector((state) => state?.auth?.userData?.id);
   const cartData = useSelector((state) => state?.cart?.cart);
   const cartValue = useSelector((state) => state?.cart?.cartValue);
@@ -37,7 +37,7 @@ const Header = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
   //const name = userData?.name;
-console.log(cartValue)
+  console.log(cartValue);
   const {
     data,
     isSuccess: isSuccess1,
@@ -49,7 +49,7 @@ console.log(cartValue)
   );
   const router = useRouter();
   const dispatch = useDispatch();
- // const cartValue = cartData?.length;
+  // const cartValue = cartData?.length;
 
   useEffect(() => {
     setIsMounted(true);
@@ -67,7 +67,7 @@ console.log(cartValue)
       dispatch(cartApi.util.resetApiState());
       dispatch(orderApi.util.resetApiState());
       dispatch(resetCartSlice());
-      dispatch(authApi.util.resetApiState())
+      dispatch(authApi.util.resetApiState());
       setSkip(true); // Set skip to true to prevent additional queries
       router.replace("/");
     }
@@ -103,9 +103,17 @@ console.log(cartValue)
   const handleMenuToggle = () => {
     setMenuOpen(!isMenuOpen);
   };
-console.log(currentUrl)
+  function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+  }
+
+  function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+  }
+
+  console.log(currentUrl);
   return (
-    <header className="bg-gray-800 py-4 sticky z-30" style={{top:-1}}>
+    <header className="bg-gray-800 py-4 sticky z-30" style={{ top: -1 }}>
       {isLoading && <LoaderFull />}
       {isError && (
         <Toast
@@ -136,21 +144,32 @@ console.log(currentUrl)
               >
                 {`Welcome ${reduxUserData?.name}`}
               </button> */}
-               <Link
-                  className={ currentUrl?.startsWith("/account")?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
-                  href="/account"
-                >
-                  {`Welcome ${reduxUserData?.name}`}
-                </Link>
               <Link
-                className={ currentUrl=="/cart"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
+                className={
+                  currentUrl?.startsWith("/account")
+                    ? `mr-5 text-red-300 hover:text-red cursor-pointer`
+                    : `mr-5 text-gray-300 hover:text-white cursor-pointer`
+                }
+                href="/account"
+              >
+                {`Welcome ${reduxUserData?.name}`}
+              </Link>
+              <Link
+                className={
+                  currentUrl == "/cart"
+                    ? `mr-5 text-red-300 hover:text-red cursor-pointer`
+                    : `mr-5 text-gray-300 hover:text-white cursor-pointer`
+                }
                 href="/cart"
-                
               >
                 {`Cart (${cartValue})`}
               </Link>
               <Link
-                className={ currentUrl=="/order"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
+                className={
+                  currentUrl == "/order"
+                    ? `mr-5 text-red-300 hover:text-red cursor-pointer`
+                    : `mr-5 text-gray-300 hover:text-white cursor-pointer`
+                }
                 href="/order"
               >
                 {`Order`}
@@ -167,13 +186,21 @@ console.log(currentUrl)
           ) : (
             <div>
               <Link
-                className={ currentUrl=="/login"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
+                className={
+                  currentUrl == "/login"
+                    ? `mr-5 text-red-300 hover:text-red cursor-pointer`
+                    : `mr-5 text-gray-300 hover:text-white cursor-pointer`
+                }
                 href="/login"
               >
                 Login
               </Link>
               <Link
-                className={ currentUrl=="/signup"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
+                className={
+                  currentUrl == "/signup"
+                    ? `mr-5 text-red-300 hover:text-red cursor-pointer`
+                    : `mr-5 text-gray-300 hover:text-white cursor-pointer`
+                }
                 href="/signup"
               >
                 Signup
@@ -204,60 +231,93 @@ console.log(currentUrl)
           </button>
         </div>
       </nav>
+
       {isMenuOpen && (
-        <div className="md:hidden bg-gray-800 py-2 px-4">
-          <div className="flex flex-col">
-            {reduxToken && isMounted ? (
-              <div>
-                {/* <button
-                  onClick={() => {}}
-                  className="mr-5 text-gray-300 cursor-text" style={{color:"skyblue"}}
-                >
-                  {`Welcome ${reduxUserData?.name}`}
-                </button> */}
-                <Link
-                  className={ currentUrl?.startsWith("/account")?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
-                  href="/account"
-                >
-                  {`Welcome ${reduxUserData?.name}`}
-                </Link>
-                <Link
-                  className={ currentUrl=="/cart"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
-                  href="/cart"
-                >
-                  {`Cart (${cartValue})`}
-                </Link>
-                <Link
-                  className={ currentUrl=="/order"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
-                  href="/order"
-                >
-                  {`Order`}
-                </Link>
-                <button
-                  onClick={() => {
-                    logout();
-                  }}
-                  className={`mr-5 text-gray-300 hover:text-white cursor-pointer`}
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div>
-                <Link
-                  className={ currentUrl=="/login"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
-                  href="/login"
-                >
-                  Login
-                </Link>
-                <Link
-                   className={ currentUrl=="/signup"?`mr-5 text-red-300 hover:text-red cursor-pointer`:`mr-5 text-gray-300 hover:text-white cursor-pointer`}
-                  href="/signup"
-                >
-                  Signup
-                </Link>
-              </div>
-            )}
+        <div className="fixed top-0 right-0 bottom-0 z-50 md:hidden bg-gray-800 py-2 px-4 w-64" style={{ animation: 'slideIn .3s ease-out' }}>
+          <div className="flex flex-col h-full mt-2">
+            <div className="flex justify-end items-center mb-4">
+              {/* <h1 className="text-white text-xl font-semibold">Menu</h1> */}
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-gray-400 hover:text-white cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+            {/* Sidebar content */}
+            <div className="flex-grow">
+              {reduxToken && isMounted ? (
+                <div className="mb-4 flex flex-col">
+                  <Link
+                 onClick={() => setMenuOpen(false)}
+                    className={
+                      currentUrl?.startsWith("/account")
+                        ? "text-red-300 hover:text-red cursor-pointer mb-2"
+                        : "text-gray-300 hover:text-white cursor-pointer mb-2"
+                    }
+                    href="/account"
+                  >
+                    {"Profile"}
+                  </Link>
+                  <Link
+                  onClick={() => setMenuOpen(false)}
+                    className={
+                      currentUrl === "/cart"
+                        ? "text-red-300 hover:text-red cursor-pointer mb-2"
+                        : "text-gray-300 hover:text-white cursor-pointer mb-2"
+                    }
+                    href="/cart"
+                  >
+                    Cart ({cartValue})
+                  </Link>
+                  <Link
+                  onClick={() => setMenuOpen(false)}
+                    className={
+                      currentUrl === "/order"
+                        ? "text-red-300 hover:text-red cursor-pointer mb-2"
+                        : "text-gray-300 hover:text-white cursor-pointer mb-2"
+                    }
+                    href="/order"
+                  >
+                    Order
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                     setMenuOpen(false)
+                    }}
+                    className="text-gray-300 hover:text-white cursor-pointer mb-2"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="mb-4 flex flex-col">
+                  <Link
+                  onClick={() => setMenuOpen(false)}
+                    className={
+                      currentUrl === "/login"
+                        ? "text-red-300 hover:text-red cursor-pointer mb-2"
+                        : "text-gray-300 hover:text-white cursor-pointer mb-2"
+                    }
+                    href="/login"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                  onClick={() => setMenuOpen(false)}
+                    className={
+                      currentUrl === "/signup"
+                        ? "text-red-300 hover:text-red cursor-pointer mb-2"
+                        : "text-gray-300 hover:text-white cursor-pointer mb-2"
+                    }
+                    href="/signup"
+                  >
+                    Signup
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
