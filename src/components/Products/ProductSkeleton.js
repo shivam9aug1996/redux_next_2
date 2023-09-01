@@ -15,7 +15,7 @@ const ProductItemSkeleton = () => {
             <Skeleton width={"40%"} className="product-price" height={"80%"} style={{marginTop:10}} />
          
 
-          <Skeleton className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4`} />
+          <Skeleton className={` text-white font-bold py-2 px-4 rounded mt-4`} />
         
       </div>
     );
