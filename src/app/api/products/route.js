@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import middleware from "../../middleware";
 
 
-import { uploadImage } from "./global";
+import { checkAdminStatus, uploadImage } from "./global";
 
 
 
@@ -271,20 +271,3 @@ export async function PUT(req, res) {
   }
 }
 
-export const checkAdminStatus = async (userId, database) => {
-  try {
-    const collection = await database.collection("private_users");
-
-    // Assuming your user document has an 'isAdmin' field
-    const user = await collection.findOne({ _id: new ObjectId(userId) });
-    console.log("jhgre56789", user);
-    if (user && user.isAdmin) {
-      return true; // User is an admin
-    } else {
-      return false; // User is not an admin
-    }
-  } catch (error) {
-    console.error("Error checking admin status:", error);
-    return false; // Error occurred, treat user as non-admin
-  }
-};

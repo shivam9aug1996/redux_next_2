@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import { v2 as cloudinary } from "cloudinary";
 import { writeFile } from "fs/promises";
+import { ObjectId } from "mongodb";
 
 cloudinary.config({
   cloud_name: "dc2z2c3u8",
@@ -39,3 +40,22 @@ export const uploadImage=async(imageFile)=>{
         console.log("u7trdfghjk", error);
       }
 }
+
+
+export const checkAdminStatus = async (userId, database) => {
+  try {
+    const collection = await database.collection("private_users");
+
+    // Assuming your user document has an 'isAdmin' field
+    const user = await collection.findOne({ _id: new ObjectId(userId) });
+    console.log("jhgre56789", user);
+    if (user && user.isAdmin) {
+      return true; // User is an admin
+    } else {
+      return false; // User is not an admin
+    }
+  } catch (error) {
+    console.error("Error checking admin status:", error);
+    return false; // Error occurred, treat user as non-admin
+  }
+};

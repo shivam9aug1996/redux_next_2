@@ -1,6 +1,7 @@
 "use client";
 import LoaderFull from "@/components/LoaderFull";
 import withAuth from "@/components/withAuth";
+import { adminHomeApi } from "@/redux/features/AdminHome/adminHomeSlice";
 import { useUpdateProfileMutation } from "@/redux/features/Auth/authSlice";
 import {
   useDeleteCategoryMutation,
@@ -10,12 +11,13 @@ import {
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CategoryForm from "./CategoryForm";
 import CategorySkeleton from "./CategorySkeleton";
 
 const Categories = ({ successCallback, setAddressModal }) => {
   const reduxCategories = useSelector((state) => state?.category?.categories);
+  const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
   const [addCategory, setAddCategory] = useState(false);
   const [editCategory, setEditCategory] = useState({
@@ -37,6 +39,12 @@ const Categories = ({ successCallback, setAddressModal }) => {
   ] = useDeleteCategoryMutation();
 
   console.log(data);
+
+  useEffect(() => {
+    if (isSuccess1) {
+      dispatch(adminHomeApi.util.invalidateTags(["admin"]));
+    }
+  }, [isSuccess1]);
 
   useEffect(() => {
     setCategories(reduxCategories);
@@ -74,7 +82,9 @@ const Categories = ({ successCallback, setAddressModal }) => {
               className={`flex max-w-md items-center sm:flex-row flex-col border p-5 m-5 gap-5`}
               key={item?._id}
             >
-              <p className="">{item?.name}</p>
+              <div style={{minWidth:250,display:"flex",justifyContent:"center"}}>
+              <p >{item?.name}</p>
+              </div>
 
               <div className="flex justify-end mt-2">
                 <button

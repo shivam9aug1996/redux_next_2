@@ -25,6 +25,7 @@ export const categoryApi = createApi({
           body: data?.body,
         })
       },
+      //invalidatesTags: ['category',"admin"],
     }),
     getCategories: builder.query({
       query: () => ({

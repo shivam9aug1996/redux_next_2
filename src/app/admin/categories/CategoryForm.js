@@ -1,8 +1,10 @@
 import LoaderFull from "@/components/LoaderFull";
+import { adminHomeApi } from "@/redux/features/AdminHome/adminHomeSlice";
 import { useUpdateProfileMutation } from "@/redux/features/Auth/authSlice";
-import { useCreateCategoryMutation, useUpdateCategoryMutation } from "@/redux/features/Category/categorySlice";
+import { categoryApi, useCreateCategoryMutation, useUpdateCategoryMutation } from "@/redux/features/Category/categorySlice";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 function CategoryForm({ setAddCategory, setEditCategory, editCategory }) {
   const [createCategory, { isLoading, isError, error, isSuccess }] =
@@ -14,6 +16,7 @@ function CategoryForm({ setAddCategory, setEditCategory, editCategory }) {
       isSuccess: isSuccess1,
     }] =
     useUpdateCategoryMutation();
+    const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     name: "",
   });
@@ -31,6 +34,9 @@ function CategoryForm({ setAddCategory, setEditCategory, editCategory }) {
     if (isSuccess||isSuccess1) {
       setAddCategory(false);
       setEditCategory({ status: false, value: null });
+    }
+    if(isSuccess){
+      dispatch(adminHomeApi.util.invalidateTags(["admin"]))
     }
   }, [isSuccess,isSuccess1]);
 

@@ -1,5 +1,6 @@
 import { objectToFormData } from "@/app/utils/globalFunctions";
 import LoaderFull from "@/components/LoaderFull";
+import { adminHomeApi } from "@/redux/features/AdminHome/adminHomeSlice";
 import { useGetCategoriesQuery } from "@/redux/features/Category/categorySlice";
 import {
   useCreateProductMutation,
@@ -7,10 +8,11 @@ import {
 } from "@/redux/features/Product/productSlice";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductForm = ({ setAddProduct, setEditProduct, editProduct }) => {
   const reduxCategories = useSelector((state) => state?.category?.categories);
+  const dispatch = useDispatch()
   const [createProduct, { isLoading, isError, error, isSuccess }] =
     useCreateProductMutation();
   const [
@@ -61,6 +63,9 @@ const ProductForm = ({ setAddProduct, setEditProduct, editProduct }) => {
     if (isSuccess || isSuccess2) {
       setAddProduct(false);
       setEditProduct({ status: false, value: null });
+    }
+    if(isSuccess){
+      dispatch(adminHomeApi.util.invalidateTags(["admin"]))
     }
   }, [isSuccess || isSuccess2]);
 

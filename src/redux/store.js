@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import adminHomeSlice, { adminHomeApi } from "./features/AdminHome/adminHomeSlice";
 import authSlice, { authApi } from "./features/Auth/authSlice";
 import cartSlice, { cartApi } from "./features/Cart/cartSlice";
 import categorySlice, { categoryApi } from "./features/Category/categorySlice";
@@ -16,11 +17,13 @@ const store = configureStore({
     [cartApi.reducerPath]:cartApi.reducer,
     [orderApi.reducerPath]:orderApi.reducer,
     [categoryApi.reducerPath]:categoryApi.reducer,
+    [adminHomeApi.reducerPath]:adminHomeApi.reducer,
     auth: authSlice,
     products: productSlice,
     cart:cartSlice,
     order:orderSlice,
     category:categorySlice,
+    adminHome:adminHomeSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -29,7 +32,8 @@ const store = configureStore({
       .concat(productApi.middleware)
       .concat(cartApi.middleware)
       .concat(orderApi.middleware)
-      .concat(categoryApi.middleware),
+      .concat(categoryApi.middleware)
+      .concat(adminHomeApi.middleware)
 });
 
 export default store;
