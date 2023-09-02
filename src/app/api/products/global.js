@@ -3,6 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { writeFile } from "fs/promises";
 import { ObjectId } from "mongodb";
 
+
 cloudinary.config({
   cloud_name: "dc2z2c3u8",
   api_key: "828193955168214",
@@ -16,7 +17,7 @@ export const uploadImage=async(imageFile)=>{
   const bytes = await imageFile.arrayBuffer();
       const buffer = Buffer.from(bytes);
       
-      const path = `./public/uploads/${imageFile.name}`;
+      const path = `./${imageFile.name}`;
      
       try {
         await writeFile(path, buffer);
