@@ -29,6 +29,9 @@ const Header = () => {
   const cartValue = useSelector((state) => state?.cart?.cartValue);
   const reduxToken = useSelector((state) => state?.auth?.token);
   const reduxUserData = useSelector((state) => state?.auth?.userData);
+  const isAdmin = useSelector(
+    (state) => state?.auth?.userData?.isAdmin || false
+  );
 
   const [logout, { isSuccess, isLoading, isError, error }] =
     useLogoutMutation();
@@ -129,7 +132,7 @@ const Header = () => {
         <div className="ml-5">
           <Link
             className="font-bold text-white tracking-wide cursor-pointer"
-            href="/"
+            href= {isAdmin?"/admin":"/"}
           >
             FastBuy
           </Link>
@@ -154,26 +157,30 @@ const Header = () => {
               >
                 {`Welcome ${reduxUserData?.name}`}
               </Link>
-              <Link
-                className={
-                  currentUrl == "/cart"
-                    ? `mr-5 text-red-300 hover:text-red cursor-pointer`
-                    : `mr-5 text-gray-300 hover:text-white cursor-pointer`
-                }
-                href="/cart"
-              >
-                {`Cart (${cartValue})`}
-              </Link>
-              <Link
-                className={
-                  currentUrl == "/order"
-                    ? `mr-5 text-red-300 hover:text-red cursor-pointer`
-                    : `mr-5 text-gray-300 hover:text-white cursor-pointer`
-                }
-                href="/order"
-              >
-                {`Order`}
-              </Link>
+              {!isAdmin ? (
+                <>
+                  <Link
+                    className={
+                      currentUrl == "/cart"
+                        ? `mr-5 text-red-300 hover:text-red cursor-pointer`
+                        : `mr-5 text-gray-300 hover:text-white cursor-pointer`
+                    }
+                    href="/cart"
+                  >
+                    {`Cart (${cartValue})`}
+                  </Link>
+                  <Link
+                    className={
+                      currentUrl == "/order"
+                        ? `mr-5 text-red-300 hover:text-red cursor-pointer`
+                        : `mr-5 text-gray-300 hover:text-white cursor-pointer`
+                    }
+                    href="/order"
+                  >
+                    {`Order`}
+                  </Link>
+                </>
+              ) : null}
               <button
                 onClick={() => {
                   logout();
@@ -233,7 +240,10 @@ const Header = () => {
       </nav>
 
       {isMenuOpen && (
-        <div className="fixed top-0 right-0 bottom-0 z-50 md:hidden bg-gray-800 py-2 px-4 w-64" style={{ animation: 'slideIn .3s ease-out' }}>
+        <div
+          className="fixed top-0 right-0 bottom-0 z-50 md:hidden bg-gray-800 py-2 px-4 w-64"
+          style={{ animation: "slideIn .3s ease-out" }}
+        >
           <div className="flex flex-col h-full mt-2">
             <div className="flex justify-end items-center mb-4">
               {/* <h1 className="text-white text-xl font-semibold">Menu</h1> */}
@@ -249,7 +259,7 @@ const Header = () => {
               {reduxToken && isMounted ? (
                 <div className="mb-4 flex flex-col">
                   <Link
-                 onClick={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpen(false)}
                     className={
                       currentUrl?.startsWith("/account")
                         ? "text-red-300 hover:text-red cursor-pointer mb-2"
@@ -260,7 +270,7 @@ const Header = () => {
                     {"Profile"}
                   </Link>
                   <Link
-                  onClick={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpen(false)}
                     className={
                       currentUrl === "/cart"
                         ? "text-red-300 hover:text-red cursor-pointer mb-2"
@@ -271,7 +281,7 @@ const Header = () => {
                     Cart ({cartValue})
                   </Link>
                   <Link
-                  onClick={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpen(false)}
                     className={
                       currentUrl === "/order"
                         ? "text-red-300 hover:text-red cursor-pointer mb-2"
@@ -284,7 +294,7 @@ const Header = () => {
                   <button
                     onClick={() => {
                       logout();
-                     setMenuOpen(false)
+                      setMenuOpen(false);
                     }}
                     className="text-gray-300 hover:text-white cursor-pointer mb-2"
                   >
@@ -294,7 +304,7 @@ const Header = () => {
               ) : (
                 <div className="mb-4 flex flex-col">
                   <Link
-                  onClick={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpen(false)}
                     className={
                       currentUrl === "/login"
                         ? "text-red-300 hover:text-red cursor-pointer mb-2"
@@ -305,7 +315,7 @@ const Header = () => {
                     Login
                   </Link>
                   <Link
-                  onClick={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpen(false)}
                     className={
                       currentUrl === "/signup"
                         ? "text-red-300 hover:text-red cursor-pointer mb-2"
