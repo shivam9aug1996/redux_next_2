@@ -17,6 +17,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
+import { useLayoutEffect } from "react";
 const Toast = dynamic(() => import("./Toast"));
 const LoaderFull = dynamic(() => import("./LoaderFull"));
 // import LoaderFull from "./LoaderFull";
@@ -52,6 +53,7 @@ const Header = () => {
   );
   const router = useRouter();
   const dispatch = useDispatch();
+  const adminRedirectURLs=['/','/order','/cart']
   // const cartValue = cartData?.length;
 
   useEffect(() => {
@@ -103,6 +105,24 @@ const Header = () => {
     }
   }, [reduxUserData, reduxToken, isMounted, isSuccess]);
 
+  // useLayoutEffect(() => {
+  //   if (isAdmin && currentUrl == "/") {
+  //     router.push("/admin");
+  //   }
+  //   if (isAdmin && currentUrl == "/cart") {
+  //     router.push("/admin");
+  //   }
+  //   if (isAdmin && currentUrl == "/order") {
+  //     router.push("/admin");
+  //   }
+  // }, [isAdmin]);
+
+  useLayoutEffect(() => {
+    if (isAdmin && adminRedirectURLs.includes(currentUrl)) {
+      router.push('/admin');
+    }
+  }, [isAdmin, currentUrl]);
+
   const handleMenuToggle = () => {
     setMenuOpen(!isMenuOpen);
   };
@@ -132,7 +152,7 @@ const Header = () => {
         <div className="ml-5">
           <Link
             className="font-bold text-white tracking-wide cursor-pointer"
-            href= {isAdmin?"/admin":"/"}
+            href={isAdmin ? "/admin" : "/"}
           >
             FastBuy
           </Link>
@@ -147,6 +167,16 @@ const Header = () => {
               >
                 {`Welcome ${reduxUserData?.name}`}
               </button> */}
+               <Link
+                className={
+                  currentUrl=="/"||currentUrl=="/admin"
+                    ? `mr-5 text-red-300 hover:text-red cursor-pointer`
+                    : `mr-5 text-gray-300 hover:text-white cursor-pointer`
+                }
+                href={isAdmin ? "/admin" : "/"}
+              >
+                {`Home`}
+              </Link>
               <Link
                 className={
                   currentUrl?.startsWith("/account")
@@ -155,7 +185,7 @@ const Header = () => {
                 }
                 href="/account"
               >
-                {`Welcome ${reduxUserData?.name}`}
+                {`Profile`}
               </Link>
               {!isAdmin ? (
                 <>
@@ -258,6 +288,18 @@ const Header = () => {
             <div className="flex-grow">
               {reduxToken && isMounted ? (
                 <div className="mb-4 flex flex-col">
+
+              <Link
+                    onClick={() => setMenuOpen(false)}
+                    className={
+                      currentUrl=="/"||currentUrl=="/admin"
+                        ? "text-red-300 hover:text-red cursor-pointer mb-2"
+                        : "text-gray-300 hover:text-white cursor-pointer mb-2"
+                    }
+                    href={isAdmin ? "/admin" : "/"}
+                  >
+                    {"Home"}
+                  </Link>
                   <Link
                     onClick={() => setMenuOpen(false)}
                     className={
@@ -269,28 +311,32 @@ const Header = () => {
                   >
                     {"Profile"}
                   </Link>
-                  <Link
-                    onClick={() => setMenuOpen(false)}
-                    className={
-                      currentUrl === "/cart"
-                        ? "text-red-300 hover:text-red cursor-pointer mb-2"
-                        : "text-gray-300 hover:text-white cursor-pointer mb-2"
-                    }
-                    href="/cart"
-                  >
-                    Cart ({cartValue})
-                  </Link>
-                  <Link
-                    onClick={() => setMenuOpen(false)}
-                    className={
-                      currentUrl === "/order"
-                        ? "text-red-300 hover:text-red cursor-pointer mb-2"
-                        : "text-gray-300 hover:text-white cursor-pointer mb-2"
-                    }
-                    href="/order"
-                  >
-                    Order
-                  </Link>
+                  {!isAdmin ? (
+                    <>
+                      <Link
+                        onClick={() => setMenuOpen(false)}
+                        className={
+                          currentUrl === "/cart"
+                            ? "text-red-300 hover:text-red cursor-pointer mb-2"
+                            : "text-gray-300 hover:text-white cursor-pointer mb-2"
+                        }
+                        href="/cart"
+                      >
+                        Cart ({cartValue})
+                      </Link>
+                      <Link
+                        onClick={() => setMenuOpen(false)}
+                        className={
+                          currentUrl === "/order"
+                            ? "text-red-300 hover:text-red cursor-pointer mb-2"
+                            : "text-gray-300 hover:text-white cursor-pointer mb-2"
+                        }
+                        href="/order"
+                      >
+                        Order
+                      </Link>
+                    </>
+                  ) : null}
                   <button
                     onClick={() => {
                       logout();
