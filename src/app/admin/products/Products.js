@@ -104,6 +104,7 @@ const Products = () => {
                   style={{ minWidth: 200 }}
                 >
                   <div className="border border-gray-300 rounded p-4">
+                    {item?.image?
                     <Link href={`/product/${item?._id}`}>
                       <div className={`image-container cursor-pointer }`}>
                         <Image
@@ -118,7 +119,7 @@ const Products = () => {
                           //s priority={true}
                         />
                       </div>
-                    </Link>
+                    </Link>:null}
 
                     <Link href={`/product/${item?._id}`}>
                       <h3 className="text-lg font-semibold mb-2 cursor-pointer">
