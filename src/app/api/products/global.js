@@ -1,8 +1,9 @@
 import { promises as fs } from "fs";
 import { v2 as cloudinary } from "cloudinary";
-import { writeFile } from "fs/promises";
+import { writeFile,writeFileAsync } from "fs/promises";
 import { ObjectId } from "mongodb";
 import path from "path";
+import tmp from 'tmp';
 
 
 
@@ -18,22 +19,27 @@ export const uploadImage=async(imageFile)=>{
   console.log("iuytfdfghj",imageFile)
   const bytes = await imageFile.arrayBuffer();
       const buffer = Buffer.from(bytes);
-      const uploadDir = path.join(process.cwd(), 'uploads');
+      const { name: tmpFileName, fd: tmpFileDescriptor } = tmp.fileSync();
+
+    //  const uploadDir = path.join(process.cwd(), 'uploads');
      // const uploadDir = `./${imageFile.name}`;
      
       try {
-        await writeFile(uploadDir, buffer);
+       // await writeFile(uploadDir, buffer);
+       await writeFile(tmpFileName, buffer);
+
       } catch (error) {
         console.log(error);
       }
      
       try {
-        const uploadResult = await cloudinary.uploader.upload(uploadDir, {
+        const uploadResult = await cloudinary.uploader.upload(tmpFileName, {
           public_id: `uploaded-images/${imageFile.name}`, // Adjust the public_id as needed
         });
         imageUrl = uploadResult?.secure_url;
         try {
-          await fs.unlink(uploadDir);
+        //  await fs.unlink(uploadDir);
+        tmp.setGracefulCleanup(); 
           console.log('File deleted successfully');
           return imageUrl
         } catch (error) {
