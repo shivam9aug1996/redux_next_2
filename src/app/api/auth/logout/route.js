@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function GET(req, res) {
-  if (req.method !== "GET") {
+export async function POST(req, res) {
+  if (req.method !== "POST") {
     return NextResponse.json(
       { message: "Method not allowed" },
       { status: 405 }
