@@ -65,6 +65,8 @@ export async function GET(req, res) {
   const pageSize = 5;
   const page = parseInt(new URL(req.url).searchParams.get("page")) || 1;
   const searchKeyword = new URL(req.url).searchParams.get("search_keyword");
+  const categoryId = new URL(req.url).searchParams.get("category_id");
+
 
   // Ensure pagination parameters are integers
   const pageNumber = Math.max(1, page); // Ensure page is not less than 1
@@ -85,8 +87,8 @@ export async function GET(req, res) {
   let searchQuery = {};
 
   let cleanedSearchKeyword = searchKeyword
-  .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
-  .trim();
+  ?.replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+  ?.trim();
 
 // If searchKeyword is provided, perform a wildcard search for partial word matching
 if (cleanedSearchKeyword) {
@@ -99,6 +101,11 @@ if (cleanedSearchKeyword) {
     },
   };
 }
+
+if (categoryId) {
+  searchQuery.categoryId = new ObjectId(categoryId); // Replace 'categoryId' with the actual field name in your collection
+}
+console.log(searchQuery)
 
   // Sort the search results to prioritize exact matches, then starts with, and contains
   const sortOrder = [

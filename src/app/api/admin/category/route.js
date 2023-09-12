@@ -52,14 +52,14 @@ export async function GET(req, res) {
   await middleware(req);
 
   try {
-    const authHeader = req.headers.get("authorization");
-    const token = authHeader && authHeader.split(" ")[1];
-    if (!token) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // const authHeader = req.headers.get("authorization");
+    // const token = authHeader && authHeader.split(" ")[1];
+    // if (!token) {
+    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // }
 
     // Verify the token and extract the user ID
-    const userId = await verifyToken(token);
+    //const userId = await verifyToken(token);
    
 
 
