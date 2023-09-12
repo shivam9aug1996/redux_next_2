@@ -56,17 +56,12 @@ import { checkAdminStatus, uploadImage } from "./global";
 // }
 
 
-
-
-
-
 export async function GET(req, res) {
-  // Extract pagination and search parameters from the query string
+  // Extract pagination, search, and category ID parameters from the query string
   const pageSize = 5;
   const page = parseInt(new URL(req.url).searchParams.get("page")) || 1;
   const searchKeyword = new URL(req.url).searchParams.get("search_keyword");
   const categoryId = new URL(req.url).searchParams.get("category_id");
-
 
   // Ensure pagination parameters are integers
   const pageNumber = Math.max(1, page); // Ensure page is not less than 1
@@ -85,32 +80,36 @@ export async function GET(req, res) {
   const collection = await database.collection("product_list");
 
   let searchQuery = {};
+  let cleanedSearchKeyword
+  if(searchKeyword){
+     cleanedSearchKeyword = searchKeyword
+    ?.replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+    ?.trim();
+  }
+ 
 
-  let cleanedSearchKeyword = searchKeyword
-  ?.replace(/\s+/g, ' ') // Replace multiple spaces with a single space
-  ?.trim();
-
-// If searchKeyword is provided, perform a wildcard search for partial word matching
-if (cleanedSearchKeyword) {
-  const searchWords = cleanedSearchKeyword.split(' ').map(word => `(?=.*${word})`).join('');
-  const regex = new RegExp(searchWords, 'i');
+  // If searchKeyword is provided, perform a wildcard search for partial word matching
+  if (cleanedSearchKeyword) {
+    const searchWords = cleanedSearchKeyword.split(' ').map(word => `(?=.*${word})`).join('');
+    const regex = new RegExp(searchWords, 'i');
   
-  searchQuery = {
-    name: {
+    searchQuery.name = {
       $regex: regex,
-    },
-  };
-}
+    };
+  }
 
-if (categoryId) {
-  searchQuery.categoryId = new ObjectId(categoryId); // Replace 'categoryId' with the actual field name in your collection
-}
-console.log(searchQuery)
+  if (categoryId) {
+    searchQuery.categoryId = new ObjectId(categoryId); // Replace 'categoryId' with the actual field name in your collection
+  }
 
   // Sort the search results to prioritize exact matches, then starts with, and contains
-  const sortOrder = [
-    { score: { $meta: "textScore" } }, // Sort by text score (for full-text search)
-  ];
+  // const sortOrder = [
+  //   { score: { $meta: "textScore" } }, // Sort by text score (for full-text search)
+  // ];
+
+  const sortOrder = cleanedSearchKeyword
+    ? [{ score: { $meta: "textScore" } }] // Sort by text score (for full-text search)
+    : [{ date: -1 }];
 
   // Retrieve a subset of items from the collection based on pagination and search
   const productList = await collection
@@ -140,6 +139,94 @@ console.log(searchQuery)
     { status: 200 }
   );
 }
+
+
+
+
+
+
+
+// export async function GET(req, res) {
+//   // Extract pagination and search parameters from the query string
+//   const pageSize = 5;
+//   const page = parseInt(new URL(req.url).searchParams.get("page")) || 1;
+//   const searchKeyword = new URL(req.url).searchParams.get("search_keyword");
+//   const categoryId = new URL(req.url).searchParams.get("category_id");
+
+
+//   // Ensure pagination parameters are integers
+//   const pageNumber = Math.max(1, page); // Ensure page is not less than 1
+//   const itemsPerPage = parseInt(pageSize);
+
+//   // Calculate skip value based on pagination
+//   const skip = (pageNumber - 1) * itemsPerPage;
+
+//   // Call middleware (if necessary)
+//   await middleware(req);
+
+//   // Connect to the database
+//   let database = await connectDB();
+
+//   // Build a MongoDB query for the search
+//   const collection = await database.collection("product_list");
+
+//   let searchQuery = {};
+
+//   let cleanedSearchKeyword = searchKeyword
+//   ?.replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+//   ?.trim();
+
+// // If searchKeyword is provided, perform a wildcard search for partial word matching
+// if (cleanedSearchKeyword) {
+//   console.log("kkkk")
+//   const searchWords = cleanedSearchKeyword.split(' ').map(word => `(?=.*${word})`).join('');
+//   const regex = new RegExp(searchWords, 'i');
+  
+//   searchQuery = {
+//     name: {
+//       $regex: regex,
+//     },
+//   };
+// }
+
+// if (categoryId) {
+//   searchQuery.categoryId = new ObjectId(categoryId); // Replace 'categoryId' with the actual field name in your collection
+// }
+// console.log(searchQuery)
+
+//   // Sort the search results to prioritize exact matches, then starts with, and contains
+//   const sortOrder = [
+//     { score: { $meta: "textScore" } }, // Sort by text score (for full-text search)
+//   ];
+
+//   // Retrieve a subset of items from the collection based on pagination and search
+//   const productList = await collection
+//     .find(searchQuery)
+//     .sort(sortOrder)
+//     .skip(skip)
+//     .limit(itemsPerPage)
+//     .toArray();
+
+//   // Count the total number of items in the search results
+//   const totalItems = await collection.countDocuments(searchQuery);
+
+//   // Calculate the total number of pages
+//   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+//   // Return the paginated product list along with pagination metadata
+//   return NextResponse.json(
+//     {
+//       productList,
+//       pagination: {
+//         currentPage: pageNumber,
+//         itemsPerPage,
+//         totalItems,
+//         totalPages,
+//       },
+//     },
+//     { status: 200 }
+//   );
+// }
 
 
 
