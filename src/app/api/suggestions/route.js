@@ -13,14 +13,14 @@ export async function GET(req, res) {
     return NextResponse.json({ error: "Search keyword is required" }, { status: 400 });
   }
   try {
-    const authHeader = req.headers.get("authorization");
-    const token = authHeader && authHeader.split(" ")[1];
-    if (!token) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // const authHeader = req.headers.get("authorization");
+    // const token = authHeader && authHeader.split(" ")[1];
+    // if (!token) {
+    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // }
 
     // Verify the token and extract the user ID
-    const userId = await verifyToken(token);
+  //  const userId = await verifyToken(token);
 
     let database = await connectDB();
     const productCollection = await database.collection("product_list");

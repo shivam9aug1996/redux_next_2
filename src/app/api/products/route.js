@@ -10,6 +10,137 @@ import { checkAdminStatus, uploadImage } from "./global";
 
 
 
+// export async function GET(req, res) {
+//   // Extract pagination parameters from the query string
+//   const pageSize = 5;
+//   const page = new URL(req.url).searchParams.get("page");
+
+//   // Ensure pagination parameters are integers
+//   const pageNumber = parseInt(page);
+//   const itemsPerPage = parseInt(pageSize);
+
+//   // Calculate skip value based on pagination
+//   const skip = (pageNumber - 1) * itemsPerPage;
+
+//   // Call middleware (if necessary)
+//   await middleware(req);
+
+//   // Connect to the database
+//   let database = await connectDB();
+
+//   // Retrieve a subset of items from the collection based on pagination
+//   const collection = await database.collection("product_list");
+//   const productList = await collection
+//     .find({})
+//     .skip(skip)
+//     .limit(itemsPerPage)
+//     .sort({ date: -1 })
+//     .toArray();
+
+   
+
+//   // Count the total number of items in the collection
+//   const totalItems = await collection.countDocuments();
+
+//   // Calculate the total number of pages
+//   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+//   // Return the paginated product list along with pagination metadata
+//   return NextResponse.json(
+//     {
+//       productList,
+//       pagination: {
+//         currentPage: pageNumber,
+//         itemsPerPage,
+//         totalItems,
+//         totalPages,
+//       },
+//     },
+//     { status: 200 }
+//   );
+// }
+
+
+
+// export async function GET(req, res) {
+//   // Extract pagination parameters from the query string
+//   const pageSize = 5;
+//   const page = new URL(req.url).searchParams.get("page");
+
+//   // Ensure pagination parameters are integers
+//   const pageNumber = parseInt(page);
+//   const itemsPerPage = parseInt(pageSize);
+
+//   // Extract the search keyword from the query string
+//   const searchKeyword = new URL(req.url).searchParams.get("search_keyword");
+
+//   // Calculate skip value based on pagination
+//   const skip = (pageNumber - 1) * itemsPerPage;
+
+//   // Call middleware (if necessary)
+//   await middleware(req);
+
+//   // Connect to the database
+//   let database = await connectDB();
+//   const collection = await database.collection("product_list");
+
+//   // Define the query to retrieve a subset of items based on pagination
+//   const query = {};
+
+//   // Add search functionality if searchKeyword is provided
+//   if (searchKeyword) {
+//     const cleanedSearchKeyword = searchKeyword
+//       .replace(/\s+/g, " ") // Replace multiple spaces with a single space
+//       .trim();
+
+//     // Split the cleaned searchKeyword into individual keywords
+//     const keywords = cleanedSearchKeyword.split(" ");
+
+//     // Create an array of regex patterns to match each keyword
+//     const regexPatterns = keywords.map((keyword) => new RegExp(keyword, "i"));
+
+//     // Create an array of $or conditions to match each keyword
+//     const orConditions = regexPatterns.map((regex) => ({
+//       name: { $regex: regex },
+//     }));
+
+//     // Use $or to search for products that match any of the keyword conditions
+//     query.$or = orConditions;
+//   }
+
+//   // Retrieve a subset of items based on pagination and query
+//   const productList = await collection
+//     .find(query)
+//     .skip(skip)
+//     .limit(itemsPerPage)
+//     .sort({ date: -1 })
+//     .toArray();
+
+//   // Count the total number of items in the collection
+//   const totalItems = await collection.countDocuments(query);
+
+//   // Calculate the total number of pages
+//   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+//   // Return the paginated product list along with pagination metadata
+//   return NextResponse.json(
+//     {
+//       productList,
+//       pagination: {
+//         currentPage: pageNumber,
+//         itemsPerPage,
+//         totalItems,
+//         totalPages,
+//       },
+//     },
+//     { status: 200 }
+//   );
+// }
+
+
+
+
+
 export async function GET(req, res) {
   // Extract pagination parameters from the query string
   const pageSize = 5;
@@ -19,6 +150,9 @@ export async function GET(req, res) {
   const pageNumber = parseInt(page);
   const itemsPerPage = parseInt(pageSize);
 
+  // Extract the search keyword from the query string
+  const searchKeyword = new URL(req.url).searchParams.get("search_keyword");
+
   // Calculate skip value based on pagination
   const skip = (pageNumber - 1) * itemsPerPage;
 
@@ -27,20 +161,52 @@ export async function GET(req, res) {
 
   // Connect to the database
   let database = await connectDB();
-
-  // Retrieve a subset of items from the collection based on pagination
   const collection = await database.collection("product_list");
+
+  // Define the query to retrieve a subset of items based on pagination
+  const query = {};
+
+  // Add search functionality if searchKeyword is provided
+  if (searchKeyword) {
+    const cleanedSearchKeyword = searchKeyword
+      .replace(/\s+/g, " ") // Replace multiple spaces with a single space
+      .trim();
+
+    // Split the cleaned searchKeyword into individual keywords
+    const keywords = cleanedSearchKeyword.split(" ");
+
+    // Create an array of regex patterns to match each keyword
+    const regexPatterns = keywords.map((keyword) => new RegExp(keyword, "i"));
+
+    // Create an array of $or conditions to match each keyword
+    const orConditions = regexPatterns.map((regex) => ({
+      name: { $regex: regex },
+    }));
+
+    // Use $or to search for products that match any of the keyword conditions
+    query.$or = orConditions;
+
+    // Add sorting criteria to boost results matching the search keyword
+    const sortCriteria = [
+      { name: { $regex: cleanedSearchKeyword, $options: "i" } }, // Exact matches
+      { name: { $regex: `^${cleanedSearchKeyword}`, $options: "i" } }, // Starts with
+      { name: { $regex: cleanedSearchKeyword, $options: "i" } }, // Contains
+    ];
+
+    // Add the sorting criteria to the query
+    query.$or.unshift({ $or: sortCriteria });
+  }
+
+  // Retrieve a subset of items based on pagination and query
   const productList = await collection
-    .find({})
+    .find(query)
     .skip(skip)
     .limit(itemsPerPage)
     .sort({ date: -1 })
     .toArray();
 
-   
-
   // Count the total number of items in the collection
-  const totalItems = await collection.countDocuments();
+  const totalItems = await collection.countDocuments(query);
 
   // Calculate the total number of pages
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -59,6 +225,8 @@ export async function GET(req, res) {
     { status: 200 }
   );
 }
+
+
 
 export async function DELETE(req, res) {
   // Call middleware (if necessary)
