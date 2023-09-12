@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -8,9 +8,11 @@ import {
   useGetProductsQuery,
   updatePageNumber,
 } from "@/redux/features/Product/productSlice";
+import InfiniteScroll1 from "../Infinite1";
+import Toast from "../Toast";
 
 const LoaderFull = dynamic(() => import("../LoaderFull"));
-const Toast = dynamic(() => import("../Toast"));
+// const Toast = dynamic(() => import("../Toast"));
 const Button = dynamic(() => import("@/app/product/[productId]/Button"));
 const InfiniteScroll = dynamic(() => import("./InfiniteScroll"));
 const ProductItemSkeleton = dynamic(() => import("./ProductSkeleton"));
@@ -31,28 +33,40 @@ const ProductClient = () => {
   const paginationDataRef = useRef(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!isFetching && data) {
-      paginationDataRef.current = data?.pagination;
-    }
-  }, [isFetching, data]);
+  // useEffect(() => {
+  //   if (!isFetching && data) {
+  //     paginationDataRef.current = data?.pagination;
+  //   }
+  // }, [isFetching, data]);
 
-  useEffect(() => {
-    if (isFetching) {
-      isFetchingRef.current = true;
-    } else {
-      isFetchingRef.current = false;
-    }
-  }, [isFetching]);
-  console.log(isError,error)
+  // useEffect(() => {
+  //   if (isFetching) {
+  //     isFetchingRef.current = true;
+  //   } else {
+  //     isFetchingRef.current = false;
+  //   }
+  // }, [isFetching]);
+  // console.log(isError,error)
+  console.log(error)
 
   return (
-    <div className="product-list">
-      {isError && <Toast message={error?.error || error?.data?.error} />}
+    <InfiniteScroll1 onReachBottom={()=>{
+      console.log("hi")
+      if (
+        paginationRes?.currentPage <
+          paginationRes?.totalPages &&
+        !isFetching&&!isError
+      ) {
+        console.log("hi99")
+        dispatch(updatePageNumber());
+      }
+    }}>
+      <div className="product-list">
+      {isError && <Toast message={error?.error || error?.data?.error||"Something went wrong"} />}
 
       {isLoading ? <ProductItemSkeleton /> : null}
 
-      {isSuccess &&
+      {!isLoading &&
         productList?.map((item, index) => (
           <div key={item?._id} className="product-item">
             <Link href={`/product/${item?._id}`}>
@@ -79,20 +93,21 @@ const ProductClient = () => {
             <Button productId={item?._id} />
           </div>
         ))}
-      <InfiniteScroll
+      {/* <InfiniteScroll
         onReachBottom={() => {
           if (
             paginationDataRef.current?.currentPage <
               paginationDataRef.current?.totalPages &&
-            !isFetchingRef.current
+            !isFetchingRef.current&&!isError
           ) {
             dispatch(updatePageNumber());
           }
         }}
         threshold={200}
-      />
+      /> */}
       {isFetching && productList?.length > 0 ? <LoaderFull /> : null}
     </div>
+    </InfiniteScroll1>
   );
 };
 
