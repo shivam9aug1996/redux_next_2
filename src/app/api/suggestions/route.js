@@ -40,7 +40,7 @@ const trimmedKeywords = searchKeyword
 // Create a regex pattern for the search
 const regexSearchKeyword = `.*${trimmedKeywords}.*`;
 
-const suggestions = await productCollection
+let suggestions = await productCollection
 .aggregate([
   {
     $match: {
@@ -59,6 +59,7 @@ const suggestions = await productCollection
 ])
 .toArray();
     
+suggestions=[{name:trimmedKeywords},...suggestions]
 
       
     return NextResponse.json(
