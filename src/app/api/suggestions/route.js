@@ -31,29 +31,33 @@ export async function GET(req, res) {
     let database = await connectDB();
     const productCollection = await database.collection("product_list");
 
-    const suggestions = await productCollection
-    .aggregate([
-      {
-        $match: {
-          name: { $regex: searchKeyword, $options: 'i' },
-        },
-      },
-      {
-        $group: {
-          _id: '$name',
-        },
-      },
-      {
-        $limit: 10,
-      },
-      {
-        $project: {
-          _id: 0,
-          name: '$_id',
-        },
-      },
-    ])
-    .toArray();
+   // Split the searchKeyword by spaces and trim each word
+const trimmedKeywords = searchKeyword
+.split(/\s+/)
+.map((word) => word.trim())
+.join(".*");
+
+// Create a regex pattern for the search
+const regexSearchKeyword = `.*${trimmedKeywords}.*`;
+
+const suggestions = await productCollection
+.aggregate([
+  {
+    $match: {
+      name: { $regex: regexSearchKeyword, $options: 'i' },
+    },
+  },
+  {
+    $limit: 10,
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1, // Include other fields as needed
+    },
+  },
+])
+.toArray();
     
 
       
