@@ -6,7 +6,6 @@ import { ObjectId } from "mongodb";
 
 import { NextResponse } from "next/server";
 
-
 export async function GET(req, res) {
   await middleware(req);
   const searchKeyword = new URL(req.url).searchParams.get("search_keyword");
@@ -23,47 +22,47 @@ export async function GET(req, res) {
     // Verify the token and extract the user ID
     const userId = await verifyToken(token);
 
-   
-
-   
-
-   
     let database = await connectDB();
     const productCollection = await database.collection("product_list");
 
-   // Split the searchKeyword by spaces and trim each word
-const trimmedKeywords = searchKeyword
-.split(/\s+/)
-.map((word) => word.trim())
-.join(".*");
+    // Remove extra spaces between words and trim spaces from the beginning and end
+    const cleanedSearchKeyword = searchKeyword
+      .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+      .trim();
 
-// Create a regex pattern for the search
-const regexSearchKeyword = `.*${trimmedKeywords}.*`;
+    // Split the cleaned searchKeyword into individual keywords
+    const keywords = cleanedSearchKeyword.split(' ');
 
-let suggestions = await productCollection
-.aggregate([
-  {
-    $match: {
-      name: { $regex: regexSearchKeyword, $options: 'i' },
-    },
-  },
-  {
-    $limit: 10,
-  },
-  {
-    $project: {
-      _id: 0,
-      name: 1, // Include other fields as needed
-    },
-  },
-])
-.toArray();
-    if(suggestions?.length>1){
-      suggestions=[{name:trimmedKeywords},...suggestions]
+    // Create an array of regex patterns to match each keyword
+    const regexPatterns = keywords.map((keyword) => new RegExp(keyword, 'i'));
+
+    // Create an aggregation pipeline to retrieve suggestions
+    const aggregationPipeline = [
+      {
+        $match: {
+          name: {
+            $regex: regexPatterns[0], // Use the first regex pattern
+          },
+        },
+      },
+      {
+        $limit: 10,
+      },
+      {
+        $project: {
+          _id: 0,
+          name: 1, // Include other fields as needed
+        },
+      },
+    ];
+
+    let suggestions = await productCollection.aggregate(aggregationPipeline).toArray();
+
+    // If there are suggestions, add a suggestion for the entire cleaned searchKeyword
+    if (suggestions?.length > 0) {
+      suggestions = [{ name: cleanedSearchKeyword }, ...suggestions];
     }
 
-
-      
     return NextResponse.json(
       {
         data: suggestions,
@@ -78,4 +77,3 @@ let suggestions = await productCollection
     );
   }
 }
-
