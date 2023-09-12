@@ -59,7 +59,7 @@ export async function GET(req, res) {
     let suggestions = await productCollection.aggregate(aggregationPipeline).toArray();
 
     // If there are suggestions, add a suggestion for the entire cleaned searchKeyword
-    if (suggestions?.length > 0) {
+    if (suggestions?.length > 0&&cleanedSearchKeyword!==suggestions?.[0]?.name) {
       suggestions = [{ name: cleanedSearchKeyword }, ...suggestions];
     }
 
