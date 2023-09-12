@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import dynamic from "next/dynamic";
 import withMounted from "../withMounted";
 import withAuth from "../withAuth";
+
+import Link from "next/link";
 const Toast = dynamic(() => import("../Toast"));
 //import Toast from "../Toast";
 
@@ -91,6 +93,8 @@ const OrderClient = () => {
           <h3>{"You have placed no orders"}</h3>
         ) : null}
       </ul> */}
+      
+        
 
       <div className="flex flex-col">
         {isLoading &&
@@ -123,9 +127,10 @@ const OrderClient = () => {
 
         {isSuccess &&
           orderData.map((item) => (
+            // <Link href={`/order/${item?._id}`}
             <div
               key={item?._id}
-              className="flex flex-col md:flex-row items-center mb-4 border border-gray-300 rounded"
+              className="flex flex-col md:flex-row items-center mb-4 border border-gray-300 rounded "
             >
               <div className="p-4 mb-4 md:mb-0 md:mr-4">
                 <p className="text-lg">Order ID: {item?.orderId}</p>
@@ -144,6 +149,7 @@ const OrderClient = () => {
                 </div>
                 <div className="flex items-center mt-4 md:mt-0"></div>
               </div>
+            {/* </Link> */}
             </div>
           ))}
       </div>

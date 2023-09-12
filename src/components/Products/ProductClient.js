@@ -17,6 +17,8 @@ const ProductItemSkeleton = dynamic(() => import("./ProductSkeleton"));
 
 const ProductClient = () => {
   const pageNumber = useSelector((state) => state?.products?.pageNumber);
+  const productList = useSelector((state) => state?.products.productList);
+  const paginationRes = useSelector((state) => state?.products.paginationData);
   const {
     isSuccess,
     data,
@@ -42,6 +44,7 @@ const ProductClient = () => {
       isFetchingRef.current = false;
     }
   }, [isFetching]);
+  console.log(isError,error)
 
   return (
     <div className="product-list">
@@ -50,7 +53,7 @@ const ProductClient = () => {
       {isLoading ? <ProductItemSkeleton /> : null}
 
       {isSuccess &&
-        data.productList?.map((item, index) => (
+        productList?.map((item, index) => (
           <div key={item?._id} className="product-item">
             <Link href={`/product/${item?._id}`}>
               <div className="image-container cursor-pointer">
@@ -88,7 +91,7 @@ const ProductClient = () => {
         }}
         threshold={200}
       />
-      {isFetching && data?.productList?.length > 0 ? <LoaderFull /> : null}
+      {isFetching && productList?.length > 0 ? <LoaderFull /> : null}
     </div>
   );
 };

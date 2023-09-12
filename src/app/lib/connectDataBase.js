@@ -6,9 +6,16 @@ const uri =
   "mongodb+srv://shivam9aug1996:7hifuJTjkpLN8bGS@cluster0.dyqv0ub.mongodb.net/?retryWrites=true&w=majority";
 
 export const connectDB = async () => {
-  await connectCluster();
-  let res = await connectDatabase();
-  return res;
+  try {
+    await connectCluster();
+    let res = await connectDatabase();
+    return res;
+  } catch (error) {
+    console.log(error)
+    throw error; 
+ 
+  }
+ 
 };
 
 const connectCluster = async () => {
@@ -28,15 +35,25 @@ const connectCluster = async () => {
     return client;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error; 
   }
 };
 
 const connectDatabase = async () => {
-  if (db) {
-    return db;
-  } else {
-    db = await cachedClient.db("basic-crud");
-    return db;
+  try {
+    if (db) {
+      return db;
+    } else {
+      if(cachedClient?.db){
+        db = await cachedClient.db("basic-crud");
+        return db;
+      }else{
+        throw new Error("MongoDB client not connected.");
+      }
+    }   
+  } catch (error) {
+    console.log(error)
+    throw error; 
   }
+ 
 };

@@ -7,6 +7,8 @@ import HeaderWrapper from "@/components/HeaderWrapper";
 import { cookies } from "next/headers";
 import Script from "next/script";
 
+
+
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata = {
@@ -24,6 +26,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+      <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
+
       </head>
       <body className={inter.className}>
         <Providers>{children}</Providers>

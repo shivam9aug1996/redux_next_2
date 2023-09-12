@@ -54,37 +54,25 @@ export const productApi = createApi({
           },
         };
       },
-      async onCacheEntryAdded(arg, { dispatch, cacheEntryRemoved }) {
-        cacheEntryRemoved.then(() => {
-          dispatch(updatePageNumber(1));
-          dispatch(resetProductList());
-        });
+      // async onCacheEntryAdded(arg, { dispatch, cacheEntryRemoved }) {
+      //   cacheEntryRemoved.then(() => {
+      //     dispatch(updatePageNumber(1));
+      //     dispatch(resetProductList());
+      //   });
+      // },
 
-        // `onStart` side-effect
-        //  dispatch(messageCreated('Fetching post...',getCacheEntry()))
-      },
-
-      // Only have one cache entry because the arg always maps to one string
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
-      },
-      // Always merge incoming data to the cache entry
-      merge: mergeProducts,
-      // Refetch when the page arg changes
-      forceRefetch({ currentArg, previousArg }) {
-        console.log("jy5456oiuygfdfghjk", currentArg, previousArg);
-        return currentArg?.[1]?.page !== previousArg?.[1]?.page;
-      },
-
-      // keepUnusedDataFor:10,
+      // // Only have one cache entry because the arg always maps to one string
+      // serializeQueryArgs: ({ endpointName }) => {
+      //   return endpointName;
+      // },
+      // // Always merge incoming data to the cache entry
+      // merge: mergeProducts,
+      // // Refetch when the page arg changes
       // forceRefetch({ currentArg, previousArg }) {
-      //   return currentArg !== previousArg
+      //   console.log("jy5456oiuygfdfghjk", currentArg, previousArg);
+      //   return currentArg?.[1]?.page !== previousArg?.[1]?.page;
       // },
-      // forceRefetch({ currentArg, previousArg,state,endpointState }) {
-      //   console.log(currentArg,previousArg)
-      //   return currentArg !== previousArg
-      // },
-      providesTags: ["products"],
+      // providesTags: ["products"],
 
       //keepUnusedDataFor:600
     }),
@@ -154,15 +142,28 @@ const productSlice = createSlice({
     builder.addMatcher(
       productApi.endpoints.getProducts.matchFulfilled,
       (state, action) => {
-        console.log("ngfwertyuio", action.payload);
-        state.productList = [
-          ...state.productList,
-          ...action.payload?.productList,
-        ];
-        // let modifiedData = state.productList.filter((item)=>{
-        //  return item?._id!==action?.payload?.data?._id
-        // })
-        // state.categories=modifiedData
+        console.log(action.payload)
+        let arr1;
+        arr1 = state.productList || [];
+        if (action?.meta?.arg?.originalArgs?.[1]?.page == 1) {
+          arr1 = [];
+        }
+        let arr2 = action.payload?.productList || [];
+        const uniqueItems = {};
+
+        for (const item of arr1) {
+          uniqueItems[item._id] = item;
+        }
+
+        for (const item of arr2) {
+          uniqueItems[item._id] = item;
+        }
+
+        const mergedArray = Object.values(uniqueItems);
+
+        console.log(mergedArray);
+        state.productList = mergedArray;
+        state.paginationData=action.payload?.pagination
       }
     );
     builder.addMatcher(
