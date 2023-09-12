@@ -90,6 +90,7 @@ export async function GET(req, res) {
 
   // If searchKeyword is provided, perform a wildcard search for partial word matching
   if (cleanedSearchKeyword) {
+    console.log("jhgfdfjkjhgf")
     const searchWords = cleanedSearchKeyword.split(' ').map(word => `(?=.*${word})`).join('');
     const regex = new RegExp(searchWords, 'i');
   
@@ -109,7 +110,7 @@ export async function GET(req, res) {
 
   const sortOrder = cleanedSearchKeyword
     ? [{ score: { $meta: "textScore" } }] // Sort by text score (for full-text search)
-    : [{ date: -1 }];
+    : { date: -1 };
 
   // Retrieve a subset of items from the collection based on pagination and search
   const productList = await collection
