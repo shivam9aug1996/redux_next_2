@@ -58,8 +58,10 @@ let suggestions = await productCollection
   },
 ])
 .toArray();
-    
-suggestions=[{name:trimmedKeywords},...suggestions]
+    if(suggestions?.length>1){
+      suggestions=[{name:trimmedKeywords},...suggestions]
+    }
+
 
       
     return NextResponse.json(
