@@ -1,7 +1,12 @@
 import LoaderFull from "@/components/LoaderFull";
 import { adminHomeApi } from "@/redux/features/AdminHome/adminHomeSlice";
 import { useUpdateProfileMutation } from "@/redux/features/Auth/authSlice";
-import { categoryApi, useCreateCategoryMutation, useUpdateCategoryMutation } from "@/redux/features/Category/categorySlice";
+import {
+  categoryApi,
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} from "@/redux/features/Category/categorySlice";
+import Image from "next/image";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -9,16 +14,21 @@ import { useDispatch } from "react-redux";
 function CategoryForm({ setAddCategory, setEditCategory, editCategory }) {
   const [createCategory, { isLoading, isError, error, isSuccess }] =
     useCreateCategoryMutation();
-    const [updateCategory, {
+  const [
+    updateCategory,
+    {
       isLoading: isLoading1,
       isError: isError1,
       error: error1,
       isSuccess: isSuccess1,
-    }] =
-    useUpdateCategoryMutation();
-    const dispatch = useDispatch()
+    },
+  ] = useUpdateCategoryMutation();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
+    image: "",
+    localImage: "",
+    sendImage: "",
   });
 
   useEffect(() => {
@@ -26,19 +36,20 @@ function CategoryForm({ setAddCategory, setEditCategory, editCategory }) {
       let { name = "" } = editCategory?.value;
       setFormData({
         name,
+        image: editCategory?.value?.image,
       });
     }
   }, [editCategory?.status]);
 
   useEffect(() => {
-    if (isSuccess||isSuccess1) {
+    if (isSuccess || isSuccess1) {
       setAddCategory(false);
       setEditCategory({ status: false, value: null });
     }
-    if(isSuccess){
-      dispatch(adminHomeApi.util.invalidateTags(["admin"]))
+    if (isSuccess) {
+      dispatch(adminHomeApi.util.invalidateTags(["admin"]));
     }
-  }, [isSuccess,isSuccess1]);
+  }, [isSuccess, isSuccess1]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -52,24 +63,36 @@ function CategoryForm({ setAddCategory, setEditCategory, editCategory }) {
     e.preventDefault();
     console.log(formData);
     if (editCategory?.status == true) {
+      const formRes = new FormData();
+      formRes.append("updatedCategoryName", formData?.name);
+      formRes.append("categoryId", editCategory?.value?._id);
+
+      if (formData.sendImage) {
+        formRes.append(
+          "image",
+          formData.sendImage ? formData.sendImage : formData.image
+        );
+      }
+
       updateCategory({
-        body: JSON.stringify({
-          updatedCategoryName: formData?.name,
-          categoryId:editCategory?.value?._id
-        }),
+        body: formRes,
       });
     } else {
+      const formRes = new FormData();
+      formRes.append("categoryName", formData?.name);
+      formRes.append(
+        "image",
+        formData.sendImage ? formData.sendImage : formData.image
+      );
       createCategory({
-        body: JSON.stringify({
-          categoryName: formData?.name,
-        }),
+        body: formRes,
       });
     }
   };
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
-      {isLoading||isLoading1 ? <LoaderFull /> : null}
+      {isLoading || isLoading1 ? <LoaderFull /> : null}
       <form
         className="bg-white p-8 rounded shadow-md"
         onSubmit={handleAddAddress}
@@ -96,7 +119,43 @@ function CategoryForm({ setAddCategory, setEditCategory, editCategory }) {
             />
           </div>
         </div>
-
+        <div className="mb-4">
+          <label
+            htmlFor="image"
+            className="text-sm font-semibold text-gray-600"
+          >
+            Image
+          </label>
+          <div className="w-full mt-1 p-2 border rounded focus:border-blue-500 focus:outline-none">
+            {formData?.image ? (
+              <Image
+                width={50}
+                height={50}
+                src={formData?.image}
+                alt={"product"}
+              />
+            ) : null}
+            <input
+              required={editCategory?.status ? false : true}
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e?.target?.files?.[0];
+                console.log("765redfghj", file);
+                setFormData((prevData) => ({
+                  ...prevData,
+                  image: URL.createObjectURL(
+                    new Blob([file], { type: file.type })
+                  ),
+                  sendImage: file,
+                }));
+              }}
+              className="w-full mt-1 p-2 border rounded focus:border-blue-500 focus:outline-none"
+            />
+          </div>
+        </div>
         <div className="mb-4 flex justify-center gap-5">
           <button
             onClick={() => {

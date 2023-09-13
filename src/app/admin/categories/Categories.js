@@ -8,6 +8,7 @@ import {
   useDeleteCategoryQuery,
   useGetCategoriesQuery,
 } from "@/redux/features/Category/categorySlice";
+import Image from "next/image";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -82,8 +83,27 @@ const Categories = ({ successCallback, setAddressModal }) => {
               className={`flex max-w-md items-center sm:flex-row flex-col border p-5 m-5 gap-5`}
               key={item?._id}
             >
-              <div style={{minWidth:250,display:"flex",justifyContent:"center"}}>
-              <p >{item?.name}</p>
+              <div className="flex flex-col justify-center items-center">
+                {item?.image ? (
+                  <Image
+                    loading={"lazy"}
+                    src={item?.image}
+                    alt={item?.name}
+                    width={200}
+                    height={200}
+                    style={{ maxWidth: 100, maxHeight: 100 }}
+                    //s priority={true}
+                  />
+                ) : null}
+                <div
+                  style={{
+                    minWidth: 250,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <p>{item?.name}</p>
+                </div>
               </div>
 
               <div className="flex justify-end mt-2">

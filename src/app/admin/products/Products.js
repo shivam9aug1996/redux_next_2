@@ -63,11 +63,11 @@ const Products = () => {
     }
   }, [isFetching]);
 
-  useEffect(()=>{
-    if(isSuccess1){
-      dispatch(adminHomeApi.util.invalidateTags(["admin"]))
+  useEffect(() => {
+    if (isSuccess1) {
+      dispatch(adminHomeApi.util.invalidateTags(["admin"]));
     }
-  },[isSuccess1])
+  }, [isSuccess1]);
 
   return (
     <>
@@ -104,22 +104,23 @@ const Products = () => {
                   style={{ minWidth: 200 }}
                 >
                   <div className="border border-gray-300 rounded p-4">
-                    {item?.image?
-                    <Link href={`/product/${item?._id}`}>
-                      <div className={`image-container cursor-pointer }`}>
-                        <Image
-                          loading={"lazy"}
-                          src={item?.image}
-                          alt={item?.name}
-                          width={640}
-                          height={912}
-                          className={`w-full mb-2 zoom-effect ${
-                            item?.isNew && !isFetching ? "fade-in" : ""
-                          }`}
-                          //s priority={true}
-                        />
-                      </div>
-                    </Link>:null}
+                    {item?.image ? (
+                      <Link href={`/product/${item?._id}`}>
+                        <div className={`image-container cursor-pointer }`}>
+                          <Image
+                            loading={"lazy"}
+                            src={item?.image}
+                            alt={item?.name}
+                            width={640}
+                            height={912}
+                            className={`w-full mb-2 zoom-effect ${
+                              item?.isNew && !isFetching ? "fade-in" : ""
+                            }`}
+                            //s priority={true}
+                          />
+                        </div>
+                      </Link>
+                    ) : null}
 
                     <Link href={`/product/${item?._id}`}>
                       <h3 className="text-lg font-semibold mb-2 cursor-pointer">
