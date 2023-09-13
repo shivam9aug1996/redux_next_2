@@ -144,11 +144,7 @@ export async function PUT(req, res) {
       {
         success: true,
         modifiedCount: result.modifiedCount,
-        data: {
-          name: updatedCategoryName,
-          _id: new ObjectId(categoryId),
-          image: imageUrl,
-        },
+        data: { ...updateData, _id: new ObjectId(categoryId) },
       },
       { status: 200 }
     );

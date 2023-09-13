@@ -79,7 +79,7 @@ const categorySlice = createSlice({
         console.log(action.payload.data)
         let modifiedData = state.categories.map((item)=>{
           if(item?._id==action?.payload?.data?._id){
-            return {...action.payload.data}
+            return {...item,...action.payload.data}
           }else{
             return item
           }
