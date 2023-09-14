@@ -186,8 +186,8 @@ export async function GET(req, res) {
   // Stage 2: Optionally, add more aggregation stages if needed
 
   // Stage 3: Sort the search results
-  const sortOrder = searchKeyword ? { score: { $meta: "textScore" } } : { date: -1 };
-  aggregationPipeline.push({ $sort: sortOrder });
+  //const sortOrder = searchKeyword ? { score: { $meta: "textScore" } } : { date: -1 };
+ // aggregationPipeline.push({ $sort: sortOrder });
 
   // Stage 4: Pagination
   aggregationPipeline.push({ $skip: skip });
