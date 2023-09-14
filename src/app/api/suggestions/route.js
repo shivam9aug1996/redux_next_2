@@ -6,22 +6,13 @@ import { ObjectId } from "mongodb";
 
 import { NextResponse } from "next/server";
 
+
+
 export async function GET(req, res) {
   await middleware(req);
   const searchKeyword = new URL(req.url).searchParams.get("search_keyword");
-  // if (!searchKeyword) {
-  //   return NextResponse.json({ error: "Search keyword is required" }, { status: 400 });
-  // }
+
   try {
-    // const authHeader = req.headers.get("authorization");
-    // const token = authHeader && authHeader.split(" ")[1];
-    // if (!token) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-
-    // Verify the token and extract the user ID
-  //  const userId = await verifyToken(token);
-
     let database = await connectDB();
     const productCollection = await database.collection("product_list");
 
@@ -37,29 +28,40 @@ export async function GET(req, res) {
     const regexPatterns = keywords?.map((keyword) => new RegExp(keyword, 'i'));
 
     // Create an aggregation pipeline to retrieve suggestions
-    const aggregationPipeline = [
-      {
-        $match: {
-          name: {
-            $regex: regexPatterns?.[0], // Use the first regex pattern
-          },
-        },
+    const aggregationPipeline = [];
+
+    // Stage 1: Text search using the $text operator
+    if (cleanedSearchKeyword) {
+      aggregationPipeline.push({
+        $search: {
+          index: "autocomplete",
+          autocomplete: {
+            query: cleanedSearchKeyword,
+            path: "name"
+          }
+        }
+      });
+
+     
+    }
+
+    // Stage 2: Limit the number of suggestions
+    aggregationPipeline.push({
+      $limit: 10, // You can adjust the limit as needed
+    });
+
+    // Stage 3: Project the desired fields
+    aggregationPipeline.push({
+      $project: {
+        _id: 0,
+        name: 1, // Include other fields as needed
       },
-      {
-        $limit: 10,
-      },
-      {
-        $project: {
-          _id: 0,
-          name: 1, // Include other fields as needed
-        },
-      },
-    ];
+    });
 
     let suggestions = await productCollection.aggregate(aggregationPipeline).toArray();
 
     // If there are suggestions, add a suggestion for the entire cleaned searchKeyword
-    if (suggestions?.length > 0&&cleanedSearchKeyword!==suggestions?.[0]?.name&&cleanedSearchKeyword!=="") {
+    if (suggestions?.length > 0 && cleanedSearchKeyword !== suggestions?.[0]?.name && cleanedSearchKeyword !== "") {
       suggestions = [{ name: cleanedSearchKeyword }, ...suggestions];
     }
 
@@ -77,3 +79,4 @@ export async function GET(req, res) {
     );
   }
 }
+
