@@ -3,9 +3,9 @@ import TermsOfService from './TermsOfService';
 
 const Home = () => {
   return (
-    <div>
+    
       <TermsOfService />
-    </div>
+   
   );
 };
 

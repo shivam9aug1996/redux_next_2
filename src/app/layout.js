@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import HeaderWrapper from "@/components/HeaderWrapper";
 import { cookies } from "next/headers";
 import Script from "next/script";
+import NextTopLoader from 'nextjs-toploader';
 
 
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
 
       </head>
       <body className={inter.className}>
+      <NextTopLoader />
         <Providers>{children}</Providers>
       </body>
     </html>
