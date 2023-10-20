@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getMessaging, onMessage } from "firebase/messaging";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth"; // Import the authentication module
 
@@ -27,5 +28,11 @@ const app = initializeApp(firebaseConfig);
 
 // Get the authentication instance
 export const auth = getAuth(app);
+
+export const messaging = getMessaging(app);
+
+
+
+
 
 //export auth; // Export the auth instance for use in other parts of your application
