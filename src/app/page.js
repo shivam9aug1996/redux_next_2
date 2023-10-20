@@ -1,7 +1,4 @@
 
-  const FirebaseMessaging = dynamic(() =>
-  import("@/components/FirebaseMessaging/FirebaseMessaging"), { ssr: false }
-);
 import ProductClient from "@/components/Products/ProductClient";
 import ProductList from "@/components/Products/ProductList";
 import ProductServer from "@/components/Products/ProductServer";
@@ -19,7 +16,7 @@ const Home = () => {
   return (
     <div style={{flex:1}}>
       {/* <ProductList/> */}
-      <FirebaseMessaging />
+      
       <ProductClient/>
       {/* <Suspense fallback={<ProductsSkeleton/>}>
       <ServerProductList/>

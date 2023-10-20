@@ -10,6 +10,9 @@ import dynamic from "next/dynamic";
 import { setAppStartCart } from "@/redux/features/Cart/cartSlice";
 import SplashScreen from "./SplashScreen";
 
+const FirebaseMessaging = dynamic(() =>
+import("@/components/FirebaseMessaging/FirebaseMessaging"), { ssr: false }
+);
  const Footer = dynamic(() => import('./Footer'))
 //  const SplashScreen = dynamic(() => import('./SplashScreen'))
 
@@ -32,6 +35,7 @@ const Providers = ({ children }) => {
 
   return (
     <Provider store={store}>
+      <FirebaseMessaging />
       <Header />
       <main className="container mx-auto py-4 min-h-screen  flex">
       <SplashScreen />
