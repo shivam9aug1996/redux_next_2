@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from "firebase/app";
 import { getMessaging, onMessage } from "firebase/messaging";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth"; // Import the authentication module
@@ -20,7 +20,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+//const app = initializeApp(firebaseConfig);
+// Initialize Firebase if it hasn't been initialized
+if (!getApps().length) {
+  initializeApp(firebaseConfig);
+}
 
 
 
@@ -37,8 +41,8 @@ let messaging = null; // Initialize auth and messaging to null
 
 // Function to initialize auth and messaging and set them when ready
 const initFirebase = () => {
-  auth = getAuth(app);
-  messaging = getMessaging(app);
+  auth = getAuth(getApp());
+  messaging = getMessaging(getApp());
 };
 
 // Call the function to initialize auth and messaging

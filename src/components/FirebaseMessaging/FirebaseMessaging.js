@@ -1,10 +1,12 @@
 "use client";
+import { auth, messaging } from "@/firebase/firebase";
 // import { messaging } from "@/firebase/firebase";
 // import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import React from "react";
 import { useEffect } from "react";
 
 const FirebaseMessaging = () => {
+  console.log("fghjk",auth,messaging)
 //   useEffect(() => {
 //     console.log("fghjkl", messaging, onMessage);
 //     const messaging1 = getMessaging();
