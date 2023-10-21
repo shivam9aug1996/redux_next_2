@@ -6,7 +6,7 @@
 // import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import React from "react";
 import { useEffect } from "react";
-import { messaging } from "../../firebase/firebase";
+
 
 // import { useEffect } from "react";
 // import firebase from "firebase/app";
@@ -18,13 +18,13 @@ const FirebaseMessaging = () => {
 
     let  loadData=async()=> {
      await import("../../firebase/firebase");
-     console.log("jhgfdfghjk",messaging)
+    console.log("hiii")
       
     }
   
-  //  setTimeout(() => {
-  //   loadData();
-  //  }, 2000);
+   setTimeout(() => {
+    loadData();
+   }, 2000);
   },[])
   // useEffect(() => {
   //   let messaging = getMessaging(getApp());
