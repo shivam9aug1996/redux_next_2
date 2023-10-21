@@ -28,9 +28,10 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 
 // Get the authentication instance
+
 export const auth = getAuth(app);
 
-export const messaging = getMessaging(app);
+// export const messaging = getMessaging(app);
 
 
 
