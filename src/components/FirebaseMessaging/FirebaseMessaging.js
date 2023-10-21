@@ -5,11 +5,25 @@
 // import { messaging } from "@/firebase/firebase";
 // import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import React from "react";
-import "../../firebase/firebase"
+import { useEffect } from "react";
+import { messaging } from "../../firebase/firebase";
+
 // import { useEffect } from "react";
 // import firebase from "firebase/app";
 
 const FirebaseMessaging = () => {
+
+  useEffect(()=>{
+   
+
+    let  loadData=async()=> {
+     await import("../../firebase/firebase");
+     console.log("jhgfdfghjk",messaging)
+      
+    }
+  
+    loadData();
+  },[])
   // useEffect(() => {
   //   let messaging = getMessaging(getApp());
   //   // console.log("u7654edfghjkjhgfd",firebase.getApp())

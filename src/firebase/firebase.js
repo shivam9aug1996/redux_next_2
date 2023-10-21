@@ -1,9 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getMessaging, onMessage } from "firebase/messaging";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth"; // Import the authentication module
 
+import { getAuth } from "firebase/auth"; // Import the authentication module
+import { getMessaging } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,7 +21,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const messaging = getMessaging(app);
+export const messaging = getMessaging(app);
 
 // Initialize Firebase if it hasn't been initialized
 // if (!getApps().length) {
