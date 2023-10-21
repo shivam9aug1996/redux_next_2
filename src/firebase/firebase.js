@@ -20,36 +20,39 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-//const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+const messaging = getMessaging(app);
+
 // Initialize Firebase if it hasn't been initialized
-if (!getApps().length) {
-  initializeApp(firebaseConfig);
-}
+// if (!getApps().length) {
+//   initializeApp(firebaseConfig);
+// }
 
 
 
 
 
-//export const auth = getAuth(app);
+export const auth = getAuth(app);
 
 // export const messaging = getMessaging(app);
 
 
 
-let auth = null;
-let messaging = null; // Initialize auth and messaging to null
+// let auth = null;
+// let messaging = null; // Initialize auth and messaging to null
 
-// Function to initialize auth and messaging and set them when ready
-const initFirebase = () => {
-  auth = getAuth(getApp());
- // messaging = getMessaging(getApp());
-};
+// // Function to initialize auth and messaging and set them when ready
+// const initFirebase = () => {
+//   auth = getAuth(getApp());
+//  // messaging = getMessaging(getApp());
+// };
 
 // Call the function to initialize auth and messaging
-initFirebase();
+//initFirebase();
 
 // Export auth and messaging once they're ready
-export { auth };
+// export { auth };
 
 
 
