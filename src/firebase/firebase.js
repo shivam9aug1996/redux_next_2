@@ -42,14 +42,14 @@ let messaging = null; // Initialize auth and messaging to null
 // Function to initialize auth and messaging and set them when ready
 const initFirebase = () => {
   auth = getAuth(getApp());
-  messaging = getMessaging(getApp());
+ // messaging = getMessaging(getApp());
 };
 
 // Call the function to initialize auth and messaging
 initFirebase();
 
 // Export auth and messaging once they're ready
-export { auth, messaging };
+export { auth };
 
 
 
