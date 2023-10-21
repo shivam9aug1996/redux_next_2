@@ -22,9 +22,9 @@ const FirebaseMessaging = () => {
       
     }
   
-   setTimeout(() => {
-    loadData();
-   }, 2000);
+  //  setTimeout(() => {
+  //   loadData();
+  //  }, 2000);
   },[])
   // useEffect(() => {
   //   let messaging = getMessaging(getApp());
