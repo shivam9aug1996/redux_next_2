@@ -25,16 +25,28 @@ const app = initializeApp(firebaseConfig);
 
 
 
-// const analytics = getAnalytics(app);
 
-// Get the authentication instance
-
-export const auth = getAuth(app);
+//export const auth = getAuth(app);
 
 // export const messaging = getMessaging(app);
 
 
 
+let auth = null;
+let messaging = null; // Initialize auth and messaging to null
+
+// Function to initialize auth and messaging and set them when ready
+const initFirebase = () => {
+  auth = getAuth(app);
+  messaging = getMessaging(app);
+};
+
+// Call the function to initialize auth and messaging
+initFirebase();
+
+// Export auth and messaging once they're ready
+export { auth, messaging };
 
 
-//export auth; // Export the auth instance for use in other parts of your application
+
+
