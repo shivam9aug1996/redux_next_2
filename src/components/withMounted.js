@@ -12,6 +12,7 @@ const withMounted = (WrappedComponent) => {
       setIsMounted(true)
     }, []);
     
+    
     if (isMounted) {
       return <WrappedComponent {...props} />;
     }
