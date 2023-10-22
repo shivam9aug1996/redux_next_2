@@ -2,7 +2,7 @@ import { connectDB } from "@/app/lib/connectDataBase";
 import { verifyToken } from "@/app/utils/globalFunctions";
 import { NextResponse } from "next/server";
 import middleware from "../../middleware";
-const Pusher = require("pusher");
+// const Pusher = require("pusher");
 
 
 export async function POST(req, res) {
@@ -15,14 +15,14 @@ export async function POST(req, res) {
   try {
    
     console.log(socket_id,channel_name)
-    
-    const pusher = new Pusher({
-      appId: "1663650",
-      key: "037b0dc3c53577544e54",
-      secret: "b395eedaa7de68b8bd67",
-      cluster: "ap2",
-    });
-    const auth = pusher.authenticate(socket_id, channel_name);
+    let auth
+    // const pusher = new Pusher({
+    //   appId: "1663650",
+    //   key: "037b0dc3c53577544e54",
+    //   secret: "b395eedaa7de68b8bd67",
+    //   cluster: "ap2",
+    // });
+    // const auth = pusher.authenticate(socket_id, channel_name);
 
 
    
