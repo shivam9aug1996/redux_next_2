@@ -81,7 +81,7 @@ self.addEventListener('notificationclick', function(event) {
         var client = clientList[i];
         // client.postMessage({ data:event.notification,action:"customAction1" });
         console.log(client.url)
-        if (client.url === "http://localhost:3000/" && 'focus' in client) {
+        if (client?.url?.includes('https://redux-next-2.vercel.app/') ||client?.url?.includes("http://localhost:3000/") && 'focus' in client) {
         //  const channel = new BroadcastChannel('notificationChannel');
 
           // Send a message to the client code.
@@ -109,7 +109,7 @@ self.addEventListener('notificationclick', function(event) {
       //   channel.postMessage(eventData);
       //   // channel.close()
       //  }, 800);
-        return clients.openWindow('http://localhost:3000/');
+        return clients.openWindow('https://redux-next-2.vercel.app/');
       }
     })
   );
