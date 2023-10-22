@@ -72,6 +72,7 @@ const ProductClient = () => {
         {!isLoading &&
           productList?.map((item, index) => (
             <div key={item?._id} className="product-item">
+              <div className="flex-1">
               <Link href={`/product/${item?._id}`}>
                 <div className="image-container cursor-pointer">
                   <Image
@@ -94,7 +95,8 @@ const ProductClient = () => {
                   ? Number.parseFloat(item?.price).toFixed(2)
                   : "N/A"}
               </p>
-              <Button productId={item?._id} />
+              </div>
+             <div> <Button productId={item?._id} /></div>
             </div>
           ))}
         {/* <InfiniteScroll
