@@ -82,9 +82,12 @@ export async function POST(req, res) {
         // const user = await database
         //   .collection("private_users")
         //   .findOne({ email });
+        // const user = await database
+        //   .collection("private_users")
+        //   .findOne({ "face_data.facialId": facialId });
         const user = await database
           .collection("private_users")
-          .findOne({ "face_data.facialId": facialId });
+          .findOne({ email });
         console.log("mjhgfdfghjk", user);
         if (user) {
           const token = jwt.sign({ id: user._id }, "secretkey");
@@ -123,6 +126,10 @@ export async function POST(req, res) {
             { status: 200 }
           );
         } else {
+          return NextResponse.json(
+            { message: "Incorrect details" },
+            { status: 401 }
+          );
         }
       }
     }
