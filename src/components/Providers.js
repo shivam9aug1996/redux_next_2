@@ -30,7 +30,7 @@ const Providers = ({ children }) => {
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
-    }, 3000);
+    }, 5000);
   }, []);
 
   return (
