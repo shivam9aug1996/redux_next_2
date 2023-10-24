@@ -153,7 +153,9 @@ const Login = () => {
     // Set the flag in localStorage to trigger a page refresh
     localStorage.setItem("refreshNeeded", "true");
     // Refresh the page
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   return (
