@@ -37,7 +37,7 @@ const Providers = ({ children }) => {
   return (
     <Provider store={store}>
       <FirebaseMessaging />
-      <Script src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`} strategy="afterInteractive" />
+      <Script src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`} strategy="lazyOnload" />
       {/* <Script src={'/ev.js'} strategy="lazyOnload" /> */}
       {/* <script type="text/javascript" src="/ev.js"></script> */}
       <Header />
