@@ -59,6 +59,13 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+    updateFaceUnlock: builder.mutation({
+      query: (data) => ({
+        url: `/face-unlock`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -133,7 +140,13 @@ const authSlice = createSlice({
           console.log("mjhgre67890uyg", action.meta.arg.originalArgs);
           data = JSON.parse(action.meta.arg.originalArgs);
         }
-        const { name, modifiedAddresses, newAddress, addressToDeleteId } = data;
+        const {
+          name,
+          modifiedAddresses,
+          newAddress,
+          addressToDeleteId,
+          face_data,
+        } = data;
         console.log("jhyt56789", JSON.parse(action.meta.arg.originalArgs));
         console.log("765efghjytrdfgh", newAddress, name, action.payload);
         const { addressId } = action?.payload;
@@ -170,22 +183,46 @@ const authSlice = createSlice({
           });
           localStorage.setItem(
             "userData",
-            JSON.stringify({ ...state.userData, addresses:modifiedData })
+            JSON.stringify({ ...state.userData, addresses: modifiedData })
           );
-          state.userData = { ...state.userData, addresses:modifiedData };
+          state.userData = { ...state.userData, addresses: modifiedData };
         }
-        if(modifiedAddresses){
-         let modifiedData=state?.userData?.addresses?.map((item) => {
-             if(item?.addressId == modifiedAddresses?.addressId){
-             
-              return modifiedAddresses
-             }else return item
+        if (modifiedAddresses) {
+          let modifiedData = state?.userData?.addresses?.map((item) => {
+            if (item?.addressId == modifiedAddresses?.addressId) {
+              return modifiedAddresses;
+            } else return item;
           });
           localStorage.setItem(
             "userData",
-            JSON.stringify({ ...state.userData, addresses:modifiedData })
+            JSON.stringify({ ...state.userData, addresses: modifiedData })
           );
-          state.userData = { ...state.userData, addresses:modifiedData };
+          state.userData = { ...state.userData, addresses: modifiedData };
+        }
+        if (face_data) {
+          localStorage.setItem(
+            "userData",
+            JSON.stringify({ ...state.userData, face_data: face_data })
+          );
+          state.userData = { ...state.userData, face_data: face_data };
+        }
+      }
+    );
+    builder.addMatcher(
+      authApi.endpoints.updateFaceUnlock.matchFulfilled,
+      (state, action) => {
+        let { token = null } = action.payload;
+        if (token) {
+          localStorage.setItem("token", token);
+          localStorage.setItem("userData", JSON.stringify(action?.payload));
+          state.token = token;
+          state.userData = action?.payload;
+        } else {
+          localStorage.setItem(
+            "userData",
+            JSON.stringify({ ...state.userData, face_data: null })
+          );
+          state.userData = { ...state.userData, face_data: null };
         }
       }
     );
@@ -199,6 +236,7 @@ export const {
   useGoogleAuthMutation,
   useVerifyRecaptchaMutation,
   useUpdateProfileMutation,
+  useUpdateFaceUnlockMutation,
 } = authApi;
 export const { setAppStart, logout } = authSlice.actions;
 

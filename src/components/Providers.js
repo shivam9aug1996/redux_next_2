@@ -11,10 +11,11 @@ import { setAppStartCart } from "@/redux/features/Cart/cartSlice";
 import SplashScreen from "./SplashScreen";
 import Script from "next/script";
 
-const FirebaseMessaging = dynamic(() =>
-import("@/components/FirebaseMessaging/FirebaseMessaging"), { ssr: false }
+const FirebaseMessaging = dynamic(
+  () => import("@/components/FirebaseMessaging/FirebaseMessaging"),
+  { ssr: false }
 );
- const Footer = dynamic(() => import('./Footer'))
+const Footer = dynamic(() => import("./Footer"));
 //  const SplashScreen = dynamic(() => import('./SplashScreen'))
 
 const Providers = ({ children }) => {
@@ -37,12 +38,21 @@ const Providers = ({ children }) => {
   return (
     <Provider store={store}>
       <FirebaseMessaging />
-      <Script src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`} strategy="lazyOnload" />
+      <Script
+        src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+        strategy="lazyOnload"
+      />
+      <Script
+        id="fio"
+        src={`https://cdn.faceio.net/fio.js`}
+        strategy="afterInteractive"
+      />
       {/* <Script src={'/ev.js'} strategy="lazyOnload" /> */}
       {/* <script type="text/javascript" src="/ev.js"></script> */}
       <Header />
       <main className="container mx-auto py-4 min-h-screen  flex">
-      <SplashScreen />
+        <SplashScreen />
+        <div id="faceio-modal"></div>
         {children}
       </main>
       <Footer />

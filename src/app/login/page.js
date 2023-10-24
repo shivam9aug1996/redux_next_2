@@ -3,13 +3,15 @@ import dynamic from "next/dynamic";
 import Loader from "@/components/Loader";
 import {
   useLoginMutation,
+  useUpdateFaceUnlockMutation,
   useVerifyRecaptchaMutation,
 } from "@/redux/features/Auth/authSlice";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { generateReCaptchaToken } from "../utils/globalFunctions";
+import { generateReCaptchaToken, handleError } from "../utils/globalFunctions";
 import { useRecaptcha } from "../custom-hooks/useRecaptcha";
+import LoaderFull from "@/components/LoaderFull";
 
 const Recaptcha = dynamic(() => import("@/components/Recaptcha"), {
   ssr: false,
@@ -23,7 +25,9 @@ const Toast = dynamic(() => import("@/components/Toast"));
 
 const Login = () => {
   const reduxToken = useSelector((state) => state?.auth?.token);
-  const isAdmin = useSelector((state) => state?.auth?.userData?.isAdmin||false);
+  const isAdmin = useSelector(
+    (state) => state?.auth?.userData?.isAdmin || false
+  );
 
   const router = useRouter();
   const [login, { isSuccess, data: token, isLoading, isError, error }] =
@@ -32,6 +36,15 @@ const Login = () => {
     verifyRecaptcha,
     { isSuccess: isSuccess1, data: data1, isLoading: isLoading1 },
   ] = useVerifyRecaptchaMutation();
+  const [
+    updateFaceUnlock,
+    {
+      isLoading: isLoading2,
+      isError: isError2,
+      error: error2,
+      isSuccess: isSuccess2,
+    },
+  ] = useUpdateFaceUnlockMutation();
 
   const [loginStates, setLoginStates] = useState({
     email: "",
@@ -50,22 +63,32 @@ const Login = () => {
 
   const isAuthenticated =
     reduxToken !== undefined && reduxToken !== "" ? true : false;
-console.log("8765edfghjdfghjk",isAdmin)
+
+  console.log(
+    "8765edfghjdfghjk",
+    isAdmin,
+    reduxToken,
+    isSuccess2,
+    isAuthenticated
+  );
+
   useEffect(() => {
-    if (isAuthenticated&&!isAdmin&&isSuccess) {
+    if (isAuthenticated && !isAdmin && isSuccess) {
       router.replace("/");
     }
-    if (isAuthenticated&&isAdmin&&isSuccess) {
+    if (isAuthenticated && isAdmin && isSuccess) {
       router.replace("/admin");
     }
-  }, [isAdmin,isAuthenticated,isSuccess]);
+    if (isAuthenticated && !isAdmin && isSuccess2) {
+      router.replace("/");
+    }
+  }, [isAdmin, isAuthenticated, isSuccess, isSuccess2]);
 
   // useEffect(() => {
   //   if (isSuccess) {
   //     router.replace("/");
   //   }
   // }, [isSuccess]);
-
 
   useEffect(() => {
     if (isRecaptchaSuccess) {
@@ -78,22 +101,58 @@ console.log("8765edfghjdfghjk",isAdmin)
     }
   }, [isRecaptchaSuccess]);
 
+  useEffect(() => {
+    // Check for the refresh flag in localStorage
+    const refreshNeeded = localStorage.getItem("refreshNeeded");
+    if (refreshNeeded === "true") {
+      // Clear the flag to prevent further refreshes
+      localStorage.removeItem("refreshNeeded");
 
-
+      // Execute your logic here
+      const faceio = new faceIO("fioa1693");
+      faceio
+        .authenticate()
+        .then((res) => {
+          console.log(res);
+          faceio.restartSession();
+          if (res?.facialId) {
+            updateFaceUnlock(
+              JSON.stringify({
+                facialId: res?.facialId,
+                email: res?.payload?.email,
+              })
+            );
+          } else {
+            faceio.restartSession();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          <Toast message={handleError(errCode)} />;
+          faceio.restartSession();
+        });
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(process.env.NODE_ENV=="development"){
+    if (process.env.NODE_ENV == "development") {
       login(
         JSON.stringify({
           email: loginStates.email,
           password: loginStates.password,
         })
       );
-    }else{
-      setRecaptchaTrigger(true)
+    } else {
+      setRecaptchaTrigger(true);
     }
-    
+  };
+
+  const handleFaceLoginClick = () => {
+    // Set the flag in localStorage to trigger a page refresh
+    localStorage.setItem("refreshNeeded", "true");
+    // Refresh the page
+    window.location.reload();
   };
 
   return (
@@ -103,11 +162,16 @@ console.log("8765edfghjdfghjk",isAdmin)
           message={error?.error || error?.data?.error || error?.data?.message}
         />
       )}
-         {isRecaptchaError && (
+      {isRecaptchaError && (
         <Toast
-          message={recaptchaError?.error || recaptchaError?.data?.error || recaptchaError?.data?.message}
+          message={
+            recaptchaError?.error ||
+            recaptchaError?.data?.error ||
+            recaptchaError?.data?.message
+          }
         />
       )}
+      {isLoading2 && <LoaderFull />}
 
       <div className="flex flex-col mx-8 flex-1 justify-center items-center">
         <h1 className="text-gray-800 font-bold text-xl mb-3">Login</h1>
@@ -144,17 +208,28 @@ console.log("8765edfghjdfghjk",isAdmin)
           </div>
           {/* <Recaptcha recaptchaStates={recaptchaStates} setRecaptchaStates={setRecaptchaStates}/> */}
           <button
-            disabled={isLoading||isRecaptchaTrigger||isRecaptchaLoading}
+            disabled={isLoading || isRecaptchaTrigger || isRecaptchaLoading}
             className="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline bg-slate-700 hover:bg-slate-600 mt-2"
             type="submit"
           >
-            {isLoading||isRecaptchaTrigger||isRecaptchaLoading ? <Loader /> : "Login"}
+            {isLoading || isRecaptchaTrigger || isRecaptchaLoading ? (
+              <Loader />
+            ) : (
+              "Login"
+            )}
           </button>
           <div className="flex justify-center flex-col items-center">
             <p className="mb-6 mt-6">or</p>
             <GoogleSignUpButton />
           </div>
         </form>
+        <button
+          onClick={() => {
+            handleFaceLoginClick();
+          }}
+        >
+          Face login
+        </button>
       </div>
     </>
   );

@@ -34,8 +34,12 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
       <NextTopLoader />
+     
         <Providers>{children}</Providers>
       </body>
+     
+    
+    {/* <script src="https://cdn.faceio.net/fio.js"></script> */}
     </html>
   );
 }

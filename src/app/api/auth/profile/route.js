@@ -29,55 +29,80 @@ export async function PATCH(req, res) {
     // }
 
     // Extract updated profile data from the request body
-    const { name, modifiedAddresses, newAddress, addressToDeleteId } =
-      await req.json();
+    const {
+      name,
+      modifiedAddresses,
+      newAddress,
+      addressToDeleteId,
+      face_data,
+    } = await req.json();
     console.log("7654edfghjuytrdvb", addressToDeleteId);
     // Update the user's profile in the database
     const database = await connectDB();
-    let result
+    let result;
     if (name) {
-       result = await database
+      result = await database
         .collection("private_users")
         .updateOne({ _id: new ObjectId(userId) }, { $set: { name: name } });
-      
+    }
+    if (face_data) {
+      result = await database
+        .collection("private_users")
+        .updateOne(
+          { _id: new ObjectId(userId) },
+          { $set: { face_data: face_data } }
+        );
     }
 
     if (modifiedAddresses) {
-
-        result=await database.collection("private_users").updateOne(
-          { _id: new ObjectId(userId), "addresses.addressId": new ObjectId(modifiedAddresses.addressId) },
+      result = await database
+        .collection("private_users")
+        .updateOne(
+          {
+            _id: new ObjectId(userId),
+            "addresses.addressId": new ObjectId(modifiedAddresses.addressId),
+          },
           { $set: { "addresses.$": modifiedAddresses } }
         );
-      
     }
 
     if (newAddress) {
-      newAddress.addressId = new ObjectId(); 
-     result= await database.collection("private_users").updateOne(
-        { _id: new ObjectId(userId) },
-        { $push: { addresses: newAddress } }
-      );
+      newAddress.addressId = new ObjectId();
+      result = await database
+        .collection("private_users")
+        .updateOne(
+          { _id: new ObjectId(userId) },
+          { $push: { addresses: newAddress } }
+        );
     }
 
     if (addressToDeleteId) {
-     result= await database.collection("private_users").updateOne(
-        { _id: new ObjectId(userId) },
-        { $pull: { addresses: { addressId: new ObjectId(addressToDeleteId) } } }
-      );
+      result = await database
+        .collection("private_users")
+        .updateOne(
+          { _id: new ObjectId(userId) },
+          {
+            $pull: {
+              addresses: { addressId: new ObjectId(addressToDeleteId) },
+            },
+          }
+        );
     }
     console.log("Update Result:", result);
-    if(result){
+    if (result) {
       return NextResponse.json(
-        { message: "Profile updated successfully",addressId:newAddress?.addressId },
+        {
+          message: "Profile updated successfully",
+          addressId: newAddress?.addressId,
+        },
         { status: 200 }
       );
-    }else{
+    } else {
       return NextResponse.json(
         { message: "Cannot perform this operation." },
         { status: 404 }
       );
     }
-   
   } catch (error) {
     console.error(error);
     return NextResponse.json(

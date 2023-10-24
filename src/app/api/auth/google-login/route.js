@@ -47,12 +47,17 @@ export async function POST(req, res) {
     if (response.ok) {
       if (userData?.email == data?.email) {
         // The Google sign-in was successful, now handle the user's account in your database
-        const { displayName, email,addresses=[] } = userData;
+        const {
+          displayName,
+          email,
+          addresses = [],
+          face_data = null,
+        } = userData;
         const db = await connectDB();
         const existingUser = await db
           .collection("private_users")
           .findOne({ email });
-console.log("existingUser",existingUser)
+        console.log("existingUser", existingUser);
         if (existingUser) {
           // User already exists, proceed with JWT token generation
           const token = jwt.sign({ id: existingUser._id }, "secretkey");
@@ -64,11 +69,19 @@ console.log("existingUser",existingUser)
               email,
               name: existingUser?.name,
               id: existingUser._id,
-              addresses:existingUser?.addresses
+              addresses: existingUser?.addresses,
+              face_data: existingUser?.face_data,
             })
           );
           return NextResponse.json(
-            { token, email, name: existingUser?.name, id: existingUser._id ,addresses:existingUser?.addresses},
+            {
+              token,
+              email,
+              name: existingUser?.name,
+              id: existingUser._id,
+              addresses: existingUser?.addresses,
+              face_data: existingUser?.face_data,
+            },
             { status: 200 }
           );
         } else {
@@ -78,7 +91,8 @@ console.log("existingUser",existingUser)
             name: displayName,
             email,
             password: hashedPassword,
-            addresses:[]
+            addresses: [],
+            face_data: null,
           });
 
           const token = jwt.sign({ id: newUser.insertedId }, "secretkey");
@@ -90,27 +104,33 @@ console.log("existingUser",existingUser)
               name: displayName,
               email,
               id: newUser.insertedId,
-              addresses:[]
+              addresses: [],
+              face_data: null,
             })
           );
           return NextResponse.json(
-            { token, name: displayName, email, id: newUser.insertedId,addresses:[] },
+            {
+              token,
+              name: displayName,
+              email,
+              id: newUser.insertedId,
+              addresses: [],
+              face_data: null,
+            },
             { status: 201 }
           );
         }
-      }else{
-        return NextResponse.json(
-          { message: "Google sign-in failed" },
-          { status: 403 }
-        ); 
-      }
-    } else {
-      
+      } else {
         return NextResponse.json(
           { message: "Google sign-in failed" },
           { status: 403 }
         );
-    
+      }
+    } else {
+      return NextResponse.json(
+        { message: "Google sign-in failed" },
+        { status: 403 }
+      );
     }
 
     // console.log(userData, data?.email);

@@ -14,7 +14,7 @@ export async function POST(req, res) {
     );
   }
 
-  const { name, email, password,isAdmin } = await req.json();
+  const { name, email, password, isAdmin } = await req.json();
   console.log(name, email, password);
   if (!name || !email || !password) {
     return NextResponse.json(
@@ -37,11 +37,32 @@ export async function POST(req, res) {
     name,
     email,
     password: hashedPassword,
-    addresses:[],
+    addresses: [],
+    face_data: null,
   });
 
   const token = jwt.sign({ id: results.insertedId }, "secretkey");
-  cookies().set('token', token)
-  cookies().set('userData', JSON.stringify({ token, name, email,id:results.insertedId,addresses:[] }))
-  return NextResponse.json({ token, name, email,id:results.insertedId,addresses:[] }, { status: 201 });
+  cookies().set("token", token);
+  cookies().set(
+    "userData",
+    JSON.stringify({
+      token,
+      name,
+      email,
+      id: results.insertedId,
+      addresses: [],
+      face_data: null,
+    })
+  );
+  return NextResponse.json(
+    {
+      token,
+      name,
+      email,
+      id: results.insertedId,
+      addresses: [],
+      face_data: null,
+    },
+    { status: 201 }
+  );
 }
