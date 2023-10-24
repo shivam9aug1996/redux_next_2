@@ -11,8 +11,6 @@ import React from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-
-
 // import { useEffect } from "react";
 // import firebase from "firebase/app";
 
@@ -31,7 +29,6 @@ const FirebaseMessaging = () => {
   //  }, 2000);
   // },[])
 
-
   useEffect(() => {
     // // Add an event listener to receive messages from the service worker.
     // navigator.serviceWorker.addEventListener('message', function(event) {
@@ -48,28 +45,83 @@ const FirebaseMessaging = () => {
     //     // Add more conditions as needed for different actions.
     //   }
     // });
-    const channel = new BroadcastChannel('notificationChannel');
+    const channel = new BroadcastChannel("notificationChannel");
 
-// Add an event listener to handle messages from the service worker.
-channel.addEventListener('message', function(event) {
-  console.log(event)
-  // Handle the message from the service worker.
-  if (event.data.action) {
-    // Perform actions based on the custom action received.
-    if (event.data.action === 'customAction1') {
-      console.log(event.data.data)
-      router.push("/terms")
-      // Handle custom action 1.
-    } else if (event.data.action === 'customAction2') {
-      // Handle custom action 2.
-    }
-    // Add more conditions as needed for different actions.
-  }
-});
-
-   
+    // Add an event listener to handle messages from the service worker.
+    channel.addEventListener("message", function (event) {
+      console.log(event);
+      // Handle the message from the service worker.
+      if (event.data.action) {
+        // Perform actions based on the custom action received.
+        if (event.data.action === "customAction1") {
+          console.log(event.data.data);
+          router.push("/terms");
+          // Handle custom action 1.
+        } else if (event.data.action === "customAction2") {
+          // Handle custom action 2.
+        }
+        // Add more conditions as needed for different actions.
+      }
+    });
   }, []);
 
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js", {
+          scope: "firebase-cloud-messaging-push-scope",
+        })
+        .then(function (registration) {
+          console.log(
+            "Service Worker registered with scope:",
+            registration.scope
+          );
+          const messaging = getMessaging();
+          getToken(messaging, {
+            vapidKey:
+              "BAhLJwKuP6u9vmZ7EUI3Mov0KU9HAYyLMMIrHZ51NWfcmT2IeSSFK36txXFrsG2syM1sfvn7m_Oa5_a8wwNITPs",
+          })
+            .then((currentToken) => {
+              if (currentToken) {
+                // Send the token to your server and update the UI if necessary
+                console.log("Registration token:", currentToken);
+                const channel = new BroadcastChannel("background-messages");
+                channel.onmessage = (event) => {
+                  console.log("Payload:", event);
+
+                  // You can process the payload or take other actions in your main code
+                };
+                // navigator.serviceWorker.addEventListener('message', (event) => {
+                //   console.log(event)
+                //   //const { message, payload } = event.data;
+                //   console.log(event?.data);
+                //   console.log('Payload:', event?.data?.notification);
+
+                //   // You can process the payload or take other actions in your main code
+                // });
+
+                //onMessageListener();
+              } else {
+                // Show permission request UI
+                console.log(
+                  "No registration token available. Request permission to generate one."
+                );
+                // ...
+              }
+            })
+            .catch((err) => {
+              console.error(
+                "An error occurred while retrieving the token: ",
+                err
+              );
+              // ...
+            });
+        })
+        .catch(function (error) {
+          console.error("Service Worker registration failed:", error);
+        });
+    }
+  }, []);
 
   useEffect(() => {
     // let messaging = getMessaging(getApp());
@@ -82,56 +134,55 @@ channel.addEventListener('message', function(event) {
     const onMessageListener = () => {
       return new Promise((resolve) => {
         onMessage(messaging, (payload) => {
-         // alert("hi");
-         console.log("foreground",payload)
-        //  self.registration.showNotification('Push Notification',{
-        //   body: "ghjkl",
-        // })
+          // alert("hi");
+          console.log("foreground", payload);
+          //  self.registration.showNotification('Push Notification',{
+          //   body: "ghjkl",
+          // })
           resolve(payload);
         });
       });
     };
-    
 
-   setTimeout(() => {
-    getToken(messaging, {
-      vapidKey:
-        "BAhLJwKuP6u9vmZ7EUI3Mov0KU9HAYyLMMIrHZ51NWfcmT2IeSSFK36txXFrsG2syM1sfvn7m_Oa5_a8wwNITPs",
-    })
-      .then((currentToken) => {
-        if (currentToken) {
-          // Send the token to your server and update the UI if necessary
-          console.log("Registration token:", currentToken);
-          const channel = new BroadcastChannel('background-messages');
-channel.onmessage = (event) => {
- 
-      console.log('Payload:', event);
+    //    setTimeout(() => {
+    //     getToken(messaging, {
+    //       vapidKey:
+    //         "BAhLJwKuP6u9vmZ7EUI3Mov0KU9HAYyLMMIrHZ51NWfcmT2IeSSFK36txXFrsG2syM1sfvn7m_Oa5_a8wwNITPs",
+    //     })
+    //       .then((currentToken) => {
+    //         if (currentToken) {
+    //           // Send the token to your server and update the UI if necessary
+    //           console.log("Registration token:", currentToken);
+    //           const channel = new BroadcastChannel('background-messages');
+    // channel.onmessage = (event) => {
 
-  // You can process the payload or take other actions in your main code
-};
-          // navigator.serviceWorker.addEventListener('message', (event) => {
-          //   console.log(event)
-          //   //const { message, payload } = event.data;
-          //   console.log(event?.data);
-          //   console.log('Payload:', event?.data?.notification);
-            
-          //   // You can process the payload or take other actions in your main code
-          // });
+    //       console.log('Payload:', event);
 
-         //onMessageListener();
-        } else {
-          // Show permission request UI
-          console.log(
-            "No registration token available. Request permission to generate one."
-          );
-          // ...
-        }
-      })
-      .catch((err) => {
-        console.error("An error occurred while retrieving the token: ", err);
-        // ...
-      });
-   }, 3000);
+    //   // You can process the payload or take other actions in your main code
+    // };
+    //           // navigator.serviceWorker.addEventListener('message', (event) => {
+    //           //   console.log(event)
+    //           //   //const { message, payload } = event.data;
+    //           //   console.log(event?.data);
+    //           //   console.log('Payload:', event?.data?.notification);
+
+    //           //   // You can process the payload or take other actions in your main code
+    //           // });
+
+    //          //onMessageListener();
+    //         } else {
+    //           // Show permission request UI
+    //           console.log(
+    //             "No registration token available. Request permission to generate one."
+    //           );
+    //           // ...
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         console.error("An error occurred while retrieving the token: ", err);
+    //         // ...
+    //       });
+    //    }, 3000);
   }, []);
 
   // useEffect(() => {

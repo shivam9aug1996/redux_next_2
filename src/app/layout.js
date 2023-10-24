@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
       {/* <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script> */}
-      <script type="text/javascript" src="/ev.js"></script>
+      {/* <script type="text/javascript" src="/ev.js"></script> */}
   
 
       </head>
