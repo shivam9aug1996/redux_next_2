@@ -4,7 +4,7 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    domains: ["m.media-amazon.com", "res.cloudinary.com"],
+    domains: ["m.media-amazon.com", "res.cloudinary.com", "t4.ftcdn.net"],
   },
 };
 

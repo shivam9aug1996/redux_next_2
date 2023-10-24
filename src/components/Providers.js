@@ -52,7 +52,7 @@ const Providers = ({ children }) => {
       <Header />
       <main className="container mx-auto py-4 min-h-screen  flex">
         <SplashScreen />
-        <div id="faceio-modal"></div>
+        <div id="faceio-modal" style={{ zIndex: 1000 }}></div>
         {children}
       </main>
       <Footer />

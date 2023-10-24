@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { generateReCaptchaToken, handleError } from "../utils/globalFunctions";
 import { useRecaptcha } from "../custom-hooks/useRecaptcha";
 import LoaderFull from "@/components/LoaderFull";
+import Image from "next/image";
 
 const Recaptcha = dynamic(() => import("@/components/Recaptcha"), {
   ssr: false,
@@ -222,14 +223,23 @@ const Login = () => {
             <p className="mb-6 mt-6">or</p>
             <GoogleSignUpButton />
           </div>
+          <div className="flex justify-center flex-col items-center">
+            <p className="mb-6 mt-6">or</p>
+            <button
+              onClick={handleFaceLoginClick}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center"
+            >
+              <Image
+                src="https://t4.ftcdn.net/jpg/05/42/67/19/360_F_542671924_13vxXUeT3G7Nl52ORLOmAbdoDOalJ6kn.jpg"
+                alt="Face Login"
+                width={30} // Set the width of the image
+                height={30} // Set the height of the image
+                className="mr-2" // Add margin to separate the image from the text
+              />
+              Face login
+            </button>
+          </div>
         </form>
-        <button
-          onClick={() => {
-            handleFaceLoginClick();
-          }}
-        >
-          Face login
-        </button>
       </div>
     </>
   );
