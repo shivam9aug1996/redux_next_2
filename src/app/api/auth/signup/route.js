@@ -39,6 +39,7 @@ export async function POST(req, res) {
     password: hashedPassword,
     addresses: [],
     face_data: null,
+    isAdmin: true,
   });
 
   const token = jwt.sign({ id: results.insertedId }, "secretkey");

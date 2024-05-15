@@ -2,18 +2,19 @@
 import Image from "next/image";
 import React from "react";
 
-const ImageClient = ({product}) => {
+const ImageClient = ({ product }) => {
+  if (!product) return null;
   return (
     <Image
-    unoptimized
+      unoptimized
       onLoad={(e) => e.target.classList.add("loaded")}
       src={product?.image}
       alt={product?.name}
       width={200}
       height={285}
-     // objectFit="contain"
+      // objectFit="contain"
       className="h-auto max-w-full max-h-64 mb-2 object-contain"
-     // loading="lazy"
+      // loading="lazy"
       className="fade-in"
       priority
     />

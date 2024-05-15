@@ -11,7 +11,6 @@ import {
 import InfiniteScroll1 from "../Infinite1";
 import Toast from "../Toast";
 
-
 const LoaderFull = dynamic(() => import("../LoaderFull"));
 // const Toast = dynamic(() => import("../Toast"));
 const Button = dynamic(() => import("@/app/product/[productId]/Button"));
@@ -73,30 +72,35 @@ const ProductClient = () => {
           productList?.map((item, index) => (
             <div key={item?._id} className="product-item">
               <div className="flex-1">
-              <Link href={`/product/${item?._id}`}>
-                <div className="image-container cursor-pointer">
-                  <Image
-                    loading={"lazy"}
-                    src={item?.image}
-                    alt={item?.name}
-                    layout="responsive"
-                    width={500}
-                    height={500}
-                    className="w-full h-full"
-                  />
-                </div>
-              </Link>
-              <Link href={`/product/${item?._id}`}>
-                <h3 className="product-name">{item?.name}</h3>
-              </Link>
-              <p className="product-price">
-                &#8377;
-                {item?.price
-                  ? Number.parseFloat(item?.price).toFixed(2)
-                  : "N/A"}
-              </p>
+                {item?.image ? (
+                  <Link href={`/product/${item?._id}`}>
+                    <div className="image-container cursor-pointer">
+                      <Image
+                        loading={"lazy"}
+                        src={item?.image}
+                        alt={item?.name}
+                        layout="responsive"
+                        width={500}
+                        height={500}
+                        className="w-full h-full"
+                      />
+                    </div>
+                  </Link>
+                ) : null}
+                <Link href={`/product/${item?._id}`}>
+                  <h3 className="product-name">{item?.name}</h3>
+                </Link>
+                <p className="product-price">
+                  &#8377;
+                  {item?.price
+                    ? Number.parseFloat(item?.price).toFixed(2)
+                    : "N/A"}
+                </p>
               </div>
-             <div> <Button productId={item?._id} /></div>
+              <div>
+                {" "}
+                <Button productId={item?._id} />
+              </div>
             </div>
           ))}
         {/* <InfiniteScroll
