@@ -225,7 +225,7 @@ const Login = () => {
             <p className="mb-6 mt-6">or</p>
             <GoogleSignUpButton />
           </div>
-          <div className="flex justify-center flex-col items-center">
+          {/* <div className="flex justify-center flex-col items-center">
             <p className="mb-6 mt-6">or</p>
             <button
               onClick={handleFaceLoginClick}
@@ -240,7 +240,7 @@ const Login = () => {
               />
               Face login
             </button>
-          </div>
+          </div> */}
         </form>
       </div>
     </>
